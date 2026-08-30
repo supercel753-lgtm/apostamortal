@@ -1,5 +1,8 @@
+```java
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -9,22 +12,32 @@ import java.util.Random;
  *
  * Banco de diálogos de LAST CHANCE.
  *
- * As falas são propositalmente fragmentadas.
- * A história deve ser descoberta pelo jogador através de:
+ * 360 falas divididas em:
  *
- * - contradições
- * - lembranças
- * - provocações
- * - perguntas
- * - respostas incompletas
- * - silêncios
- * - mudanças de assunto
+ * 01 - Primeiro contato
+ * 02 - Mesa
+ * 03 - Alice
+ * 04 - Leo
+ * 05 - Dealer
+ * 06 - Truco
+ * 07 - Desconfiança
+ * 08 - Memórias
+ * 09 - Irmão
+ * 10 - Alice e o irmão
+ * 11 - Família
+ * 12 - Acidente
+ * 13 - Dealer manipulando
+ * 14 - Dealer provocando
+ * 15 - Confiança
+ * 16 - Confronto
+ * 17 - Redenção
+ * 18 - Relógio
+ * 19 - Finais ruins
+ * 20 - Finais bons
  *
- * PERSONAGENS:
+ * Cada grupo possui 18 falas.
  *
- * LEO      -> jogador
- * ALICE    -> adversária
- * DEALER   -> irmão de Leo / antigo namorado de Alice
+ * TOTAL: 20 x 18 = 360
  *
  * ================================================================
  */
@@ -39,1417 +52,1739 @@ public class Dialogues {
     }
 
     // ============================================================
-    // INÍCIO DA PARTIDA
+    // ESTRUTURA DE DIÁLOGO
     // ============================================================
 
-    public String intro01() {
-        return "DEALER: Sentem-se.";
-    }
+    public static class Dialogue {
 
-    public String intro02() {
-        return "ALICE: Eu não quero estar aqui.";
-    }
+        private final String speaker;
+        private final String text;
 
-    public String intro03() {
-        return "DEALER: Ninguém quer.";
-    }
+        public Dialogue(
+            String speaker,
+            String text
+        ) {
 
-    public String intro04() {
-        return "LEO: Quem é você?";
-    }
+            this.speaker = speaker;
+            this.text = text;
+        }
 
-    public String intro05() {
-        return "DEALER: Um funcionário muito mal pago.";
-    }
+        public String getSpeaker() {
 
-    public String intro06() {
-        return "ALICE: Você fala como se conhecesse a gente.";
-    }
+            return speaker;
+        }
 
-    public String intro07() {
-        return "DEALER: Conhecer é uma palavra forte.";
-    }
+        public String getText() {
 
-    public String intro08() {
-        return "DEALER: Eu diria que tenho... familiaridade.";
-    }
+            return text;
+        }
 
-    public String intro09() {
-        return "LEO: Familiaridade com o quê?";
-    }
+        @Override
+        public String toString() {
 
-    public String intro10() {
-        return "DEALER: Com pessoas tomando decisões ruins.";
-    }
-
-    // ============================================================
-    // PRIMEIRAS PISTAS
-    // ============================================================
-
-    public String hint01() {
-        return "DEALER: Você tem uma memória muito ruim, Leo.";
-    }
-
-    public String hint02() {
-        return "LEO: Eu nunca te disse meu nome.";
-    }
-
-    public String hint03() {
-        return "DEALER: Não precisava.";
-    }
-
-    public String hint04() {
-        return "ALICE: Como ele sabe seu nome?";
-    }
-
-    public String hint05() {
-        return "DEALER: Eu presto atenção.";
-    }
-
-    public String hint06() {
-        return "LEO: Você me conhece?";
-    }
-
-    public String hint07() {
-        return "DEALER: Mais do que deveria.";
-    }
-
-    public String hint08() {
-        return "ALICE: Isso não faz sentido.";
-    }
-
-    public String hint09() {
-        return "DEALER: Finalmente concordamos em alguma coisa.";
-    }
-
-    public String hint10() {
-        return "LEO: Sua voz parece familiar.";
-    }
-
-    // ============================================================
-    // O PASSADO COMEÇA A APARECER
-    // ============================================================
-
-    public String past01() {
-        return "DEALER: Você costumava bater na porta antes de entrar.";
-    }
-
-    public String past02() {
-        return "LEO: Eu ainda faço isso.";
-    }
-
-    public String past03() {
-        return "DEALER: Não. Agora você só bate quando lembra.";
-    }
-
-    public String past04() {
-        return "ALICE: Vocês eram amigos?";
-    }
-
-    public String past05() {
-        return "DEALER: Mais ou menos.";
-    }
-
-    public String past06() {
-        return "LEO: Você fala como alguém da minha família.";
-    }
-
-    public String past07() {
-        return "DEALER: Família é uma palavra engraçada.";
-    }
-
-    public String past08() {
-        return "DEALER: Às vezes significa amor.";
-    }
-
-    public String past09() {
-        return "DEALER: Às vezes significa expulsão.";
-    }
-
-    public String past10() {
-        return "LEO: O que você sabe sobre minha família?";
-    }
-
-    // ============================================================
-    // O IRMÃO
-    // ============================================================
-
-    public String brother01() {
-        return "DEALER: Você tinha um irmão.";
-    }
-
-    public String brother02() {
-        return "LEO: Eu tenho.";
-    }
-
-    public String brother03() {
-        return "DEALER: Tem certeza?";
-    }
-
-    public String brother04() {
-        return "LEO: Não começa.";
-    }
-
-    public String brother05() {
-        return "DEALER: Ele era mais velho?";
-    }
-
-    public String brother06() {
-        return "LEO: Era.";
-    }
-
-    public String brother07() {
-        return "DEALER: Engraçado.";
-    }
-
-    public String brother08() {
-        return "LEO: O quê?";
-    }
-
-    public String brother09() {
-        return "DEALER: Você fala dele no passado sem perceber.";
-    }
-
-    public String brother10() {
-        return "ALICE: Você nunca falou dele comigo.";
-    }
-
-    public String brother11() {
-        return "LEO: Eu não tinha motivo.";
-    }
-
-    public String brother12() {
-        return "DEALER: Tinha vários.";
-    }
-
-    // ============================================================
-    // SEGREDOS
-    // ============================================================
-
-    public String secret01() {
-        return "DEALER: Ele tinha um lugar onde ninguém procurava.";
-    }
-
-    public String secret02() {
-        return "LEO: Que lugar?";
-    }
-
-    public String secret03() {
-        return "DEALER: O banco de uma praça.";
-    }
-
-    public String secret04() {
-        return "LEO: Como você sabe disso?";
-    }
-
-    public String secret05() {
-        return "DEALER: Ele gostava de ficar lá.";
-    }
-
-    public String secret06() {
-        return "ALICE: Sozinho?";
-    }
-
-    public String secret07() {
-        return "DEALER: Nem sempre.";
-    }
-
-    public String secret08() {
-        return "LEO: Ele encontrava alguém?";
-    }
-
-    public String secret09() {
-        return "DEALER: Finalmente.";
-    }
-
-    public String secret10() {
-        return "DEALER: Uma pergunta interessante.";
-    }
-
-    // ============================================================
-    // ALICE COMEÇA A RECONHECER DETALHES
-    // ============================================================
-
-    public String alice01() {
-        return "ALICE: Ele gostava daquela praça.";
-    }
-
-    public String alice02() {
-        return "LEO: Como você sabe?";
-    }
-
-    public String alice03() {
-        return "ALICE: Eu... ouvi falar.";
-    }
-
-    public String alice04() {
-        return "DEALER: Péssima mentira.";
-    }
-
-    public String alice05() {
-        return "ALICE: Cala a boca.";
-    }
-
-    public String alice06() {
-        return "DEALER: Aí está.";
-    }
-
-    public String alice07() {
-        return "LEO: Alice...";
-    }
-
-    public String alice08() {
-        return "ALICE: Não olha para mim desse jeito.";
-    }
-
-    public String alice09() {
-        return "LEO: Você conhecia meu irmão?";
-    }
-
-    public String alice10() {
-        return "ALICE: Eu não disse isso.";
-    }
-
-    public String alice11() {
-        return "DEALER: Mas também não negou.";
-    }
-
-    public String alice12() {
-        return "ALICE: Eu odeio quando você faz isso.";
-    }
-
-    // ============================================================
-    // O RELACIONAMENTO
-    // ============================================================
-
-    public String relationship01() {
-        return "LEO: Vocês estavam juntos?";
-    }
-
-    public String relationship02() {
-        return "ALICE: ...";
-    }
-
-    public String relationship03() {
-        return "DEALER: Estavam.";
-    }
-
-    public String relationship04() {
-        return "LEO: Por quanto tempo?";
-    }
-
-    public String relationship05() {
-        return "ALICE: Tempo suficiente.";
-    }
-
-    public String relationship06() {
-        return "LEO: Minha mãe sabia?";
-    }
-
-    public String relationship07() {
-        return "ALICE: Não.";
-    }
-
-    public String relationship08() {
-        return "LEO: E eu?";
-    }
-
-    public String relationship09() {
-        return "ALICE: Você descobriu.";
-    }
-
-    public String relationship10() {
-        return "LEO: Como?";
-    }
-
-    public String relationship11() {
-        return "ALICE: Você encontrou as mensagens.";
-    }
-
-    public String relationship12() {
-        return "LEO: Eu lembro disso.";
-    }
-
-    // ============================================================
-    // AS MENSAGENS
-    // ============================================================
-
-    public String messages01() {
-        return "LEO: Eu achei que ele estivesse escondendo alguma coisa.";
-    }
-
-    public String messages02() {
-        return "DEALER: Ele estava.";
-    }
-
-    public String messages03() {
-        return "LEO: Eu achei que fosse algo pior.";
-    }
-
-    public String messages04() {
-        return "ALICE: Para mim não era.";
-    }
-
-    public String messages05() {
-        return "LEO: Eu mostrei as mensagens para a mãe.";
-    }
-
-    public String messages06() {
-        return "ALICE: Eu sei.";
-    }
-
-    public String messages07() {
-        return "LEO: Eu não sabia quem você era.";
-    }
-
-    public String messages08() {
-        return "ALICE: Eu sei.";
-    }
-
-    public String messages09() {
-        return "LEO: Eu não queria destruir nada.";
-    }
-
-    public String messages10() {
-        return "ALICE: Mas destruiu.";
-    }
-
-    public String messages11() {
-        return "DEALER: Essa parte sempre foi minha favorita.";
-    }
-
-    public String messages12() {
-        return "LEO: Você não tem o direito de falar disso.";
-    }
-
-    // ============================================================
-    // A EXPULSÃO
-    // ============================================================
-
-    public String expelled01() {
-        return "DEALER: Sua mãe ficou furiosa.";
-    }
-
-    public String expelled02() {
-        return "LEO: Ela expulsou ele.";
-    }
-
-    public String expelled03() {
-        return "DEALER: Sim.";
-    }
-
-    public String expelled04() {
-        return "LEO: Eu tentei explicar.";
-    }
-
-    public String expelled05() {
-        return "DEALER: Depois.";
-    }
-
-    public String expelled06() {
-        return "LEO: Eu era criança.";
-    }
-
-    public String expelled07() {
-        return "DEALER: Eu sei.";
-    }
-
-    public String expelled08() {
-        return "LEO: Então por que você está me culpando?";
-    }
-
-    public String expelled09() {
-        return "DEALER: Porque você quer ser culpado.";
-    }
-
-    public String expelled10() {
-        return "LEO: Não quero.";
-    }
-
-    public String expelled11() {
-        return "DEALER: Então pare de agir como se quisesse.";
-    }
-
-    public String expelled12() {
-        return "ALICE: Ele não sabia o que ia acontecer.";
-    }
-
-    // ============================================================
-    // O TÉRMINO
-    // ============================================================
-
-    public String breakup01() {
-        return "LEO: O que aconteceu depois?";
-    }
-
-    public String breakup02() {
-        return "ALICE: Eu terminei com ele.";
-    }
-
-    public String breakup03() {
-        return "LEO: Por quê?";
-    }
-
-    public String breakup04() {
-        return "ALICE: Porque tudo ficou complicado.";
-    }
-
-    public String breakup05() {
-        return "DEALER: Mentira.";
-    }
-
-    public String breakup06() {
-        return "ALICE: Não é mentira.";
-    }
-
-    public String breakup07() {
-        return "DEALER: Você estava com medo.";
-    }
-
-    public String breakup08() {
-        return "ALICE: Eu estava cansada.";
-    }
-
-    public String breakup09() {
-        return "DEALER: Você chorou naquela noite.";
-    }
-
-    public String breakup10() {
-        return "ALICE: Você não estava lá.";
-    }
-
-    public String breakup11() {
-        return "DEALER: Eu estava.";
-    }
-
-    public String breakup12() {
-        return "ALICE: Não depois.";
-    }
-
-    // ============================================================
-    // O ACIDENTE
-    // ============================================================
-
-    public String accident01() {
-        return "LEO: E então aconteceu o acidente.";
-    }
-
-    public String accident02() {
-        return "ALICE: Sim.";
-    }
-
-    public String accident03() {
-        return "LEO: Meu irmão morreu naquela noite.";
-    }
-
-    public String accident04() {
-        return "ALICE: Sim.";
-    }
-
-    public String accident05() {
-        return "LEO: E você sobreviveu.";
-    }
-
-    public String accident06() {
-        return "ALICE: Sobrevivi.";
-    }
-
-    public String accident07() {
-        return "LEO: Eu nunca soube que você estava lá.";
-    }
-
-    public String accident08() {
-        return "ALICE: Quase ninguém soube.";
-    }
-
-    public String accident09() {
-        return "DEALER: Algumas pessoas preferem histórias incompletas.";
-    }
-
-    public String accident10() {
-        return "LEO: Você sabia de tudo.";
-    }
-
-    public String accident11() {
-        return "DEALER: Eu sempre soube.";
-    }
-
-    public String accident12() {
-        return "ALICE: Eu não quero falar daquela noite.";
-
-    }
-
-    // ============================================================
-    // ALICE E O ESPELHO
-    // ============================================================
-
-    public String appearance01() {
-        return "LEO: Alice...";
-    }
-
-    public String appearance02() {
-        return "ALICE: Não.";
-    }
-
-    public String appearance03() {
-        return "LEO: Eu só ia perguntar.";
-    }
-
-    public String appearance04() {
-        return "ALICE: Eu sei o que você ia perguntar.";
-    }
-
-    public String appearance05() {
-        return "DEALER: Ela não era assim antes.";
-    }
-
-    public String appearance06() {
-        return "ALICE: Obrigada pela delicadeza.";
-    }
-
-    public String appearance07() {
-        return "DEALER: Estou apenas sendo honesto.";
-    }
-
-    public String appearance08() {
-        return "ALICE: Você nunca foi delicado.";
-    }
-
-    public String appearance09() {
-        return "LEO: Eu não reconheci você.";
-    }
-
-    public String appearance10() {
-        return "ALICE: Eu também demorei.";
-    }
-
-    public String appearance11() {
-        return "LEO: Você mudou muito.";
-    }
-
-    public String appearance12() {
-        return "ALICE: Todo mundo muda.";
-
-    }
-
-    // ============================================================
-    // CULPA
-    // ============================================================
-
-    public String guilt01() {
-        return "LEO: Se eu não tivesse contado...";
-    }
-
-    public String guilt02() {
-        return "ALICE: Não.";
-    }
-
-    public String guilt03() {
-        return "LEO: Mas se eu não tivesse...";
-    }
-
-    public String guilt04() {
-        return "ALICE: Você não sabia.";
-    }
-
-    public String guilt05() {
-        return "DEALER: Ele sabia menos ainda.";
-    }
-
-    public String guilt06() {
-        return "LEO: Para.";
-    }
-
-    public String guilt07() {
-        return "DEALER: Você queria uma resposta.";
-    }
-
-    public String guilt08() {
-        return "LEO: Eu queria esquecer.";
-    }
-
-    public String guilt09() {
-        return "DEALER: Péssima estratégia.";
-    }
-
-    public String guilt10() {
-        return "ALICE: Não foi sua culpa.";
-    }
-
-    public String guilt11() {
-        return "LEO: Então por que parece que foi?";
-    }
-
-    public String guilt12() {
-        return "ALICE: Porque algumas coisas não precisam ser culpa de ninguém.";
-
-    }
-
-    // ============================================================
-    // DEALER REVELA QUEM É
-    // ============================================================
-
-    public String reveal01() {
-        return "DEALER: Vocês demoraram bastante.";
-    }
-
-    public String reveal02() {
-        return "LEO: Para quê?";
-    }
-
-    public String reveal03() {
-        return "DEALER: Para perceber.";
-    }
-
-    public String reveal04() {
-        return "LEO: Perceber o quê?";
-    }
-
-    public String reveal05() {
-        return "DEALER: Que eu não sou um estranho.";
-    }
-
-    public String reveal06() {
-        return "ALICE: Não...";
-    }
-
-    public String reveal07() {
-        return "DEALER: Oi, Alice.";
-    }
-
-    public String reveal08() {
-        return "ALICE: Você morreu.";
-    }
-
-    public String reveal09() {
-        return "DEALER: Eu sei.";
-    }
-
-    public String reveal10() {
-        return "LEO: ...";
-    }
-
-    public String reveal11() {
-        return "DEALER: Sentiu minha falta, irmãozinho?";
-    }
-
-    public String reveal12() {
-        return "LEO: Você é ele.";
-
-    }
-
-    // ============================================================
-    // CONFIRMAÇÃO
-    // ============================================================
-
-    public String confirmation01() {
-        return "DEALER: Finalmente.";
-    }
-
-    public String confirmation02() {
-        return "LEO: Meu irmão.";
-    }
-
-    public String confirmation03() {
-        return "DEALER: Seu irmão.";
-    }
-
-    public String confirmation04() {
-        return "ALICE: Meu namorado.";
-    }
-
-    public String confirmation05() {
-        return "DEALER: Ex-namorado.";
-    }
-
-    public String confirmation06() {
-        return "ALICE: Você continua sendo insuportável.";
-    }
-
-    public String confirmation07() {
-        return "DEALER: Algumas coisas não mudam.";
-    }
-
-    public String confirmation08() {
-        return "LEO: Por que você voltou?";
-    }
-
-    public String confirmation09() {
-        return "DEALER: Porque aparentemente eu tinha negócios inacabados.";
-    }
-
-    public String confirmation10() {
-        return "LEO: Isso é algum tipo de punição?";
-    }
-
-    public String confirmation11() {
-        return "DEALER: Não.";
-    }
-
-    public String confirmation12() {
-        return "DEALER: É ressentimento.";
-
-    }
-
-    // ============================================================
-    // DEALER SENDO UM DESGRAÇADO
-    // ============================================================
-
-    public String asshole01() {
-        return "DEALER: Vamos falar de coisas felizes.";
-    }
-
-    public String asshole02() {
-        return "ALICE: Você acabou de falar da pior época da minha vida.";
-    }
-
-    public String asshole03() {
-        return "DEALER: Eu disse felizes.";
-    }
-
-    public String asshole04() {
-        return "LEO: Você é sempre assim?";
-    }
-
-    public String asshole05() {
-        return "DEALER: Morto?";
-    }
-
-    public String asshole06() {
-        return "LEO: Irritante.";
-    }
-
-    public String asshole07() {
-        return "DEALER: Também.";
-    }
-
-    public String asshole08() {
-        return "ALICE: Ele era assim vivo.";
-    }
-
-    public String asshole09() {
-        return "LEO: Então nada mudou.";
-    }
-
-    public String asshole10() {
-        return "DEALER: Eu diria que melhorei.";
-    }
-
-    public String asshole11() {
-        return "ALICE: Você ficou pior.";
-    }
-
-    public String asshole12() {
-        return "DEALER: Obrigado.";
-
-    }
-
-    // ============================================================
-    // PROVOCAÇÕES
-    // ============================================================
-
-    public String provocation01() {
-        return "DEALER: Vamos ver quem conhece quem.";
-    }
-
-    public String provocation02() {
-        return "DEALER: Você acha que conhece Alice?";
-    }
-
-    public String provocation03() {
-        return "LEO: Não.";
-    }
-
-    public String provocation04() {
-        return "DEALER: Ótimo.";
-    }
-
-    public String provocation05() {
-        return "DEALER: Ela também não conhece você.";
-    }
-
-    public String provocation06() {
-        return "ALICE: Eu conheço o suficiente.";
-    }
-
-    public String provocation07() {
-        return "DEALER: Isso foi exatamente o que você disse antes.";
-    }
-
-    public String provocation08() {
-        return "ALICE: Eu me arrependo.";
-    }
-
-    public String provocation09() {
-        return "DEALER: De muita coisa.";
-    }
-
-    public String provocation10() {
-        return "LEO: Você quer que a gente brigue.";
-    }
-
-    public String provocation11() {
-        return "DEALER: Eu quero que vocês joguem.";
-    }
-
-    public String provocation12() {
-        return "DEALER: Se brigarem no processo, melhor ainda.";
-
-    }
-
-    // ============================================================
-    // MOMENTOS DE SILÊNCIO
-    // ============================================================
-
-    public String silence01() {
-        return "...";
-    }
-
-    public String silence02() {
-        return "O Dealer não responde.";
-    }
-
-    public String silence03() {
-        return "Alice olha para as próprias cartas.";
-    }
-
-    public String silence04() {
-        return "Leo percebe que ninguém está sorrindo.";
-    }
-
-    public String silence05() {
-        return "O relógio continua funcionando.";
-    }
-
-    public String silence06() {
-        return "Ninguém fala por alguns segundos.";
-    }
-
-    public String silence07() {
-        return "O Dealer finalmente quebra o silêncio.";
-    }
-
-    public String silence08() {
-        return "DEALER: Bom... isso ficou estranho.";
-
-    }
-
-    // ============================================================
-    // FALAS SOBRE O JOGO
-    // ============================================================
-
-    public String game01() {
-        return "DEALER: Truco.";
-    }
-
-    public String game02() {
-        return "DEALER: Seis.";
-    }
-
-    public String game03() {
-        return "DEALER: Nove.";
-    }
-
-    public String game04() {
-        return "DEALER: Doze.";
-    }
-
-    public String game05() {
-        return "DEALER: Não faça isso.";
-    }
-
-    public String game06() {
-        return "DEALER: Faça isso.";
-    }
-
-    public String game07() {
-        return "DEALER: Eu não disse nada.";
-    }
-
-    public String game08() {
-        return "DEALER: Você está pensando demais.";
-    }
-
-    public String game09() {
-        return "DEALER: Ela está blefando.";
-    }
-
-    public String game10() {
-        return "DEALER: Talvez.";
-    }
-
-    public String game11() {
-        return "DEALER: Você vai se arrepender.";
-    }
-
-    public String game12() {
-        return "DEALER: Ou não.";
-
-    }
-
-    // ============================================================
-    // RELÓGIO
-    // ============================================================
-
-    public String clock01() {
-        return "DEALER: Olha a hora.";
-    }
-
-    public String clock02() {
-        return "DEALER: O tempo está acabando.";
-    }
-
-    public String clock03() {
-        return "ALICE: Quanto falta?";
-    }
-
-    public String clock04() {
-        return "DEALER: Menos do que você gostaria.";
-    }
-
-    public String clock05() {
-        return "LEO: O que acontece quando chegar ao fim?";
-    }
-
-    public String clock06() {
-        return "DEALER: Você descobre.";
-    }
-
-    public String clock07() {
-        return "LEO: Essa resposta está ficando irritante.";
-    }
-
-    public String clock08() {
-        return "DEALER: Essa é a intenção.";
-
-    }
-
-    // ============================================================
-    // ÚLTIMAS PISTAS
-    // ============================================================
-
-    public String finalHint01() {
-        return "DEALER: Você contou para sua mãe.";
-    }
-
-    public String finalHint02() {
-        return "LEO: Eu sei.";
-    }
-
-    public String finalHint03() {
-        return "DEALER: Ela expulsou seu irmão.";
-    }
-
-    public String finalHint04() {
-        return "LEO: Eu sei.";
-    }
-
-    public String finalHint05() {
-        return "DEALER: Alice terminou com ele.";
-    }
-
-    public String finalHint06() {
-        return "ALICE: Eu sei.";
-    }
-
-    public String finalHint07() {
-        return "DEALER: Depois veio o acidente.";
-    }
-
-    public String finalHint08() {
-        return "LEO: Para.";
-    }
-
-    public String finalHint09() {
-        return "DEALER: Agora você lembra.";
-    }
-
-    public String finalHint10() {
-        return "LEO: Eu queria não lembrar.";
-    }
-
-    public String finalHint11() {
-        return "ALICE: Eu também.";
-    }
-
-    public String finalHint12() {
-        return "DEALER: E mesmo assim vocês continuam jogando.";
-
-    }
-
-    // ============================================================
-    // DIÁLOGOS ALEATÓRIOS
-    // ============================================================
-
-    public String randomDealerLine() {
-
-        int choice =
-            random.nextInt(30);
-
-        switch (choice) {
-
-            case 0:
-                return "DEALER: Você está demorando.";
-
-            case 1:
-                return "DEALER: Interessante.";
-
-            case 2:
-                return "DEALER: Eu não faria isso.";
-
-            case 3:
-                return "DEALER: Eu faria isso.";
-
-            case 4:
-                return "DEALER: Talvez eu esteja mentindo.";
-
-            case 5:
-                return "DEALER: Talvez não.";
-
-            case 6:
-                return "DEALER: Não olha para mim.";
-
-            case 7:
-                return "DEALER: Continua.";
-
-            case 8:
-                return "DEALER: Você lembra daquela noite?";
-
-            case 9:
-                return "DEALER: Esquece que eu falei.";
-
-            case 10:
-                return "DEALER: Alice, sua vez.";
-
-            case 11:
-                return "DEALER: Leo, sua vez.";
-
-            case 12:
-                return "DEALER: Vocês são muito previsíveis.";
-
-            case 13:
-                return "DEALER: Isso foi quase inteligente.";
-
-            case 14:
-                return "DEALER: Quase.";
-
-            case 15:
-                return "DEALER: Eu estou impressionado.";
-
-            case 16:
-                return "DEALER: Não estou.";
-
-            case 17:
-                return "DEALER: Isso vai dar errado.";
-
-            case 18:
-                return "DEALER: Você sabe disso.";
-
-            case 19:
-                return "DEALER: Não confie em mim.";
-
-            case 20:
-                return "DEALER: Finalmente alguém disse algo sensato.";
-
-            case 21:
-                return "DEALER: Eu deveria ganhar comissão por isso.";
-
-            case 22:
-                return "DEALER: Ser fantasma não paga bem.";
-
-            case 23:
-                return "DEALER: Eu já tive empregos melhores.";
-
-            case 24:
-                return "DEALER: Eu sinto falta de dormir.";
-
-            case 25:
-                return "DEALER: Tecnicamente eu não durmo mais.";
-
-            case 26:
-                return "DEALER: Que situação maravilhosa.";
-
-            case 27:
-                return "DEALER: Estou começando a me arrepender.";
-
-            case 28:
-                return "DEALER: Mentira. Não estou.";
-
-            default:
-                return "DEALER: Continuem.";
-
+            return speaker + ": " + text;
         }
     }
 
     // ============================================================
-    // DIÁLOGO QUANDO UMA MÃO MUITO FORTE APARECE
+    // 01 - PRIMEIRO CONTATO
     // ============================================================
 
-    public String instantWinReaction(
-        boolean player
+    private Dialogue[] firstContact() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Você também não sabe onde estamos, sabe?"),
+
+            new Dialogue("Leo",
+                "Não."),
+
+            new Dialogue("Alice",
+                "Ótimo. Eu estava começando a achar que era só comigo."),
+
+            new Dialogue("Dealer",
+                "Que bonito. Dois perdidos na mesma mesa."),
+
+            new Dialogue("Alice",
+                "Eu não gosto da voz dele."),
+
+            new Dialogue("Dealer",
+                "E eu adoro quando alguém já começa me odiando."),
+
+            new Dialogue("Leo",
+                "Quem é você?"),
+
+            new Dialogue("Dealer",
+                "Hoje? O sujeito que distribui as cartas."),
+
+            new Dialogue("Alice",
+                "Hoje?"),
+
+            new Dialogue("Dealer",
+                "Você vai aprender a fazer perguntas melhores."),
+
+            new Dialogue("Leo",
+                "Alice, certo?"),
+
+            new Dialogue("Alice",
+                "Como você sabe meu nome?"),
+
+            new Dialogue("Dealer",
+                "Eu sei muitas coisas."),
+
+            new Dialogue("Alice",
+                "Isso não responde."),
+
+            new Dialogue("Dealer",
+                "Respostas são caras."),
+
+            new Dialogue("Leo",
+                "E qual é o preço?"),
+
+            new Dialogue("Dealer",
+                "Uma partida."),
+
+            new Dialogue("Alice",
+                "Então vamos jogar."
+        };
+    }
+
+    // ============================================================
+    // 02 - MESA
+    // ============================================================
+
+    private Dialogue[] table() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Dealer",
+                "Cartas na mesa. Olhos na mesa. Problemas fora da mesa."),
+
+            new Dialogue("Alice",
+                "Você fala demais."),
+
+            new Dialogue("Dealer",
+                "E você pensa alto demais."),
+
+            new Dialogue("Leo",
+                "Ele sempre foi assim?"),
+
+            new Dialogue("Alice",
+                "Sempre?"),
+
+            new Dialogue("Dealer",
+                "Interessante escolha de palavras."),
+
+            new Dialogue("Alice",
+                "Eu não escolhi nada."),
+
+            new Dialogue("Dealer",
+                "Ainda."),
+
+            new Dialogue("Leo",
+                "Qual é a aposta?"),
+
+            new Dialogue("Dealer",
+                "A que você tiver coragem de aceitar."),
+
+            new Dialogue("Alice",
+                "Isso não parece Truco."),
+
+            new Dialogue("Dealer",
+                "É Truco. Só não é um jogo comum."),
+
+            new Dialogue("Leo",
+                "Você está tentando nos assustar."),
+
+            new Dialogue("Dealer",
+                "Não preciso tentar."),
+
+            new Dialogue("Alice",
+                "Não olha para ele."),
+
+            new Dialogue("Leo",
+                "Por quê?"),
+
+            new Dialogue("Alice",
+                "Porque ele fica feliz quando alguém olha."),
+
+            new Dialogue("Dealer",
+                "Ela me conhece tão bem."
+        };
+    }
+
+    // ============================================================
+    // 03 - ALICE
+    // ============================================================
+
+    private Dialogue[] alice() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Eu não sou boa em conhecer pessoas."),
+
+            new Dialogue("Leo",
+                "Você parece estar indo bem."),
+
+            new Dialogue("Alice",
+                "Estou fingindo."),
+
+            new Dialogue("Leo",
+                "Por que está aqui?"),
+
+            new Dialogue("Alice",
+                "Se eu soubesse, já teria ido embora."),
+
+            new Dialogue("Leo",
+                "Você parece cansada."),
+
+            new Dialogue("Alice",
+                "Estou cansada há muito tempo."),
+
+            new Dialogue("Dealer",
+                "Que frase dramática."),
+
+            new Dialogue("Alice",
+                "Cala a boca."),
+
+            new Dialogue("Dealer",
+                "Não."),
+
+            new Dialogue("Leo",
+                "Você conhece esse lugar?"),
+
+            new Dialogue("Alice",
+                "Conheço a sensação."),
+
+            new Dialogue("Leo",
+                "Que sensação?"),
+
+            new Dialogue("Alice",
+                "De estar esperando alguma coisa terminar."),
+
+            new Dialogue("Dealer",
+                "Agora estamos chegando a algum lugar."),
+
+            new Dialogue("Alice",
+                "Não começa."),
+
+            new Dialogue("Dealer",
+                "Eu nem comecei."),
+
+            new Dialogue("Alice",
+                "Esse é exatamente o problema."
+        };
+    }
+
+    // ============================================================
+    // 04 - LEO
+    // ============================================================
+
+    private Dialogue[] leo() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Você está tremendo."),
+
+            new Dialogue("Leo",
+                "Estou bem."),
+
+            new Dialogue("Alice",
+                "Mentira."),
+
+            new Dialogue("Leo",
+                "Talvez."),
+
+            new Dialogue("Alice",
+                "Você parece conhecer essa voz."),
+
+            new Dialogue("Leo",
+                "Não conheço."),
+
+            new Dialogue("Alice",
+                "Você hesitou."),
+
+            new Dialogue("Leo",
+                "Eu só estou cansado."),
+
+            new Dialogue("Dealer",
+                "Ele mente mal."),
+
+            new Dialogue("Leo",
+                "Ninguém perguntou."),
+
+            new Dialogue("Dealer",
+                "Eu sei."),
+
+            new Dialogue("Alice",
+                "Leo."),
+
+            new Dialogue("Leo",
+                "O quê?"),
+
+            new Dialogue("Alice",
+                "Seu nome me parece familiar."),
+
+            new Dialogue("Leo",
+                "Talvez você tenha ouvido em algum lugar."),
+
+            new Dialogue("Alice",
+                "Talvez."),
+
+            new Dialogue("Dealer",
+                "Ou talvez não."),
+
+            new Dialogue("Leo",
+                "Você pode parar de falar?"
+        };
+    }
+
+    // ============================================================
+    // 05 - DEALER
+    // ============================================================
+
+    private Dialogue[] dealer() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Dealer",
+                "Senhoras e senhores, bem-vindos ao pior encontro do mundo."),
+
+            new Dialogue("Dealer",
+                "Eu faria uma piada, mas vocês dois já são a piada."),
+
+            new Dialogue("Dealer",
+                "Não façam essa cara. Eu preparei tudo com carinho."),
+
+            new Dialogue("Dealer",
+                "Carinho é uma palavra engraçada."),
+
+            new Dialogue("Dealer",
+                "Vocês deveriam confiar mais em mim."),
+
+            new Dialogue("Alice",
+                "Não."),
+
+            new Dialogue("Dealer",
+                "Resposta rápida. Gostei."),
+
+            new Dialogue("Leo",
+                "Você parece se divertir."),
+
+            new Dialogue("Dealer",
+                "Finalmente alguém percebeu."),
+
+            new Dialogue("Dealer",
+                "Eu estava entediado."),
+
+            new Dialogue("Dealer",
+                "Então pensei: por que não arruinar duas noites de uma vez?"),
+
+            new Dialogue("Alice",
+                "Você é insuportável."),
+
+            new Dialogue("Dealer",
+                "Obrigado."),
+
+            new Dialogue("Dealer",
+                "Não foi um elogio."),
+
+            new Dialogue("Dealer",
+                "Eu sei."),
+
+            new Dialogue("Dealer",
+                "Esse é o meu charme."),
+
+            new Dialogue("Alice",
+                "Você não tem charme."),
+
+            new Dialogue("Dealer",
+                "E mesmo assim vocês continuam ouvindo."
+        };
+    }
+
+    // ============================================================
+    // 06 - TRUCO
+    // ============================================================
+
+    private Dialogue[] truco() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Dealer",
+                "Truco."),
+
+            new Dialogue("Alice",
+                "Truco."),
+
+            new Dialogue("Leo",
+                "Seis."),
+
+            new Dialogue("Dealer",
+                "Olha só. Coragem."),
+
+            new Dialogue("Alice",
+                "Você tem certeza?"),
+
+            new Dialogue("Leo",
+                "Não."),
+
+            new Dialogue("Alice",
+                "Então por que aumentou?"),
+
+            new Dialogue("Leo",
+                "Porque ele queria que eu hesitasse."),
+
+            new Dialogue("Dealer",
+                "Eu? Jamais."),
+
+            new Dialogue("Alice",
+                "Você está sorrindo."),
+
+            new Dialogue("Dealer",
+                "Eu sempre sorrio."),
+
+            new Dialogue("Alice",
+                "Isso é preocupante."),
+
+            new Dialogue("Dealer",
+                "Só quando tenho uma boa mão."),
+
+            new Dialogue("Leo",
+                "Você nem está jogando."),
+
+            new Dialogue("Dealer",
+                "Detalhes."),
+
+            new Dialogue("Alice",
+                "Nove."),
+
+            new Dialogue("Leo",
+                "Você está blefando."),
+
+            new Dialogue("Alice",
+                "Talvez."
+        };
+    }
+
+    // ============================================================
+    // 07 - DESCONFIANÇA
+    // ============================================================
+
+    private Dialogue[] suspicion() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Ele sabe demais."),
+
+            new Dialogue("Leo",
+                "Também achei."),
+
+            new Dialogue("Alice",
+                "Você percebeu antes de mim."),
+
+            new Dialogue("Leo",
+                "Talvez eu já tenha ouvido essa voz."),
+
+            new Dialogue("Alice",
+                "Onde?"),
+
+            new Dialogue("Leo",
+                "Não sei."),
+
+            new Dialogue("Dealer",
+                "Que memória conveniente."),
+
+            new Dialogue("Alice",
+                "Você está escondendo alguma coisa."),
+
+            new Dialogue("Dealer",
+                "Todos estão."),
+
+            new Dialogue("Leo",
+                "Inclusive você."),
+
+            new Dialogue("Dealer",
+                "Principalmente eu."),
+
+            new Dialogue("Alice",
+                "Isso deveria me tranquilizar?"),
+
+            new Dialogue("Dealer",
+                "Não."),
+
+            new Dialogue("Leo",
+                "Por que você sabe tanto sobre nós?"),
+
+            new Dialogue("Dealer",
+                "Porque vocês deixam pistas por toda parte."),
+
+            new Dialogue("Alice",
+                "Nós nem conhecemos você."),
+
+            new Dialogue("Dealer",
+                "Esse é o detalhe mais engraçado."),
+
+            new Dialogue("Alice",
+                "Não tem graça nenhuma."
+        };
+    }
+
+    // ============================================================
+    // 08 - MEMÓRIAS
+    // ============================================================
+
+    private Dialogue[] memories() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Eu lembro de uma janela."),
+
+            new Dialogue("Leo",
+                "Que janela?"),
+
+            new Dialogue("Alice",
+                "Não sei."),
+
+            new Dialogue("Alice",
+                "Tinha alguém do outro lado."),
+
+            new Dialogue("Dealer",
+                "Memórias são péssimas testemunhas."),
+
+            new Dialogue("Leo",
+                "Você fala como se soubesse."),
+
+            new Dialogue("Dealer",
+                "Eu sei."),
+
+            new Dialogue("Alice",
+                "Eu lembro de rir."),
+
+            new Dialogue("Leo",
+                "Com quem?"),
+
+            new Dialogue("Alice",
+                "Com alguém que eu amava."),
+
+            new Dialogue("Dealer",
+                "Próxima carta."),
+
+            new Dialogue("Alice",
+                "Não muda de assunto."),
+
+            new Dialogue("Dealer",
+                "Eu faço o que quero."),
+
+            new Dialogue("Leo",
+                "Eu também lembro de alguém."),
+
+            new Dialogue("Alice",
+                "Quem?"),
+
+            new Dialogue("Leo",
+                "Meu irmão."),
+
+            new Dialogue("Alice",
+                "Você tinha um irmão?"),
+
+            new Dialogue("Leo",
+                "Tenho uma lembrança dele."
+        };
+    }
+
+    // ============================================================
+    // 09 - IRMÃO
+    // ============================================================
+
+    private Dialogue[] brother() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Como ele era?"),
+
+            new Dialogue("Leo",
+                "Irritante."),
+
+            new Dialogue("Alice",
+                "Engraçado."),
+
+            new Dialogue("Leo",
+                "Também."),
+
+            new Dialogue("Alice",
+                "Teimoso?"),
+
+            new Dialogue("Leo",
+                "Muito."),
+
+            new Dialogue("Alice",
+                "Ele gostava de música?"),
+
+            new Dialogue("Leo",
+                "Como você sabe disso?"),
+
+            new Dialogue("Alice",
+                "Eu não sei."),
+
+            new Dialogue("Dealer",
+                "Ela tem boa memória."),
+
+            new Dialogue("Leo",
+                "Você conhecia meu irmão?"),
+
+            new Dialogue("Dealer",
+                "Talvez."),
+
+            new Dialogue("Leo",
+                "Isso não é resposta."),
+
+            new Dialogue("Dealer",
+                "Eu adoro essa frase."),
+
+            new Dialogue("Alice",
+                "Ele tinha uma cicatriz na sobrancelha."),
+
+            new Dialogue("Leo",
+                "Tinha."),
+
+            new Dialogue("Alice",
+                "Então era ele."),
+
+            new Dialogue("Leo",
+                "Quem era ele para você?"
+        };
+    }
+
+    // ============================================================
+    // 10 - ALICE E O IRMÃO
+    // ============================================================
+
+    private Dialogue[] aliceAndBrother() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Ele dizia que tinha um irmão."),
+
+            new Dialogue("Leo",
+                "Ele nunca falava de você."),
+
+            new Dialogue("Alice",
+                "Talvez tivesse medo."),
+
+            new Dialogue("Leo",
+                "De mim?"),
+
+            new Dialogue("Alice",
+                "Da sua família."),
+
+            new Dialogue("Dealer",
+                "Ah."),
+
+            new Dialogue("Leo",
+                "Você sabia disso?"),
+
+            new Dialogue("Dealer",
+                "Eu sabia de muita coisa."),
+
+            new Dialogue("Alice",
+                "Ele aparecia escondido."),
+
+            new Dialogue("Leo",
+                "Na nossa casa?"),
+
+            new Dialogue("Alice",
+                "Não. Na minha."),
+
+            new Dialogue("Leo",
+                "Por quê?"),
+
+            new Dialogue("Alice",
+                "Porque ninguém podia saber."),
+
+            new Dialogue("Dealer",
+                "E alguém acabou sabendo."),
+
+            new Dialogue("Leo",
+                "Minha mãe."),
+
+            new Dialogue("Alice",
+                "Foi aí que tudo mudou."),
+
+            new Dialogue("Leo",
+                "O que ela fez?"),
+
+            new Dialogue("Alice",
+                "Mandou ele escolher."
+        };
+    }
+
+    // ============================================================
+    // 11 - FAMÍLIA
+    // ============================================================
+
+    private Dialogue[] family() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Leo",
+                "Minha mãe nunca gostou de segredos."),
+
+            new Dialogue("Alice",
+                "A minha também não."),
+
+            new Dialogue("Leo",
+                "Ela descobriu vocês."),
+
+            new Dialogue("Alice",
+                "Descobriu nós dois."),
+
+            new Dialogue("Leo",
+                "E expulsou meu irmão."),
+
+            new Dialogue("Alice",
+                "Sim."),
+
+            new Dialogue("Leo",
+                "Eu não sabia."),
+
+            new Dialogue("Alice",
+                "Ele não queria que você soubesse."),
+
+            new Dialogue("Dealer",
+                "Que família adorável."),
+
+            new Dialogue("Leo",
+                "Você não fala da minha família."),
+
+            new Dialogue("Dealer",
+                "Por quê?"),
+
+            new Dialogue("Leo",
+                "Porque você não conhece eles."),
+
+            new Dialogue("Dealer",
+                "Conheço mais do que você imagina."),
+
+            new Dialogue("Alice",
+                "Ele está fazendo isso de propósito."),
+
+            new Dialogue("Leo",
+                "Eu sei."),
+
+            new Dialogue("Dealer",
+                "Finalmente estamos aprendendo."),
+
+            new Dialogue("Alice",
+                "Ele queria que vocês brigassem."),
+
+            new Dialogue("Leo",
+                "E conseguiu."
+        };
+    }
+
+    // ============================================================
+    // 12 - ACIDENTE
+    // ============================================================
+
+    private Dialogue[] accident() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Depois disso, ele foi embora."),
+
+            new Dialogue("Leo",
+                "Eu lembro."),
+
+            new Dialogue("Alice",
+                "Você lembra de verdade?"),
+
+            new Dialogue("Leo",
+                "Lembro do telefone."),
+
+            new Dialogue("Alice",
+                "Eu lembro da estrada."),
+
+            new Dialogue("Dealer",
+                "Não precisamos falar disso."),
+
+            new Dialogue("Alice",
+                "Por quê?"),
+
+            new Dialogue("Dealer",
+                "Porque algumas coisas não precisam ser repetidas."),
+
+            new Dialogue("Leo",
+                "Você parece nervoso."),
+
+            new Dialogue("Dealer",
+                "Eu não fico nervoso."),
+
+            new Dialogue("Alice",
+                "Você acabou de ficar."),
+
+            new Dialogue("Dealer",
+                "Parabéns."),
+
+            new Dialogue("Leo",
+                "Ele morreu naquele acidente."),
+
+            new Dialogue("Alice",
+                "Sim."),
+
+            new Dialogue("Leo",
+                "E você estava lá."),
+
+            new Dialogue("Alice",
+                "Sim."),
+
+            new Dialogue("Dealer",
+                "Próxima rodada."),
+
+            new Dialogue("Leo",
+                "Você não consegue esconder para sempre."
+        };
+    }
+
+    // ============================================================
+    // 13 - DEALER MANIPULANDO
+    // ============================================================
+
+    private Dialogue[] dealerManipulation() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Dealer",
+                "Leo, ela não confia em você."),
+
+            new Dialogue("Alice",
+                "Não escuta ele."),
+
+            new Dialogue("Dealer",
+                "Alice, ele sabia."),
+
+            new Dialogue("Leo",
+                "Sabia o quê?"),
+
+            new Dialogue("Dealer",
+                "Você vai descobrir."),
+
+            new Dialogue("Alice",
+                "Ele está tentando nos separar."),
+
+            new Dialogue("Dealer",
+                "Não preciso tentar."),
+
+            new Dialogue("Leo",
+                "Por que você quer isso?"),
+
+            new Dialogue("Dealer",
+                "Porque juntos vocês são inconvenientes."),
+
+            new Dialogue("Alice",
+                "Para quem?"),
+
+            new Dialogue("Dealer",
+                "Para mim."),
+
+            new Dialogue("Leo",
+                "Finalmente uma resposta honesta."),
+
+            new Dialogue("Dealer",
+                "Não se acostume."),
+
+            new Dialogue("Alice",
+                "Ele quer que eu desconfie de você."),
+
+            new Dialogue("Leo",
+                "Então não dê esse prazer a ele."),
+
+            new Dialogue("Dealer",
+                "Vocês estão ficando amigos."),
+
+            new Dialogue("Alice",
+                "Talvez."),
+
+            new Dialogue("Dealer",
+                "Isso vai ser um problema."
+        };
+    }
+
+    // ============================================================
+    // 14 - DEALER PROVOCANDO
+    // ============================================================
+
+    private Dialogue[] dealerProvoking() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Dealer",
+                "Vamos lá, Leo. Você pode fazer melhor."),
+
+            new Dialogue("Dealer",
+                "Ou talvez não."),
+
+            new Dialogue("Dealer",
+                "Alice, olha a cara dele."),
+
+            new Dialogue("Alice",
+                "Para."),
+
+            new Dialogue("Dealer",
+                "Você está defendendo ele agora?"),
+
+            new Dialogue("Alice",
+                "Estou defendendo a minha paciência."),
+
+            new Dialogue("Dealer",
+                "Que pena. Eu queria destruir as duas."),
+
+            new Dialogue("Leo",
+                "Você é sempre assim?"),
+
+            new Dialogue("Dealer",
+                "Pior quando estou feliz."),
+
+            new Dialogue("Alice",
+                "Então você está feliz demais."),
+
+            new Dialogue("Dealer",
+                "Eu estou me divertindo."),
+
+            new Dialogue("Leo",
+                "Isso vai acabar."),
+
+            new Dialogue("Dealer",
+                "Tudo acaba."),
+
+            new Dialogue("Alice",
+                "Você fala como se estivesse esperando isso."),
+
+            new Dialogue("Dealer",
+                "Talvez eu esteja."),
+
+            new Dialogue("Leo",
+                "Você tem medo do fim."),
+
+            new Dialogue("Dealer",
+                "Eu tenho medo de ficar sozinho."),
+
+            new Dialogue("Alice",
+                "Finalmente algo verdadeiro."
+        };
+    }
+
+    // ============================================================
+    // 15 - CONFIANÇA
+    // ============================================================
+
+    private Dialogue[] trust() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Eu acho que posso confiar em você."),
+
+            new Dialogue("Leo",
+                "Isso é bom?"),
+
+            new Dialogue("Alice",
+                "Não sei."),
+
+            new Dialogue("Leo",
+                "Eu também não."),
+
+            new Dialogue("Alice",
+                "Você poderia ter mentido."),
+
+            new Dialogue("Leo",
+                "Eu poderia."),
+
+            new Dialogue("Alice",
+                "Mas não mentiu."),
+
+            new Dialogue("Dealer",
+                "Que emocionante."),
+
+            new Dialogue("Alice",
+                "Você está com ciúmes?"),
+
+            new Dialogue("Dealer",
+                "Eu? Nunca."),
+
+            new Dialogue("Leo",
+                "Ele está."),
+
+            new Dialogue("Dealer",
+                "Continuem. Estou adorando."),
+
+            new Dialogue("Alice",
+                "Eu lembro dele agora."),
+
+            new Dialogue("Leo",
+                "Do meu irmão?"),
+
+            new Dialogue("Alice",
+                "Sim."),
+
+            new Dialogue("Leo",
+                "Sinto muito."),
+
+            new Dialogue("Alice",
+                "Eu também."),
+
+            new Dialogue("Dealer",
+                "Não deveriam."
+        };
+    }
+
+    // ============================================================
+    // 16 - CONFRONTO
+    // ============================================================
+
+    private Dialogue[] confrontation() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Leo",
+                "Você é meu irmão."),
+
+            new Dialogue("Dealer",
+                "Finalmente."),
+
+            new Dialogue("Alice",
+                "Eu sabia."),
+
+            new Dialogue("Dealer",
+                "Parabéns para os dois."),
+
+            new Dialogue("Leo",
+                "Você morreu."),
+
+            new Dialogue("Dealer",
+                "Eu sei."),
+
+            new Dialogue("Leo",
+                "Então por que está aqui?"),
+
+            new Dialogue("Dealer",
+                "Porque eu não fui embora."),
+
+            new Dialogue("Alice",
+                "Você me odeia?"),
+
+            new Dialogue("Dealer",
+                "Não."),
+
+            new Dialogue("Alice",
+                "Então por quê?"),
+
+            new Dialogue("Dealer",
+                "Porque eu não sabia como dizer adeus."),
+
+            new Dialogue("Leo",
+                "E decidiu prender todo mundo com você."),
+
+            new Dialogue("Dealer",
+                "Foi uma péssima decisão."),
+
+            new Dialogue("Alice",
+                "Pelo menos você admite."),
+
+            new Dialogue("Dealer",
+                "Não significa que vou parar."),
+
+            new Dialogue("Leo",
+                "Nós vamos parar você."),
+
+            new Dialogue("Dealer",
+                "Tentem."
+        };
+    }
+
+    // ============================================================
+    // 17 - REDENÇÃO
+    // ============================================================
+
+    private Dialogue[] redemption() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Leo",
+                "Você não precisa continuar."),
+
+            new Dialogue("Dealer",
+                "Preciso."),
+
+            new Dialogue("Leo",
+                "Não."),
+
+            new Dialogue("Dealer",
+                "Você não entende."),
+
+            new Dialogue("Alice",
+                "Então explica."),
+
+            new Dialogue("Dealer",
+                "Eu não lembro como voltar."),
+
+            new Dialogue("Leo",
+                "Talvez não exista volta."),
+
+            new Dialogue("Dealer",
+                "Então o que existe?"),
+
+            new Dialogue("Alice",
+                "Fim."),
+
+            new Dialogue("Dealer",
+                "Essa palavra me assusta."),
+
+            new Dialogue("Leo",
+                "Por quê?"),
+
+            new Dialogue("Dealer",
+                "Porque eu passei tempo demais fugindo dela."),
+
+            new Dialogue("Alice",
+                "Você pode deixar a gente ir."),
+
+            new Dialogue("Dealer",
+                "E ficar sozinho?"),
+
+            new Dialogue("Leo",
+                "Dessa vez você não vai estar sozinho."),
+
+            new Dialogue("Dealer",
+                "Irmão..."),
+
+            new Dialogue("Leo",
+                "Estou aqui."),
+
+            new Dialogue("Dealer",
+                "Eu sinto muito."
+        };
+    }
+
+    // ============================================================
+    // 18 - RELÓGIO
+    // ============================================================
+
+    private Dialogue[] clock() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Alice",
+                "Que horas são?"),
+
+            new Dialogue("Leo",
+                "Não sei."),
+
+            new Dialogue("Alice",
+                "O relógio está andando."),
+
+            new Dialogue("Dealer",
+                "Claro que está."),
+
+            new Dialogue("Leo",
+                "Quanto tempo temos?"),
+
+            new Dialogue("Dealer",
+                "Menos do que vocês gostariam."),
+
+            new Dialogue("Alice",
+                "Isso não ajuda."),
+
+            new Dialogue("Dealer",
+                "Não era para ajudar."),
+
+            new Dialogue("Leo",
+                "O ponteiro pulou."),
+
+            new Dialogue("Alice",
+                "Ele está acelerando."),
+
+            new Dialogue("Dealer",
+                "O tempo fica impaciente."),
+
+            new Dialogue("Leo",
+                "Você também."),
+
+            new Dialogue("Dealer",
+                "Eu estou esperando há anos."),
+
+            new Dialogue("Alice",
+                "Esperando por quê?"),
+
+            new Dialogue("Dealer",
+                "Vocês."),
+
+            new Dialogue("Leo",
+                "Por que nós?"),
+
+            new Dialogue("Dealer",
+                "Porque vocês são as únicas pessoas que ainda lembram de mim."),
+
+            new Dialogue("Alice",
+                "Então talvez seja hora de lembrar direito."
+        };
+    }
+
+    // ============================================================
+    // 19 - FINAIS RUINS
+    // ============================================================
+
+    private Dialogue[] badEndings() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Dealer",
+                "A última carta."),
+
+            new Dialogue("Alice",
+                "Não."),
+
+            new Dialogue("Leo",
+                "Acabou."),
+
+            new Dialogue("Dealer",
+                "Acabou para alguém."),
+
+            new Dialogue("Alice",
+                "Eu não queria isso."),
+
+            new Dialogue("Dealer",
+                "Querer nunca foi suficiente."),
+
+            new Dialogue("Leo",
+                "Você conseguiu."),
+
+            new Dialogue("Dealer",
+                "Consegui o quê?"),
+
+            new Dialogue("Leo",
+                "Nos separar."),
+
+            new Dialogue("Dealer",
+                "Eu avisei que seria divertido."),
+
+            new Dialogue("Alice",
+                "A mesa está vazia."),
+
+            new Dialogue("Dealer",
+                "Então começamos outra."),
+
+            new Dialogue("Leo",
+                "Não existe outra."),
+
+            new Dialogue("Dealer",
+                "Existe enquanto eu lembrar."),
+
+            new Dialogue("Alice",
+                "Você ganhou."),
+
+            new Dialogue("Dealer",
+                "Não."),
+
+            new Dialogue("Dealer",
+                "Eu só consegui adiar a derrota."),
+
+            new Dialogue("Dealer",
+                "E esse é o pior tipo de vitória."
+        };
+    }
+
+    // ============================================================
+    // 20 - FINAIS BONS
+    // ============================================================
+
+    private Dialogue[] goodEndings() {
+
+        return new Dialogue[] {
+
+            new Dialogue("Leo",
+                "Chega."),
+
+            new Dialogue("Alice",
+                "Chega."),
+
+            new Dialogue("Dealer",
+                "Vocês dois finalmente concordam."),
+
+            new Dialogue("Leo",
+                "Solta a gente."),
+
+            new Dialogue("Dealer",
+                "Eu não sei como."),
+
+            new Dialogue("Alice",
+                "Então aprende."),
+
+            new Dialogue("Dealer",
+                "Eu estou com medo."),
+
+            new Dialogue("Leo",
+                "Eu também."),
+
+            new Dialogue("Dealer",
+                "Você ainda me chama de irmão."),
+
+            new Dialogue("Leo",
+                "Porque você ainda é."),
+
+            new Dialogue("Alice",
+                "E você ainda é importante para mim."),
+
+            new Dialogue("Dealer",
+                "Depois de tudo?"),
+
+            new Dialogue("Alice",
+                "Depois de tudo."),
+
+            new Dialogue("Dealer",
+                "Então acabou."),
+
+            new Dialogue("Leo",
+                "Acabou."),
+
+            new Dialogue("Dealer",
+                "Obrigado por lembrarem de mim."),
+
+            new Dialogue("Alice",
+                "Adeus."),
+
+            new Dialogue("Dealer",
+                "Adeus."
+        };
+    }
+
+    // ============================================================
+    // TODAS AS FALAS
+    // ============================================================
+
+    public List<Dialogue> getAllDialogues() {
+
+        List<Dialogue> all =
+            new ArrayList<>();
+
+        addGroup(
+            all,
+            firstContact()
+        );
+
+        addGroup(
+            all,
+            table()
+        );
+
+        addGroup(
+            all,
+            alice()
+        );
+
+        addGroup(
+            all,
+            leo()
+        );
+
+        addGroup(
+            all,
+            dealer()
+        );
+
+        addGroup(
+            all,
+            truco()
+        );
+
+        addGroup(
+            all,
+            suspicion()
+        );
+
+        addGroup(
+            all,
+            memories()
+        );
+
+        addGroup(
+            all,
+            brother()
+        );
+
+        addGroup(
+            all,
+            aliceAndBrother()
+        );
+
+        addGroup(
+            all,
+            family()
+        );
+
+        addGroup(
+            all,
+            accident()
+        );
+
+        addGroup(
+            all,
+            dealerManipulation()
+        );
+
+        addGroup(
+            all,
+            dealerProvoking()
+        );
+
+        addGroup(
+            all,
+            trust()
+        );
+
+        addGroup(
+            all,
+            confrontation()
+        );
+
+        addGroup(
+            all,
+            redemption()
+        );
+
+        addGroup(
+            all,
+            clock()
+        );
+
+        addGroup(
+            all,
+            badEndings()
+        );
+
+        addGroup(
+            all,
+            goodEndings()
+        );
+
+        return all;
+    }
+
+    // ============================================================
+    // ADICIONAR GRUPO
+    // ============================================================
+
+    private void addGroup(
+        List<Dialogue> target,
+        Dialogue[] group
     ) {
 
-        if (player) {
+        for (Dialogue dialogue : group) {
 
-            return
-                "DEALER: Leo...\n" +
-                "DEALER: olha suas cartas.\n" +
-                "DEALER: Você realmente recebeu isso.";
+            target.add(dialogue);
+        }
+    }
+
+    // ============================================================
+    // BUSCAR POR FALA
+    // ============================================================
+
+    public Dialogue getRandomDialogue(
+        String speaker
+    ) {
+
+        List<Dialogue> matching =
+            new ArrayList<>();
+
+        for (
+            Dialogue dialogue :
+            getAllDialogues()
+        ) {
+
+            if (
+                dialogue
+                    .getSpeaker()
+                    .equalsIgnoreCase(
+                        speaker
+                    )
+            ) {
+
+                matching.add(
+                    dialogue
+                );
+            }
         }
 
-        return
-            "DEALER: Alice...\n" +
-            "DEALER: eu acho que você acabou de virar o jogo.";
+        if (matching.isEmpty()) {
+
+            return new Dialogue(
+                "???",
+                "..."
+            );
+        }
+
+        return matching.get(
+            random.nextInt(
+                matching.size()
+            )
+        );
     }
 
     // ============================================================
-    // DIÁLOGO DE FINAL
+    // DIÁLOGOS POR ESTADO
     // ============================================================
 
-    public String ending01() {
-        return "DEALER: Então é isso.";
-    }
-
-    public String ending02() {
-        return "LEO: Acabou?";
-    }
-
-    public String ending03() {
-        return "DEALER: A partida acabou.";
-    }
-
-    public String ending04() {
-        return "ALICE: E agora?";
-    }
-
-    public String ending05() {
-        return "DEALER: Agora vocês descobrem o que ganharam.";
-    }
-
-    public String ending06() {
-        return "LEO: Você disse que haveria uma recompensa.";
-    }
-
-    public String ending07() {
-        return "DEALER: Eu disse que haveria uma recompensa.";
-    }
-
-    public String ending08() {
-        return "ALICE: Isso não é a mesma coisa.";
-    }
-
-    public String ending09() {
-        return "DEALER: Agora você está aprendendo.";
-    }
-
-    public String ending10() {
-        return "DEALER: Nunca confie em um Dealer.";
-    }
-
-    // ============================================================
-    // MÉTODO PARA BUSCAR UMA FALA POR ID
-    // ============================================================
-
-    public String getDialogue(
-        String id
+    public Dialogue[] getForState(
+        GameState.State state
     ) {
 
-        switch (id) {
+        if (state == null) {
 
-            case "intro01":
-                return intro01();
+            return firstContact();
+        }
 
-            case "intro02":
-                return intro02();
+        switch (state) {
 
-            case "intro03":
-                return intro03();
+            case INTRO:
 
-            case "intro04":
-                return intro04();
+                return firstContact();
 
-            case "intro05":
-                return intro05();
+            case WAITING:
 
-            case "intro06":
-                return intro06();
+                return table();
 
-            case "intro07":
-                return intro07();
+            case PLAYER_TURN:
 
-            case "intro08":
-                return intro08();
+                return truco();
 
-            case "intro09":
-                return intro09();
+            case ALICE_TURN:
 
-            case "intro10":
-                return intro10();
+                return alice();
 
-            case "past01":
-                return past01();
+            case DEALER_TURN:
 
-            case "past02":
-                return past02();
+                return dealer();
 
-            case "past03":
-                return past03();
+            case TRUCO:
 
-            case "past04":
-                return past04();
+                return truco();
 
-            case "past05":
-                return past05();
+            case DIALOGUE:
 
-            case "past06":
-                return past06();
+                return memories();
 
-            case "past07":
-                return past07();
+            case REVELATION:
 
-            case "past08":
-                return past08();
+                return confrontation();
 
-            case "past09":
-                return past09();
+            case FINAL:
 
-            case "past10":
-                return past10();
+                return goodEndings();
 
-            case "brother01":
-                return brother01();
+            case GAME_OVER:
 
-            case "brother02":
-                return brother02();
-
-            case "brother03":
-                return brother03();
-
-            case "brother04":
-                return brother04();
-
-            case "brother05":
-                return brother05();
-
-            case "brother06":
-                return brother06();
-
-            case "brother07":
-                return brother07();
-
-            case "brother08":
-                return brother08();
-
-            case "brother09":
-                return brother09();
-
-            case "brother10":
-                return brother10();
-
-            case "brother11":
-                return brother11();
-
-            case "brother12":
-                return brother12();
-
-            case "secret01":
-                return secret01();
-
-            case "secret02":
-                return secret02();
-
-            case "secret03":
-                return secret03();
-
-            case "secret04":
-                return secret04();
-
-            case "secret05":
-                return secret05();
-
-            case "secret06":
-                return secret06();
-
-            case "secret07":
-                return secret07();
-
-            case "secret08":
-                return secret08();
-
-            case "secret09":
-                return secret09();
-
-            case "secret10":
-                return secret10();
-
-            case "reveal01":
-                return reveal01();
-
-            case "reveal02":
-                return reveal02();
-
-            case "reveal03":
-                return reveal03();
-
-            case "reveal04":
-                return reveal04();
-
-            case "reveal05":
-                return reveal05();
-
-            case "reveal06":
-                return reveal06();
-
-            case "reveal07":
-                return reveal07();
-
-            case "reveal08":
-                return reveal08();
-
-            case "reveal09":
-                return reveal09();
-
-            case "reveal10":
-                return reveal10();
-
-            case "reveal11":
-                return reveal11();
-
-            case "reveal12":
-                return reveal12();
-
-            case "ending01":
-                return ending01();
-
-            case "ending02":
-                return ending02();
-
-            case "ending03":
-                return ending03();
-
-            case "ending04":
-                return ending04();
-
-            case "ending05":
-                return ending05();
-
-            case "ending06":
-                return ending06();
-
-            case "ending07":
-                return ending07();
-
-            case "ending08":
-                return ending08();
-
-            case "ending09":
-                return ending09();
-
-            case "ending10":
-                return ending10();
+                return badEndings();
 
             default:
-                return "...";
+
+                return table();
+        }
+    }
+
+    // ============================================================
+    // DIÁLOGO CONDICIONAL
+    // ============================================================
+
+    public Dialogue[] getConditionalDialogues(
+        GameState state,
+        Girl alice
+    ) {
+
+        List<Dialogue> result =
+            new ArrayList<>();
+
+        if (
+            state == null ||
+            alice == null
+        ) {
+
+            return firstContact();
+        }
+
+        /*
+         * Pouca confiança:
+         * Alice mantém distância.
+         */
+
+        if (
+            state.getAliceTrust() < 30
+        ) {
+
+            result.addAll(
+                List.of(
+                    alice()[0],
+                    alice()[2],
+                    alice()[4],
+                    alice()[6],
+                    alice()[10]
+                )
+            );
+        }
+
+        /*
+         * Confiança média:
+         */
+
+        else if (
+            state.getAliceTrust() < 70
+        ) {
+
+            result.addAll(
+                List.of(
+                    trust()[0],
+                    trust()[4],
+                    trust()[6],
+                    trust()[12],
+                    trust()[16]
+                )
+            );
+        }
+
+        /*
+         * Confiança alta:
+         */
+
+        else {
+
+            result.addAll(
+                List.of(
+                    trust()[0],
+                    trust()[6],
+                    trust()[12],
+                    trust()[14],
+                    redemption()[12]
+                )
+            );
+        }
+
+        /*
+         * Suspeita alta:
+         */
+
+        if (
+            state.getSuspicionLevel() >= 50
+        ) {
+
+            result.addAll(
+                List.of(
+                    suspicion()[0],
+                    suspicion()[6],
+                    suspicion()[12],
+                    dealerManipulation()[8],
+                    dealerManipulation()[13]
+                )
+            );
+        }
+
+        /*
+         * Identidade descoberta:
+         */
+
+        if (
+            state.discoveredDealersIdentity()
+        ) {
+
+            result.addAll(
+                List.of(
+                    confrontation()[0],
+                    confrontation()[4],
+                    confrontation()[6],
+                    confrontation()[12],
+                    confrontation()[16]
+                )
+            );
+        }
+
+        /*
+         * Verdade descoberta:
+         */
+
+        if (
+            state.discoveredTruth()
+        ) {
+
+            result.addAll(
+                List.of(
+                    redemption()[0],
+                    redemption()[4],
+                    redemption()[8],
+                    redemption()[12],
+                    redemption()[16]
+                )
+            );
+        }
+
+        if (result.isEmpty()) {
+
+            return firstContact();
+        }
+
+        return result.toArray(
+            new Dialogue[0]
+        );
+    }
+
+    // ============================================================
+    // CONTAGEM
+    // ============================================================
+
+    public int getDialogueCount() {
+
+        return getAllDialogues().size();
+    }
+
+    // ============================================================
+    // VERIFICAÇÃO
+    // ============================================================
+
+    public boolean hasExactly360Dialogues() {
+
+        return getDialogueCount() == 360;
+    }
+
+    // ============================================================
+    // DEBUG
+    // ============================================================
+
+    public void printDialogueCount() {
+
+        System.out.println(
+            "Diálogos carregados: "
+            + getDialogueCount()
+        );
+
+        if (
+            hasExactly360Dialogues()
+        ) {
+
+            System.out.println(
+                "Banco de diálogos: OK"
+            );
+
+        } else {
+
+            System.out.println(
+                "ERRO: quantidade diferente de 360."
+            );
         }
     }
 }
+```
