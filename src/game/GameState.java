@@ -1,3 +1,4 @@
+```java
 package game;
 
 /**
@@ -5,13 +6,10 @@ package game;
  *                         GAME STATE
  * ================================================================
  *
- * Guarda tudo que precisa ser lembrado durante uma partida.
+ * Guarda o estado global da partida.
  *
- * Game.java       -> controla a partida
- * GameState.java  -> guarda o estado
- * GameDevice.java -> controla a máquina
- * Dialogues.java  -> guarda os diálogos
- * Dealer.java     -> controla o Dealer
+ * GameState NÃO controla o jogo.
+ * Ele apenas guarda as informações que o Game precisa consultar.
  *
  * ================================================================
  */
@@ -25,167 +23,80 @@ public class GameState {
     public enum State {
 
         INTRO,
-
         WAITING,
-
         PLAYER_TURN,
-
         ALICE_TURN,
-
         DEALER_TURN,
-
         TRUCO,
-
-        ROUND_END,
-
         DIALOGUE,
-
-        EVENT,
-
         REVELATION,
-
         FINAL,
-
         GAME_OVER
     }
-
-    // ============================================================
-    // ESTADO ATUAL
-    // ============================================================
 
     private State currentState;
 
     // ============================================================
-    // RODADAS
+    // TEMPO
     // ============================================================
 
-    private int round;
+    private int hour;
+    private int minute;
+    private int seconds;
 
-    private int playerWins;
-
-    private int aliceWins;
-
-    private int draws;
+    private boolean clockRunning;
 
     // ============================================================
-    // PONTUAÇÃO DO TRUCO
+    // RELACIONAMENTO
     // ============================================================
 
-    private int playerScore;
+    private int aliceTrust;
 
-    private int aliceScore;
+    private int suspicionLevel;
 
-    private int currentBet;
+    private int dealerInfluence;
 
-    // ============================================================
-    // VEZ
-    // ============================================================
-
-    private boolean playerTurn;
-
-    private boolean aliceTurn;
+    private int dealerRedemption;
 
     // ============================================================
-    // CARTAS
+    // DESCOBERTAS
     // ============================================================
-
-    private int playerCards;
-
-    private int aliceCards;
-
-    private boolean playerHasWinningHand;
-
-    private boolean aliceHasWinningHand;
-
-    // ============================================================
-    // HISTÓRIA
-    // ============================================================
-
-    private boolean discoveredBrother;
-
-    private boolean discoveredAlice;
-
-    private boolean discoveredRelationship;
-
-    private boolean discoveredMessages;
-
-    private boolean discoveredExpulsion;
-
-    private boolean discoveredBreakup;
-
-    private boolean discoveredAccident;
 
     private boolean discoveredDealersIdentity;
 
     private boolean discoveredTruth;
 
-    // ============================================================
-    // PROGRESSO NARRATIVO
-    // ============================================================
+    private boolean discoveredRelationship;
 
-    private int dialogueProgress;
+    private boolean discoveredFamilyConflict;
 
-    private int revelationLevel;
-
-    private int suspicionLevel;
+    private boolean discoveredAccident;
 
     // ============================================================
-    // ESCOLHAS
+    // PARTIDA
     // ============================================================
 
-    private int choicesMade;
+    private int roundNumber;
 
-    private int aggressiveChoices;
+    private int playerScore;
 
-    private int compassionateChoices;
+    private int aliceScore;
 
-    private int suspiciousChoices;
+    private int tableValue;
 
-    // ============================================================
-    // DEALER
-    // ============================================================
+    private boolean playerHasWonRound;
 
-    private boolean dealerRevealed;
+    private boolean aliceHasWonRound;
 
-    private boolean dealerManipulating;
-
-    private boolean dealerLied;
-
-    private int dealerInterventions;
+    private boolean instantVictoryDetected;
 
     // ============================================================
-    // ALICE
+    // FINAIS
     // ============================================================
 
-    private int aliceTrust;
+    private int ending;
 
-    private int aliceAnger;
-
-    private int aliceFear;
-
-    private boolean aliceKnowsTruth;
-
-    // ============================================================
-    // PLAYER
-    // ============================================================
-
-    private int playerConfidence;
-
-    private int playerFear;
-
-    private boolean playerKnowsTruth;
-
-    // ============================================================
-    // FINAL
-    // ============================================================
-
-    private boolean playerEscaped;
-
-    private boolean aliceEscaped;
-
-    private boolean badEnding;
-
-    private String endingType;
+    private boolean gameFinished;
 
     // ============================================================
     // CONSTRUTOR
@@ -193,104 +104,49 @@ public class GameState {
 
     public GameState() {
 
-        reset();
-    }
-
-    // ============================================================
-    // RESET
-    // ============================================================
-
-    public void reset() {
-
         currentState = State.INTRO;
 
-        round = 0;
+        hour = 23;
+        minute = 47;
+        seconds = 0;
 
-        playerWins = 0;
+        clockRunning = true;
 
-        aliceWins = 0;
+        aliceTrust = 20;
 
-        draws = 0;
+        suspicionLevel = 0;
 
-        playerScore = 0;
+        dealerInfluence = 30;
 
-        aliceScore = 0;
-
-        currentBet = 1;
-
-        playerTurn = true;
-
-        aliceTurn = false;
-
-        playerCards = 0;
-
-        aliceCards = 0;
-
-        playerHasWinningHand = false;
-
-        aliceHasWinningHand = false;
-
-        discoveredBrother = false;
-
-        discoveredAlice = false;
-
-        discoveredRelationship = false;
-
-        discoveredMessages = false;
-
-        discoveredExpulsion = false;
-
-        discoveredBreakup = false;
-
-        discoveredAccident = false;
+        dealerRedemption = 0;
 
         discoveredDealersIdentity = false;
 
         discoveredTruth = false;
 
-        dialogueProgress = 0;
+        discoveredRelationship = false;
 
-        revelationLevel = 0;
+        discoveredFamilyConflict = false;
 
-        suspicionLevel = 0;
+        discoveredAccident = false;
 
-        choicesMade = 0;
+        roundNumber = 1;
 
-        aggressiveChoices = 0;
+        playerScore = 0;
 
-        compassionateChoices = 0;
+        aliceScore = 0;
 
-        suspiciousChoices = 0;
+        tableValue = 1;
 
-        dealerRevealed = false;
+        playerHasWonRound = false;
 
-        dealerManipulating = false;
+        aliceHasWonRound = false;
 
-        dealerLied = false;
+        instantVictoryDetected = false;
 
-        dealerInterventions = 0;
+        ending = 0;
 
-        aliceTrust = 0;
-
-        aliceAnger = 0;
-
-        aliceFear = 0;
-
-        aliceKnowsTruth = false;
-
-        playerConfidence = 0;
-
-        playerFear = 0;
-
-        playerKnowsTruth = false;
-
-        playerEscaped = false;
-
-        aliceEscaped = false;
-
-        badEnding = false;
-
-        endingType = "";
+        gameFinished = false;
     }
 
     // ============================================================
@@ -302,392 +158,116 @@ public class GameState {
         return currentState;
     }
 
-    public void setState(State state) {
+    public void setCurrentState(
+        State state
+    ) {
 
-        if (state == null) {
+        if (state != null) {
+
+            currentState = state;
+        }
+    }
+
+    // ============================================================
+    // RELÓGIO
+    // ============================================================
+
+    public int getHour() {
+
+        return hour;
+    }
+
+    public int getMinute() {
+
+        return minute;
+    }
+
+    public int getSeconds() {
+
+        return seconds;
+    }
+
+    public boolean isClockRunning() {
+
+        return clockRunning;
+    }
+
+    public void setClockRunning(
+        boolean running
+    ) {
+
+        clockRunning = running;
+    }
+
+    public void advanceTime(
+        int secondsToAdd
+    ) {
+
+        if (secondsToAdd <= 0) {
 
             return;
         }
 
-        currentState = state;
-    }
+        seconds += secondsToAdd;
 
-    public boolean is(State state) {
+        while (seconds >= 60) {
 
-        return currentState == state;
-    }
-
-    // ============================================================
-    // RODADAS
-    // ============================================================
-
-    public void nextRound() {
-
-        round++;
-
-        currentBet = 1;
-
-        playerHasWinningHand = false;
-
-        aliceHasWinningHand = false;
-
-        currentState = State.PLAYER_TURN;
-    }
-
-    public int getRound() {
-
-        return round;
-    }
-
-    public int getPlayerWins() {
-
-        return playerWins;
-    }
-
-    public int getAliceWins() {
-
-        return aliceWins;
-    }
-
-    public int getDraws() {
-
-        return draws;
-    }
-
-    public void playerWinsRound() {
-
-        playerWins++;
-    }
-
-    public void aliceWinsRound() {
-
-        aliceWins++;
-    }
-
-    public void registerDraw() {
-
-        draws++;
-    }
-
-    // ============================================================
-    // PONTUAÇÃO
-    // ============================================================
-
-    public int getPlayerScore() {
-
-        return playerScore;
-    }
-
-    public int getAliceScore() {
-
-        return aliceScore;
-    }
-
-    public int getCurrentBet() {
-
-        return currentBet;
-    }
-
-    public void setCurrentBet(
-        int value
-    ) {
-
-        if (value < 1) {
-
-            value = 1;
+            seconds -= 60;
+            minute++;
         }
 
-        currentBet = value;
-    }
+        while (minute >= 60) {
 
-    public void increaseBet() {
+            minute -= 60;
+            hour++;
+        }
 
-        switch (currentBet) {
+        while (hour >= 24) {
 
-            case 1:
-
-                currentBet = 3;
-
-                break;
-
-            case 3:
-
-                currentBet = 6;
-
-                break;
-
-            case 6:
-
-                currentBet = 9;
-
-                break;
-
-            case 9:
-
-                currentBet = 12;
-
-                break;
-
-            default:
-
-                currentBet = 12;
-
-                break;
+            hour -= 24;
         }
     }
 
-    public void addPlayerScore(
-        int amount
-    ) {
+    public String getFormattedTime() {
 
-        if (amount > 0) {
-
-            playerScore += amount;
-        }
-    }
-
-    public void addAliceScore(
-        int amount
-    ) {
-
-        if (amount > 0) {
-
-            aliceScore += amount;
-        }
-    }
-
-    // ============================================================
-    // VEZ
-    // ============================================================
-
-    public void setPlayerTurn() {
-
-        playerTurn = true;
-
-        aliceTurn = false;
-
-        currentState = State.PLAYER_TURN;
-    }
-
-    public void setAliceTurn() {
-
-        playerTurn = false;
-
-        aliceTurn = true;
-
-        currentState = State.ALICE_TURN;
-    }
-
-    public boolean isPlayerTurn() {
-
-        return playerTurn;
-    }
-
-    public boolean isAliceTurn() {
-
-        return aliceTurn;
-    }
-
-    // ============================================================
-    // CARTAS
-    // ============================================================
-
-    public void setPlayerCards(
-        int cards
-    ) {
-
-        playerCards = Math.max(
-            0,
-            cards
+        return String.format(
+            "%02d:%02d:%02d",
+            hour,
+            minute,
+            seconds
         );
     }
 
-    public void setAliceCards(
-        int cards
+    // ============================================================
+    // ALICE
+    // ============================================================
+
+    public int getAliceTrust() {
+
+        return aliceTrust;
+    }
+
+    public void increaseAliceTrust(
+        int amount
     ) {
 
-        aliceCards = Math.max(
-            0,
-            cards
-        );
+        aliceTrust += amount;
+
+        if (aliceTrust > 100) {
+
+            aliceTrust = 100;
+        }
     }
 
-    public int getPlayerCards() {
-
-        return playerCards;
-    }
-
-    public int getAliceCards() {
-
-        return aliceCards;
-    }
-
-    // ============================================================
-    // MÃO VENCEDORA
-    // ============================================================
-
-    public void setPlayerWinningHand(
-        boolean value
+    public void decreaseAliceTrust(
+        int amount
     ) {
 
-        playerHasWinningHand = value;
-    }
+        aliceTrust -= amount;
 
-    public void setAliceWinningHand(
-        boolean value
-    ) {
+        if (aliceTrust < 0) {
 
-        aliceHasWinningHand = value;
-    }
-
-    public boolean playerHasWinningHand() {
-
-        return playerHasWinningHand;
-    }
-
-    public boolean aliceHasWinningHand() {
-
-        return aliceHasWinningHand;
-    }
-
-    // ============================================================
-    // DESCOBERTAS
-    // ============================================================
-
-    public boolean discoveredBrother() {
-
-        return discoveredBrother;
-    }
-
-    public void discoverBrother() {
-
-        discoveredBrother = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredAlice() {
-
-        return discoveredAlice;
-    }
-
-    public void discoverAlice() {
-
-        discoveredAlice = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredRelationship() {
-
-        return discoveredRelationship;
-    }
-
-    public void discoverRelationship() {
-
-        discoveredRelationship = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredMessages() {
-
-        return discoveredMessages;
-    }
-
-    public void discoverMessages() {
-
-        discoveredMessages = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredExpulsion() {
-
-        return discoveredExpulsion;
-    }
-
-    public void discoverExpulsion() {
-
-        discoveredExpulsion = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredBreakup() {
-
-        return discoveredBreakup;
-    }
-
-    public void discoverBreakup() {
-
-        discoveredBreakup = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredAccident() {
-
-        return discoveredAccident;
-    }
-
-    public void discoverAccident() {
-
-        discoveredAccident = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredDealersIdentity() {
-
-        return discoveredDealersIdentity;
-    }
-
-    public void discoverDealersIdentity() {
-
-        discoveredDealersIdentity = true;
-
-        dealerRevealed = true;
-
-        increaseRevelation();
-    }
-
-    public boolean discoveredTruth() {
-
-        return discoveredTruth;
-    }
-
-    public void discoverTruth() {
-
-        discoveredTruth = true;
-
-        increaseRevelation();
-    }
-
-    // ============================================================
-    // PROGRESSO
-    // ============================================================
-
-    public int getDialogueProgress() {
-
-        return dialogueProgress;
-    }
-
-    public void advanceDialogue() {
-
-        dialogueProgress++;
-    }
-
-    public int getRevelationLevel() {
-
-        return revelationLevel;
-    }
-
-    public void increaseRevelation() {
-
-        if (revelationLevel < 100) {
-
-            revelationLevel++;
+            aliceTrust = 0;
         }
     }
 
@@ -698,14 +278,6 @@ public class GameState {
     public int getSuspicionLevel() {
 
         return suspicionLevel;
-    }
-
-    public void increaseSuspicion() {
-
-        if (suspicionLevel < 100) {
-
-            suspicionLevel++;
-        }
     }
 
     public void increaseSuspicion(
@@ -720,526 +292,279 @@ public class GameState {
         }
     }
 
-    // ============================================================
-    // ESCOLHAS
-    // ============================================================
+    public void decreaseSuspicion(
+        int amount
+    ) {
 
-    public void registerChoice() {
+        suspicionLevel -= amount;
 
-        choicesMade++;
-    }
+        if (suspicionLevel < 0) {
 
-    public void registerAggressiveChoice() {
-
-        choicesMade++;
-
-        aggressiveChoices++;
-
-        aliceAnger += 3;
-
-        if (aliceAnger > 100) {
-
-            aliceAnger = 100;
+            suspicionLevel = 0;
         }
-    }
-
-    public void registerCompassionateChoice() {
-
-        choicesMade++;
-
-        compassionateChoices++;
-
-        aliceTrust += 3;
-
-        if (aliceTrust > 100) {
-
-            aliceTrust = 100;
-        }
-    }
-
-    public void registerSuspiciousChoice() {
-
-        choicesMade++;
-
-        suspiciousChoices++;
-
-        increaseSuspicion(4);
-    }
-
-    public int getChoicesMade() {
-
-        return choicesMade;
-    }
-
-    public int getAggressiveChoices() {
-
-        return aggressiveChoices;
-    }
-
-    public int getCompassionateChoices() {
-
-        return compassionateChoices;
-    }
-
-    public int getSuspiciousChoices() {
-
-        return suspiciousChoices;
     }
 
     // ============================================================
     // DEALER
     // ============================================================
 
-    public void dealerIntervened() {
+    public int getDealerInfluence() {
 
-        dealerInterventions++;
-
-        dealerManipulating = true;
+        return dealerInfluence;
     }
 
-    public int getDealerInterventions() {
+    public void increaseDealerInfluence(
+        int amount
+    ) {
 
-        return dealerInterventions;
+        dealerInfluence += amount;
+
+        if (dealerInfluence > 100) {
+
+            dealerInfluence = 100;
+        }
     }
 
-    public boolean isDealerRevealed() {
+    public void decreaseDealerInfluence(
+        int amount
+    ) {
 
-        return dealerRevealed;
+        dealerInfluence -= amount;
+
+        if (dealerInfluence < 0) {
+
+            dealerInfluence = 0;
+        }
     }
 
-    public void setDealerManipulating(
+    public int getDealerRedemption() {
+
+        return dealerRedemption;
+    }
+
+    public void increaseDealerRedemption(
+        int amount
+    ) {
+
+        dealerRedemption += amount;
+
+        if (dealerRedemption > 100) {
+
+            dealerRedemption = 100;
+        }
+    }
+
+    // ============================================================
+    // DESCOBERTAS
+    // ============================================================
+
+    public boolean discoveredDealersIdentity() {
+
+        return discoveredDealersIdentity;
+    }
+
+    public void discoverDealerIdentity() {
+
+        discoveredDealersIdentity = true;
+
+        increaseSuspicion(20);
+    }
+
+    public boolean discoveredTruth() {
+
+        return discoveredTruth;
+    }
+
+    public void discoverTruth() {
+
+        discoveredTruth = true;
+
+        increaseSuspicion(15);
+    }
+
+    public boolean discoveredRelationship() {
+
+        return discoveredRelationship;
+    }
+
+    public void discoverRelationship() {
+
+        discoveredRelationship = true;
+
+        increaseAliceTrust(5);
+    }
+
+    public boolean discoveredFamilyConflict() {
+
+        return discoveredFamilyConflict;
+    }
+
+    public void discoverFamilyConflict() {
+
+        discoveredFamilyConflict = true;
+    }
+
+    public boolean discoveredAccident() {
+
+        return discoveredAccident;
+    }
+
+    public void discoverAccident() {
+
+        discoveredAccident = true;
+    }
+
+    // ============================================================
+    // PARTIDA
+    // ============================================================
+
+    public int getRoundNumber() {
+
+        return roundNumber;
+    }
+
+    public void nextRound() {
+
+        roundNumber++;
+
+        playerHasWonRound = false;
+
+        aliceHasWonRound = false;
+
+        instantVictoryDetected = false;
+
+        tableValue = 1;
+    }
+
+    public int getPlayerScore() {
+
+        return playerScore;
+    }
+
+    public int getAliceScore() {
+
+        return aliceScore;
+    }
+
+    public void addPlayerScore(
+        int amount
+    ) {
+
+        playerScore += amount;
+    }
+
+    public void addAliceScore(
+        int amount
+    ) {
+
+        aliceScore += amount;
+    }
+
+    public int getTableValue() {
+
+        return tableValue;
+    }
+
+    public void setTableValue(
+        int value
+    ) {
+
+        tableValue = Math.max(
+            1,
+            value
+        );
+    }
+
+    public boolean playerWonRound() {
+
+        return playerHasWonRound;
+    }
+
+    public boolean aliceWonRound() {
+
+        return aliceHasWonRound;
+    }
+
+    public void setPlayerWonRound(
         boolean value
     ) {
 
-        dealerManipulating = value;
+        playerHasWonRound = value;
     }
 
-    public boolean isDealerManipulating() {
-
-        return dealerManipulating;
-    }
-
-    public void dealerLied() {
-
-        dealerLied = true;
-
-        increaseSuspicion();
-    }
-
-    public boolean didDealerLie() {
-
-        return dealerLied;
-    }
-
-    // ============================================================
-    // ALICE
-    // ============================================================
-
-    public int getAliceTrust() {
-
-        return aliceTrust;
-    }
-
-    public int getAliceAnger() {
-
-        return aliceAnger;
-    }
-
-    public int getAliceFear() {
-
-        return aliceFear;
-    }
-
-    public void increaseAliceFear(
-        int amount
-    ) {
-
-        aliceFear += amount;
-
-        if (aliceFear > 100) {
-
-            aliceFear = 100;
-        }
-    }
-
-    public void decreaseAliceFear(
-        int amount
-    ) {
-
-        aliceFear -= amount;
-
-        if (aliceFear < 0) {
-
-            aliceFear = 0;
-        }
-    }
-
-    public void setAliceKnowsTruth(
+    public void setAliceWonRound(
         boolean value
     ) {
 
-        aliceKnowsTruth = value;
-    }
-
-    public boolean aliceKnowsTruth() {
-
-        return aliceKnowsTruth;
+        aliceHasWonRound = value;
     }
 
     // ============================================================
-    // PLAYER
+    // VITÓRIA INSTANTÂNEA
     // ============================================================
 
-    public int getPlayerConfidence() {
+    public boolean instantVictoryDetected() {
 
-        return playerConfidence;
+        return instantVictoryDetected;
     }
 
-    public void increasePlayerConfidence(
-        int amount
-    ) {
-
-        playerConfidence += amount;
-
-        if (playerConfidence > 100) {
-
-            playerConfidence = 100;
-        }
-    }
-
-    public int getPlayerFear() {
-
-        return playerFear;
-    }
-
-    public void increasePlayerFear(
-        int amount
-    ) {
-
-        playerFear += amount;
-
-        if (playerFear > 100) {
-
-            playerFear = 100;
-        }
-    }
-
-    public void decreasePlayerFear(
-        int amount
-    ) {
-
-        playerFear -= amount;
-
-        if (playerFear < 0) {
-
-            playerFear = 0;
-        }
-    }
-
-    public void setPlayerKnowsTruth(
+    public void setInstantVictoryDetected(
         boolean value
     ) {
 
-        playerKnowsTruth = value;
-    }
-
-    public boolean playerKnowsTruth() {
-
-        return playerKnowsTruth;
+        instantVictoryDetected = value;
     }
 
     // ============================================================
     // FINAL
     // ============================================================
 
-    public void setPlayerEscaped(
+    public boolean isGameFinished() {
+
+        return gameFinished;
+    }
+
+    public void setGameFinished(
         boolean value
     ) {
 
-        playerEscaped = value;
+        gameFinished = value;
     }
 
-    public void setAliceEscaped(
-        boolean value
+    public int getEnding() {
+
+        return ending;
+    }
+
+    public void setEnding(
+        int ending
     ) {
 
-        aliceEscaped = value;
-    }
+        if (ending >= 1 && ending <= 6) {
 
-    public boolean playerEscaped() {
-
-        return playerEscaped;
-    }
-
-    public boolean aliceEscaped() {
-
-        return aliceEscaped;
-    }
-
-    public void setBadEnding(
-        boolean value
-    ) {
-
-        badEnding = value;
-    }
-
-    public boolean isBadEnding() {
-
-        return badEnding;
-    }
-
-    public void setEndingType(
-        String type
-    ) {
-
-        if (type == null) {
-
-            endingType = "UNKNOWN";
-
-        } else {
-
-            endingType = type;
+            this.ending = ending;
         }
     }
 
-    public String getEndingType() {
+    // ============================================================
+    // CONDIÇÕES DE FINAL
+    // ============================================================
 
-        return endingType;
+    public boolean canReachGoodEnding() {
+
+        return
+            aliceTrust >= 70 &&
+            dealerRedemption >= 60 &&
+            discoveredTruth;
     }
 
-    // ============================================================
-    // RESUMO DA HISTÓRIA
-    // ============================================================
-
-    public String getStoryProgress() {
-
-        StringBuilder result =
-            new StringBuilder();
-
-        result.append(
-            "PROGRESSO DA HISTÓRIA\n"
-        );
-
-        result.append(
-            "Irmão: "
-        );
-
-        result.append(
-            discoveredBrother
-                ? "DESCOBERTO"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Alice: "
-        );
-
-        result.append(
-            discoveredAlice
-                ? "DESCOBERTA"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Relacionamento: "
-        );
-
-        result.append(
-            discoveredRelationship
-                ? "DESCOBERTO"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Mensagens: "
-        );
-
-        result.append(
-            discoveredMessages
-                ? "DESCOBERTAS"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Expulsão: "
-        );
-
-        result.append(
-            discoveredExpulsion
-                ? "DESCOBERTA"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Término: "
-        );
-
-        result.append(
-            discoveredBreakup
-                ? "DESCOBERTO"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Acidente: "
-        );
-
-        result.append(
-            discoveredAccident
-                ? "DESCOBERTO"
-                : "???"
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Identidade do Dealer: "
-        );
-
-        result.append(
-            discoveredDealersIdentity
-                ? "DESCOBERTA"
-                : "???"
-        );
-
-        return result.toString();
-    }
-
-    // ============================================================
-    // RESUMO COMPLETO
-    // ============================================================
-
-    public String getStatus() {
-
-        StringBuilder result =
-            new StringBuilder();
-
-        result.append(
-            "================================\n"
-        );
-
-        result.append(
-            "          GAME STATE\n"
-        );
-
-        result.append(
-            "================================\n"
-        );
-
-        result.append(
-            "Estado: "
-        );
-
-        result.append(
-            currentState
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Rodada: "
-        );
-
-        result.append(
-            round
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Placar: "
-        );
-
-        result.append(
-            playerScore
-        );
-
-        result.append(
-            " x "
-        );
-
-        result.append(
-            aliceScore
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Aposta: "
-        );
-
-        result.append(
-            currentBet
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Revelação: "
-        );
-
-        result.append(
-            revelationLevel
-        );
-
-        result.append("%\n");
-
-        result.append(
-            "Suspeita: "
-        );
-
-        result.append(
-            suspicionLevel
-        );
-
-        result.append("%\n");
-
-        result.append(
-            "Confiança Alice: "
-        );
-
-        result.append(
-            aliceTrust
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Medo Alice: "
-        );
-
-        result.append(
-            aliceFear
-        );
-
-        result.append("\n");
-
-        result.append(
-            "Medo Leo: "
-        );
-
-        result.append(
-            playerFear
-        );
-
-        result.append("\n");
-
-        result.append(
-            "================================"
-        );
-
-        return result.toString();
+    public boolean canReachBestEnding() {
+
+        return
+            aliceTrust >= 85 &&
+            dealerRedemption >= 80 &&
+            discoveredTruth &&
+            discoveredDealersIdentity;
     }
 }
+```
