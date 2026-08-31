@@ -1,1101 +1,968 @@
-```javascript
+/* =====================================================
+   LAST CHANCE
+   GAME.JS
+===================================================== */
+
 "use strict";
 
-/*
-===============================================================
-                       LAST CHANCE
-                       GAME.JS
-===============================================================
 
-Motor principal da versão web.
+/* =====================================================
+   CONFIGURAÇÃO
+===================================================== */
 
-Responsável por:
-- Leo
-- Alice
-- Dealer
-- Relógio
-- Baralho
-- Truco
-- Apostas
-- Confiança
-- Medo
-- Suspeita
-- Influência do Dealer
-- Descobertas
-- Diálogos
-- Finais
-
-A interface será controlada posteriormente pelo HTML + CSS.
-===============================================================
-*/
-
-
-// =============================================================
-// CONFIGURAÇÕES
-// =============================================================
-
-const CONFIG = {
-
-    START_TIME: {
-        hour: 23,
-        minute: 47,
-        second: 0
-    },
-
-    MAX_STAT: 100,
-
-    CARDS_PER_PLAYER: 3,
-
-    MAX_TRUCO_VALUE: 12,
-
-    TIME_PER_ACTION: 10,
-
-    TIME_PER_DIALOGUE: 20
-
-};
-
-
-// =============================================================
-// ESTADO GLOBAL
-// =============================================================
-
-const Game = {
-
-    running: false,
-
-    state: "INTRO",
+const GAME = {
 
     round: 1,
+
+    clockSeconds: 0,
+
+    maxRounds: 12,
+
+    bet: 1,
 
     playerScore: 0,
 
     aliceScore: 0,
 
-    tableValue: 1,
-
-    instantVictory: false,
-
-    gameFinished: false,
-
-    ending: null,
-
-    clock: {
-
-        hour: CONFIG.START_TIME.hour,
-
-        minute: CONFIG.START_TIME.minute,
-
-        second: CONFIG.START_TIME.second,
-
-        running: true
-
-    },
-
-    discoveries: {
-
-        dealerIdentity: false,
-
-        relationship: false,
-
-        familyConflict: false,
-
-        accident: false,
-
-        truth: false
-
-    }
-
-};
-
-
-// =============================================================
-// LEO
-// =============================================================
-
-const Player = {
-
-    name: "Leo",
+    playerChips: 100,
 
     health: 100,
 
-    maxHealth: 100,
-
     fear: 20,
 
-    confidence: 50,
+    stability: 100,
 
-    mentalStability: 100,
-
-    dealerResistance: 0,
-
-    chips: 100,
-
-    hand: [],
-
-    roundsWon: 0,
-
-    roundsLost: 0,
-
-    trucoCalls: 0,
-
-    bluffs: 0,
-
-    compassionateChoices: 0,
-
-    cruelChoices: 0,
-
-
-    damageMental(amount) {
-
-        this.mentalStability -= amount;
-
-        clampPlayer();
-
-    },
-
-
-    recoverMental(amount) {
-
-        this.mentalStability += amount;
-
-        clampPlayer();
-
-    },
-
-
-    increaseFear(amount) {
-
-        this.fear += amount;
-
-        clampPlayer();
-
-    },
-
-
-    decreaseFear(amount) {
-
-        this.fear -= amount;
-
-        clampPlayer();
-
-    },
-
-
-    increaseConfidence(amount) {
-
-        this.confidence += amount;
-
-        clampPlayer();
-
-    },
-
-
-    decreaseConfidence(amount) {
-
-        this.confidence -= amount;
-
-        clampPlayer();
-
-    },
-
-
-    resistDealer(amount) {
-
-        this.dealerResistance += amount;
-
-        clampPlayer();
-
-    },
-
-
-    loseChips(amount) {
-
-        this.chips -= amount;
-
-        if (this.chips < 0) {
-
-            this.chips = 0;
-
-        }
-
-    },
-
-
-    gainChips(amount) {
-
-        this.chips += amount;
-
-    }
-
-};
-
-
-// =============================================================
-// ALICE
-// =============================================================
-
-const Alice = {
-
-    name: "Alice",
+    resistance: 0,
 
     trust: 20,
 
-    fear: 35,
+    aliceFear: 35,
 
     suspicion: 10,
 
-    anger: 5,
-
     hope: 40,
 
-    score: 0,
+    running: false,
 
-    hand: [],
+    turn: "player",
 
-    turn: false,
+    playerHand: [],
 
-    remembersBrother: false,
+    aliceHand: [],
 
-    knowsDealerIdentity: false,
+    usedCards: [],
 
+    history: [],
 
-    increaseTrust(amount) {
-
-        this.trust += amount;
-
-        clampAlice();
-
-    },
-
-
-    decreaseTrust(amount) {
-
-        this.trust -= amount;
-
-        clampAlice();
-
-    },
-
-
-    increaseFear(amount) {
-
-        this.fear += amount;
-
-        clampAlice();
-
-    },
-
-
-    decreaseFear(amount) {
-
-        this.fear -= amount;
-
-        clampAlice();
-
-    },
-
-
-    increaseSuspicion(amount) {
-
-        this.suspicion += amount;
-
-        clampAlice();
-
-    },
-
-
-    decreaseSuspicion(amount) {
-
-        this.suspicion -= amount;
-
-        clampAlice();
-
-    },
-
-
-    increaseHope(amount) {
-
-        this.hope += amount;
-
-        clampAlice();
-
-    },
-
-
-    decreaseHope(amount) {
-
-        this.hope -= amount;
-
-        clampAlice();
-
-    },
-
-
-    increaseAnger(amount) {
-
-        this.anger += amount;
-
-        clampAlice();
-
-    },
-
-
-    decreaseAnger(amount) {
-
-        this.anger -= amount;
-
-        clampAlice();
-
-    },
-
-
-    getMood() {
-
-        if (this.fear >= 80) {
-
-            return "APAVORADA";
-
-        }
-
-        if (this.anger >= 75) {
-
-            return "FURIOSA";
-
-        }
-
-        if (this.suspicion >= 70) {
-
-            return "DESCONFIADA";
-
-        }
-
-        if (this.trust >= 75) {
-
-            return "CONFIANTE";
-
-        }
-
-        if (this.hope >= 70) {
-
-            return "ESPERANÇOSA";
-
-        }
-
-        return "TENSIONADA";
-
-    }
+    ending: null
 
 };
 
 
-// =============================================================
-// DEALER
-// =============================================================
+/* =====================================================
+   CARTAS
+===================================================== */
 
-const Dealer = {
+const CARD_VALUES = {
 
-    name: "Dealer",
+    "4": 1,
+    "5": 2,
+    "6": 3,
+    "7": 4,
+    "Q": 5,
+    "J": 6,
+    "K": 7,
+    "A": 8,
+    "2": 9,
+    "3": 10
 
-    influence: 30,
-
-    redemption: 0,
-
-    patience: 100,
-
-    irritation: 0,
-
-    identityRevealed: false,
-
-    active: true,
+};
 
 
-    lines: [
+/* =====================================================
+   DIÁLOGOS
+===================================================== */
 
-        "Boa noite, Leo.",
+const DIALOGUES = {
 
-        "Vamos jogar.",
+    dealer: [
 
-        "Você está tremendo.",
+        "Olha só quem finalmente decidiu aparecer.",
 
-        "Não precisa ficar nervoso.",
+        "Não façam essa cara. Eu preparei tudo com carinho.",
 
-        "Alice, você confia nele?",
+        "Alice, você ainda confia nele?",
 
-        "Isso está ficando divertido.",
+        "Leo, você ainda acha que sabe quem está sentado aí?",
 
-        "Não parem agora.",
+        "Interessante... essa carta pode mudar tudo.",
 
-        "Eu esperava mais de vocês.",
+        "Eu não aconselharia essa jogada. Mas também não aconselho quase nada.",
 
-        "Vocês realmente não lembram?",
+        "Vocês dois são terrivelmente previsíveis.",
 
-        "Que memória conveniente.",
+        "Truco? Agora ficou interessante.",
 
-        "Ah, essa expressão.",
+        "Ah. Essa mão é perigosa.",
 
-        "Não olha para mim assim.",
+        "Eu conheço essa expressão, Alice.",
 
-        "Eu estou apenas ajudando.",
+        "Leo... você percebeu o que acabou de acontecer?",
 
-        "Vocês dois têm muito o que conversar.",
+        "Não parem agora. Eu estava começando a me divertir.",
 
-        "Essa partida vai durar o quanto eu quiser.",
+        "Vocês poderiam simplesmente conversar.",
 
-        "Não estraguem minha diversão.",
+        "Mas aí eu não teria nada para fazer.",
 
-        "Você sempre foi curioso, Leo.",
-
-        "Alice sabe mais do que imagina.",
-
-        "Talvez vocês devessem confiar em mim.",
-
-        "Ou talvez não."
+        "Que pena que algumas coisas chegam tarde demais."
 
     ],
 
+    alice: [
 
-    speak() {
+        "Eu não gosto desse cara.",
 
-        if (!this.active) {
+        "Você parece diferente do que eu imaginava.",
 
-            return;
+        "Não sei se posso confiar em você.",
 
-        }
+        "Por que ele fica olhando para nós desse jeito?",
 
-        const index =
-            Math.floor(
-                Math.random() *
-                this.lines.length
-            );
+        "Você conhece ele?",
 
-        dialogue(
-            this.name,
-            this.lines[index]
-        );
+        "Essa partida está ficando estranha.",
 
-    },
+        "Não precisa aumentar a aposta.",
 
+        "Eu só quero ir embora.",
 
-    increaseInfluence(amount) {
+        "Você realmente acha que isso vai terminar bem?",
 
-        this.influence += amount;
+        "Leo... posso te fazer uma pergunta?",
 
-        clampDealer();
+        "Tem alguma coisa que você não está me contando.",
 
-    },
+        "Não quero continuar assim.",
 
+        "Talvez a gente devesse parar de ouvir ele.",
 
-    decreaseInfluence(amount) {
+        "Você também percebeu que ele está mentindo?",
 
-        this.influence -= amount;
-
-        clampDealer();
-
-    },
-
-
-    increaseRedemption(amount) {
-
-        this.redemption += amount;
-
-        clampDealer();
-
-    },
-
-
-    increaseIrritation(amount) {
-
-        this.irritation += amount;
-
-        clampDealer();
-
-    }
-
-};
-
-
-// =============================================================
-// BARALHO
-// =============================================================
-
-const Deck = {
-
-    cards: [
-
-        "4♣",
-        "5♣",
-        "6♣",
-        "7♣",
-
-        "Q♥",
-        "J♥",
-        "K♥",
-
-        "A♠",
-        "2♠",
-        "3♠",
-
-        "Q♦",
-        "J♦",
-        "K♦",
-
-        "A♣",
-        "2♣",
-        "3♣"
+        "Eu lembro de alguma coisa..."
 
     ],
 
+    leo: [
 
-    create() {
+        "Quem é você?",
 
-        return [
-            ...this.cards
-        ];
+        "Eu não lembro de ter vindo aqui.",
 
-    },
+        "Por que você sabe meu nome?",
 
+        "Alice, espera.",
 
-    shuffle(deck) {
+        "Tem alguma coisa errada nessa partida.",
 
-        for (
-            let i = deck.length - 1;
-            i > 0;
-            i--
-        ) {
+        "Eu não confio nesse sujeito.",
 
-            const j =
-                Math.floor(
-                    Math.random() *
-                    (i + 1)
-                );
+        "Vamos descobrir a verdade.",
 
-            [
-                deck[i],
-                deck[j]
-            ] =
-            [
-                deck[j],
-                deck[i]
-            ];
+        "Não vou deixar ele decidir por nós."
 
-        }
-
-        return deck;
-
-    }
+    ]
 
 };
 
 
-let CurrentDeck = [];
+/* =====================================================
+   ELEMENTOS HTML
+===================================================== */
+
+const $ = (id) => document.getElementById(id);
 
 
-// =============================================================
-// INVENTÁRIO
-// =============================================================
+const titleScreen = $("title-screen");
+const gameScreen = $("game-screen");
+const endingScreen = $("ending-screen");
 
-const Inventory = {
+const startButton = $("start-button");
+const restartButton = $("restart-button");
 
-    items: [],
+const clockElement = $("digital-clock");
+const roundElement = $("round-number");
+
+const dialogueSpeaker = $("dialogue-speaker");
+const dialogueText = $("dialogue-text");
+
+const aliceMood = $("alice-mood");
+
+const aliceTrustValue = $("alice-trust-value");
+const aliceTrustBar = $("alice-trust-bar");
+
+const aliceFearValue = $("alice-fear-value");
+const aliceFearBar = $("alice-fear-bar");
+
+const aliceSuspicionValue = $("alice-suspicion-value");
+const aliceSuspicionBar = $("alice-suspicion-bar");
+
+const aliceHopeValue = $("alice-hope-value");
+const aliceHopeBar = $("alice-hope-bar");
+
+const aliceScore = $("alice-score");
+const aliceScoreFooter = $("alice-score-footer");
+
+const playerHealthValue = $("player-health-value");
+const playerHealthBar = $("player-health-bar");
+
+const playerFearValue = $("player-fear-value");
+
+const playerStabilityValue = $("player-stability-value");
+const playerStabilityBar = $("player-stability-bar");
+
+const playerChips = $("player-chips");
+const playerScore = $("player-score");
+
+const currentBet = $("current-bet");
+const statusBet = $("status-bet");
+
+const playerCardsElement = $("player-cards");
+
+const playerPlayedCard = $("player-played-card");
+const alicePlayedCard = $("alice-played-card");
+
+const actionTruco = $("action-truco");
+const actionCompassion = $("action-compassion");
+const actionSuspicion = $("action-suspicion");
+const actionSilence = $("action-silence");
 
 
-    add(item) {
+/* =====================================================
+   UTILIDADES
+===================================================== */
 
-        if (
-            !this.items.includes(item)
-        ) {
+function random(array) {
 
-            this.items.push(item);
-
-        }
-
-    },
-
-
-    remove(item) {
-
-        const index =
-            this.items.indexOf(item);
-
-        if (index !== -1) {
-
-            this.items.splice(
-                index,
-                1
-            );
-
-        }
-
-    },
-
-
-    has(item) {
-
-        return this.items.includes(item);
-
-    }
-
-};
-
-
-// =============================================================
-// INICIAR JOGO
-// =============================================================
-
-function startGame() {
-
-    Game.running = true;
-
-    Game.state = "INTRO";
-
-    Game.gameFinished = false;
-
-    Game.ending = null;
-
-    showDialogueSequence();
+    return array[
+        Math.floor(Math.random() * array.length)
+    ];
 
 }
 
 
-// =============================================================
-// INTRO
-// =============================================================
+function clamp(value, min, max) {
 
-function showDialogueSequence() {
+    return Math.max(
+        min,
+        Math.min(max, value)
+    );
 
-    const sequence = [
+}
 
-        {
-            speaker: "Dealer",
-            text: "Boa noite, Leo."
-        },
 
-        {
-            speaker: "Leo",
-            text: "Onde eu estou?"
-        },
+function changeStat(name, amount) {
 
-        {
-            speaker: "Alice",
-            text: "Eu... também não sei."
-        },
+    GAME[name] = clamp(
+        GAME[name] + amount,
+        0,
+        100
+    );
 
-        {
-            speaker: "Dealer",
-            text: "Não importa."
-        },
+}
 
-        {
-            speaker: "Dealer",
-            text: "Sentem-se."
-        },
 
-        {
-            speaker: "Alice",
-            text: "Você conhece ele?"
-        },
+/* =====================================================
+   RELÓGIO
+===================================================== */
 
-        {
-            speaker: "Dealer",
-            text: "Conheço."
-        },
+let clockInterval = null;
 
-        {
-            speaker: "Leo",
-            text: "De onde?"
-        },
 
-        {
-            speaker: "Dealer",
-            text: "Isso vocês vão descobrir."
+function startClock() {
+
+    clearInterval(clockInterval);
+
+    clockInterval = setInterval(() => {
+
+        if (!GAME.running) {
+            return;
+        }
+
+        GAME.clockSeconds++;
+
+        updateClock();
+
+        if (GAME.clockSeconds > 300) {
+
+            finishGame(
+                "TEMPO ESGOTADO",
+                "O terminal encerrou a sessão antes que qualquer um de vocês encontrasse uma saída."
+            );
 
         }
+
+    }, 1000);
+
+}
+
+
+function updateClock() {
+
+    const baseHour = 23;
+
+    const minutes =
+        Math.floor(GAME.clockSeconds / 60);
+
+    const seconds =
+        GAME.clockSeconds % 60;
+
+    const minuteString =
+        String(minutes).padStart(2, "0");
+
+    const secondString =
+        String(seconds).padStart(2, "0");
+
+    clockElement.textContent =
+        `${baseHour}:${minuteString}:${secondString}`;
+
+}
+
+
+/* =====================================================
+   DIÁLOGO
+===================================================== */
+
+function say(speaker, text) {
+
+    dialogueSpeaker.textContent = speaker;
+
+    dialogueText.textContent = text;
+
+}
+
+
+function dealerTalk() {
+
+    say(
+        "DEALER",
+        random(DIALOGUES.dealer)
+    );
+
+}
+
+
+function aliceTalk() {
+
+    say(
+        "ALICE",
+        random(DIALOGUES.alice)
+    );
+
+}
+
+
+function leoTalk() {
+
+    say(
+        "LEO",
+        random(DIALOGUES.leo)
+    );
+
+}
+
+
+/* =====================================================
+   BARALHO
+===================================================== */
+
+function createDeck() {
+
+    return [
+
+        "4",
+        "5",
+        "6",
+        "7",
+
+        "Q",
+        "J",
+        "K",
+
+        "A",
+        "2",
+        "3"
 
     ];
 
+}
 
-    let delay = 0;
+
+function shuffle(array) {
+
+    const result = [...array];
+
+    for (
+        let i = result.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(Math.random() * (i + 1));
+
+        [
+            result[i],
+            result[j]
+        ] =
+        [
+            result[j],
+            result[i]
+        ];
+
+    }
+
+    return result;
+
+}
 
 
-    sequence.forEach(
-        line => {
+function dealHands() {
 
-            setTimeout(
+    let deck = shuffle(createDeck());
+
+    GAME.playerHand =
+        deck.slice(0, 3);
+
+    GAME.aliceHand =
+        deck.slice(3, 6);
+
+    renderPlayerCards();
+
+}
+
+
+/* =====================================================
+   CARTAS DO PLAYER
+===================================================== */
+
+function renderPlayerCards() {
+
+    playerCardsElement.innerHTML = "";
+
+    GAME.playerHand.forEach(
+        (card, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "card player-card";
+
+            button.textContent =
+                card;
+
+            button.dataset.index =
+                index;
+
+            button.addEventListener(
+                "click",
                 () => {
 
-                    dialogue(
-                        line.speaker,
-                        line.text
-                    );
+                    playCard(index);
 
-                },
-                delay
+                }
             );
 
-            delay += 1700;
+            playerCardsElement.appendChild(
+                button
+            );
 
         }
-    );
-
-
-    setTimeout(
-        () => {
-
-            Game.state = "WAITING";
-
-            render();
-
-        },
-        delay + 500
     );
 
 }
 
 
-// =============================================================
-// INICIAR RODADA
-// =============================================================
+/* =====================================================
+   JOGAR CARTA
+===================================================== */
 
-function startRound() {
+function playCard(index) {
+
+    if (!GAME.running) {
+        return;
+    }
+
+    if (GAME.turn !== "player") {
+        return;
+    }
+
+    if (!GAME.playerHand[index]) {
+        return;
+    }
+
+    const card =
+        GAME.playerHand[index];
+
+    GAME.playerHand.splice(
+        index,
+        1
+    );
+
+    playerPlayedCard.textContent =
+        card;
+
+    GAME.turn = "alice";
+
+    renderPlayerCards();
+
+    dealerCheckInstantWin();
+
+    if (!GAME.running) {
+        return;
+    }
+
+    setTimeout(
+        alicePlay,
+        800
+    );
+
+}
+
+
+/* =====================================================
+   ALICE JOGA
+===================================================== */
+
+function alicePlay() {
+
+    if (!GAME.running) {
+        return;
+    }
 
     if (
-        Game.gameFinished
+        GAME.aliceHand.length === 0
     ) {
+
+        nextRound();
 
         return;
 
     }
 
+    const best =
+        chooseAliceCard();
 
-    resetRound();
+    const card =
+        GAME.aliceHand.splice(
+            best,
+            1
+        )[0];
 
-    CurrentDeck =
-        Deck.shuffle(
-            Deck.create()
-        );
+    alicePlayedCard.textContent =
+        card;
 
-
-    dealCards();
-
-    Game.state =
-        "PLAYER_TURN";
-
-
-    advanceTime(5);
-
-    render();
+    resolveTrick(
+        card
+    );
 
 }
 
 
-// =============================================================
-// RESET DA RODADA
-// =============================================================
+/* =====================================================
+   IA DA ALICE
+===================================================== */
 
-function resetRound() {
+function chooseAliceCard() {
 
-    Player.hand = [];
-
-    Alice.hand = [];
-
-    Game.tableValue = 1;
-
-    Game.instantVictory = false;
-
-}
-
-
-// =============================================================
-// DISTRIBUIR CARTAS
-// =============================================================
-
-function dealCards() {
+    let bestIndex = 0;
 
     for (
-        let i = 0;
-        i < CONFIG.CARDS_PER_PLAYER;
+        let i = 1;
+        i < GAME.aliceHand.length;
         i++
     ) {
 
-        Player.hand.push(
-            CurrentDeck.pop()
-        );
+        const current =
+            CARD_VALUES[
+                GAME.aliceHand[i]
+            ];
 
-        Alice.hand.push(
-            CurrentDeck.pop()
-        );
+        const best =
+            CARD_VALUES[
+                GAME.aliceHand[bestIndex]
+            ];
+
+        if (current > best) {
+
+            bestIndex = i;
+
+        }
 
     }
 
-}
 
-
-// =============================================================
-// TURNO DO JOGADOR
-// =============================================================
-
-function playerPlayCard(index) {
+    /*
+       Alice fica mais agressiva
+       quando está desconfiada.
+    */
 
     if (
-        Game.state !== "PLAYER_TURN"
+        GAME.suspicion > 65 &&
+        Math.random() < 0.6
     ) {
 
-        return;
+        let strongest =
+            bestIndex;
+
+        return strongest;
 
     }
 
+
+    /*
+       Alice às vezes joga uma carta
+       mais fraca para testar Leo.
+    */
 
     if (
-        index < 0 ||
-        index >= Player.hand.length
+        Math.random() < 0.3 &&
+        GAME.aliceHand.length > 1
     ) {
 
-        return;
-
-    }
-
-
-    const card =
-        Player.hand.splice(
-            index,
-            1
-        )[0];
-
-
-    dialogue(
-        "Leo",
-        `Eu jogo ${card}.`
-    );
-
-
-    advanceTime(
-        CONFIG.TIME_PER_ACTION
-    );
-
-
-    Game.state =
-        "ALICE_TURN";
-
-
-    render();
-
-
-    setTimeout(
-        alicePlayCard,
-        1000
-    );
-
-}
-
-
-// =============================================================
-// TURNO DA ALICE
-// =============================================================
-
-function alicePlayCard() {
-
-    if (
-        Alice.hand.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const index =
-        Math.floor(
+        return Math.floor(
             Math.random() *
-            Alice.hand.length
+            GAME.aliceHand.length
         );
 
+    }
 
-    const card =
-        Alice.hand.splice(
-            index,
-            1
-        )[0];
+    return bestIndex;
 
-
-    dialogue(
-        "Alice",
-        "Minha vez."
-    );
+}
 
 
-    advanceTime(
-        CONFIG.TIME_PER_ACTION
-    );
+/* =====================================================
+   RESOLVER TRUCO
+===================================================== */
+
+function resolveTrick(aliceCard) {
+
+    const playerCard =
+        playerPlayedCard.textContent;
+
+    const playerValue =
+        CARD_VALUES[playerCard];
+
+    const aliceValue =
+        CARD_VALUES[aliceCard];
 
 
-    Game.state =
-        "DEALER_TURN";
+    if (
+        playerValue === undefined ||
+        aliceValue === undefined
+    ) {
+
+        return;
+
+    }
 
 
-    render();
+    if (
+        playerValue >
+        aliceValue
+    ) {
+
+        GAME.playerScore +=
+            GAME.bet;
+
+        say(
+            "DEALER",
+            "Leo levou essa. Interessante."
+        );
+
+        changeStat(
+            "trust",
+            3
+        );
+
+    }
+
+    else if (
+        aliceValue >
+        playerValue
+    ) {
+
+        GAME.aliceScore +=
+            GAME.bet;
+
+        say(
+            "DEALER",
+            "Alice venceu. Você deveria ter pensado melhor."
+        );
+
+        changeStat(
+            "aliceFear",
+            -2
+        );
+
+    }
+
+    else {
+
+        say(
+            "DEALER",
+            "Empate. Que decepcionante."
+        );
+
+    }
+
+
+    updateUI();
 
 
     setTimeout(
-        dealerTurn,
+        nextRound,
         1000
     );
 
 }
 
 
-// =============================================================
-// DEALER
-// =============================================================
+/* =====================================================
+   PRÓXIMA RODADA
+===================================================== */
 
-function dealerTurn() {
+function nextRound() {
 
-    Dealer.speak();
+    if (!GAME.running) {
+        return;
+    }
 
-    checkInstantVictory();
+    GAME.round++;
 
-    dealerManipulation();
+    GAME.bet = 1;
 
-    advanceTime(10);
+    roundElement.textContent =
+        GAME.round;
+
+    currentBet.textContent =
+        GAME.bet;
+
+    statusBet.textContent =
+        GAME.bet;
+
+    playerPlayedCard.textContent = "";
+
+    alicePlayedCard.textContent = "";
 
 
-    Game.state =
-        "WAITING";
+    if (
+        GAME.round >
+        GAME.maxRounds
+    ) {
+
+        determineEnding();
+
+        return;
+
+    }
 
 
-    render();
+    dealHands();
+
+    GAME.turn = "player";
+
+    dealerCheckInstantWin();
 
 }
 
 
-// =============================================================
-// MANIPULAÇÃO DO DEALER
-// =============================================================
-
-function dealerManipulation() {
-
-    if (
-        Dealer.influence >= 70
-    ) {
-
-        Alice.increaseSuspicion(3);
-
-        Player.increaseFear(2);
-
-    }
-
-
-    if (
-        Dealer.influence >= 90
-    ) {
-
-        Player.damageMental(2);
-
-    }
-
-
-    if (
-        Dealer.irritation >= 70
-    ) {
-
-        Alice.increaseAnger(2);
-
-    }
-
-
-    clampEverything();
-
-}
-
-
-// =============================================================
-// VITÓRIA INSTANTÂNEA
-// =============================================================
-
-function checkInstantVictory() {
-
-    const playerDanger =
-        Player.hand.length >= 3 &&
-        Game.playerScore >= 10;
-
-
-    const aliceDanger =
-        Alice.hand.length >= 3 &&
-        Game.aliceScore >= 10;
-
-
-    if (
-        playerDanger ||
-        aliceDanger
-    ) {
-
-        Game.instantVictory = true;
-
-
-        if (playerDanger) {
-
-            dialogue(
-                "Dealer",
-                "Leo tem uma mão que pode acabar com isso."
-            );
-
-        }
-
-
-        if (aliceDanger) {
-
-            dialogue(
-                "Dealer",
-                "Alice também."
-            );
-
-        }
-
-    }
-
-}
-
-
-// =============================================================
-// TRUCO
-// =============================================================
+/* =====================================================
+   TRUCO
+===================================================== */
 
 function callTruco() {
 
-    if (
-        Game.state !== "PLAYER_TURN"
-    ) {
+    if (!GAME.running) {
+        return;
+    }
+
+    if (GAME.bet >= 12) {
+
+        say(
+            "DEALER",
+            "Você realmente quer continuar aumentando?"
+        );
 
         return;
 
     }
 
 
-    Player.trucoCalls++;
+    GAME.bet *= 2;
 
 
-    Game.tableValue =
-        Math.min(
-            Game.tableValue * 2,
-            CONFIG.MAX_TRUCO_VALUE
-        );
+    if (
+        GAME.playerChips <
+        GAME.bet
+    ) {
+
+        GAME.bet =
+            GAME.playerChips;
+
+    }
 
 
-    dialogue(
-        "Leo",
-        "TRUCO!"
+    changeStat(
+        "aliceFear",
+        4
     );
 
+    changeStat(
+        "suspicion",
+        3
+    );
 
-    Dealer.increaseIrritation(5);
+    say(
+        "DEALER",
+        `TRUCO. A mão agora vale ${GAME.bet}.`
+    );
+
+    currentBet.textContent =
+        GAME.bet;
+
+    statusBet.textContent =
+        GAME.bet;
+
+    updateUI();
+
+
+    /*
+       Alice decide se aceita
+       a pressão.
+    */
+
+    setTimeout(
+        aliceRespondToTruco,
+        900
+    );
+
+}
+
+
+function aliceRespondToTruco() {
+
+    if (!GAME.running) {
+        return;
+    }
+
+
+    const acceptance =
+        GAME.trust +
+        GAME.hope -
+        GAME.suspicion;
+
+
+    if (
+        acceptance > 40 ||
+        Math.random() > 0.25
+    ) {
+
+        aliceTalk();
+
+        return;
+
+    }
+
+
+    /*
+       Alice recua.
+    */
+
+    GAME.playerScore +=
+        GAME.bet;
+
+    say(
+        "ALICE",
+        "Eu... aceito."
+    );
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   CONVERSAR
+===================================================== */
+
+function talkToAlice() {
+
+    if (!GAME.running) {
+        return;
+    }
+
+    changeStat(
+        "trust",
+        8
+    );
+
+    changeStat(
+        "aliceFear",
+        -5
+    );
+
+    changeStat(
+        "suspicion",
+        -6
+    );
+
+    changeStat(
+        "hope",
+        5
+    );
+
+    aliceTalk();
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   QUESTIONAR
+===================================================== */
+
+function questionDealer() {
+
+    if (!GAME.running) {
+        return;
+    }
+
+    changeStat(
+        "suspicion",
+        10
+    );
+
+    changeStat(
+        "trust",
+        -2
+    );
+
+    say(
+        "LEO",
+        "Você está escondendo alguma coisa."
+    );
 
 
     setTimeout(
         () => {
 
-            dialogue(
-                "Dealer",
-                "Agora sim."
-
+            say(
+                "DEALER",
+                "Eu? Escondendo? Que acusação horrível."
             );
 
         },
@@ -1103,918 +970,563 @@ function callTruco() {
     );
 
 
-    advanceTime(15);
-
-
-    render();
+    updateUI();
 
 }
 
 
-// =============================================================
-// ESCOLHAS
-// =============================================================
+/* =====================================================
+   SILÊNCIO
+===================================================== */
 
-function chooseCompassion() {
+function remainSilent() {
 
-    Player.compassionateChoices++;
+    if (!GAME.running) {
+        return;
+    }
 
-    Player.increaseConfidence(2);
-
-    Player.resistDealer(2);
-
-    Alice.increaseTrust(7);
-
-    Alice.increaseHope(5);
-
-    Dealer.decreaseInfluence(2);
-
-    Dealer.increaseRedemption(2);
-
-
-    advanceTime(
-        CONFIG.TIME_PER_DIALOGUE
+    changeStat(
+        "aliceFear",
+        2
     );
 
-
-    updateRevelations();
-
-    render();
-
-}
-
-
-function chooseSuspicion() {
-
-    Alice.increaseSuspicion(5);
-
-    Player.resistDealer(3);
-
-    Dealer.increaseIrritation(2);
-
-    Game.suspicion =
-        (Game.suspicion || 0) + 8;
-
-
-    advanceTime(
-        CONFIG.TIME_PER_DIALOGUE
+    changeStat(
+        "suspicion",
+        2
     );
 
-
-    updateRevelations();
-
-    render();
-
-}
-
-
-function chooseCruelty() {
-
-    Player.cruelChoices++;
-
-    Alice.decreaseTrust(7);
-
-    Alice.increaseFear(5);
-
-    Player.increaseFear(4);
-
-    Dealer.increaseInfluence(4);
-
-    Dealer.increaseIrritation(5);
-
-
-    advanceTime(
-        CONFIG.TIME_PER_DIALOGUE
+    say(
+        "DEALER",
+        "Silêncio. Finalmente alguém está aprendendo."
     );
 
-
-    updateRevelations();
-
-    render();
+    updateUI();
 
 }
 
 
-function chooseSilence() {
+/* =====================================================
+   DEALER
+===================================================== */
 
-    Player.increaseFear(2);
+function dealerCheckInstantWin() {
 
-    Player.damageMental(1);
-
-    advanceTime(10);
-
-    render();
-
-}
+    if (!GAME.running) {
+        return;
+    }
 
 
-// =============================================================
-// DESCOBERTAS
-// =============================================================
-
-function updateRevelations() {
-
-    const suspicion =
-        Game.suspicion || 0;
-
-
-    if (
-        suspicion >= 50 &&
-        !Game.discoveries.dealerIdentity
-    ) {
-
-        Game.discoveries.dealerIdentity =
-            true;
-
-        Dealer.identityRevealed =
-            true;
-
-        Alice.knowsDealerIdentity =
-            true;
-
-
-        dialogue(
-            "Dealer",
-            "Finalmente."
+    const playerWin =
+        hasWinningHand(
+            GAME.playerHand
         );
 
-    }
-
-
-    if (
-        Alice.trust >= 65 &&
-        !Game.discoveries.relationship
-    ) {
-
-        Game.discoveries.relationship =
-            true;
-
-        Alice.remembersBrother =
-            true;
-
-
-        dialogue(
-            "Alice",
-            "Eu acho que conhecia alguém parecido com você."
+    const aliceWin =
+        hasWinningHand(
+            GAME.aliceHand
         );
 
-    }
-
 
     if (
-        suspicion >= 75 &&
-        !Game.discoveries.truth
+        playerWin &&
+        aliceWin
     ) {
 
-        Game.discoveries.truth =
-            true;
-
-        Game.discoveries.familyConflict =
-            true;
-
-        Game.discoveries.accident =
-            true;
-
-
-        dialogue(
-            "Dealer",
-            "Vocês finalmente juntaram as peças."
+        say(
+            "DEALER",
+            "Ah. Os dois têm uma mão excelente. Isso vai ser divertido."
         );
-
-    }
-
-}
-
-
-// =============================================================
-// FINAIS
-// =============================================================
-
-function calculateEnding() {
-
-    let ending;
-
-
-    // FINAL 6
-
-    if (
-
-        Alice.trust >= 85 &&
-
-        Dealer.redemption >= 80 &&
-
-        Game.discoveries.truth &&
-
-        Game.discoveries.dealerIdentity
-
-    ) {
-
-        ending = 6;
-
-    }
-
-
-    // FINAL 5
-
-    else if (
-
-        Alice.trust >= 75 &&
-
-        Dealer.redemption >= 60 &&
-
-        Game.discoveries.truth
-
-    ) {
-
-        ending = 5;
-
-    }
-
-
-    // FINAL 4
-
-    else if (
-
-        Dealer.influence >= 80
-
-    ) {
-
-        ending = 4;
-
-    }
-
-
-    // FINAL 3
-
-    else if (
-
-        Dealer.redemption < 30 &&
-
-        Alice.trust < 40
-
-    ) {
-
-        ending = 3;
-
-    }
-
-
-    // FINAL 2
-
-    else if (
-
-        Game.aliceScore >= 12
-
-    ) {
-
-        ending = 2;
-
-    }
-
-
-    // FINAL 1
-
-    else {
-
-        ending = 1;
-
-    }
-
-
-    Game.ending =
-        ending;
-
-    Game.gameFinished =
-        true;
-
-    Game.running =
-        false;
-
-    Game.clock.running =
-        false;
-
-
-    showEnding(
-        ending
-    );
-
-}
-
-
-// =============================================================
-// FINAIS
-// =============================================================
-
-function showEnding(ending) {
-
-    const endings = {
-
-        1: {
-
-            title: "A ÚLTIMA MÃO",
-
-            text:
-                "A partida terminou."
-
-        },
-
-
-        2: {
-
-            title: "NÃO ERA PARA ELA",
-
-            text:
-                "Alice venceu. Mas a vitória não trouxe alívio."
-
-        },
-
-
-        3: {
-
-            title: "A MESA VAZIA",
-
-            text:
-                "Ninguém realmente conseguiu sair daquela mesa."
-
-        },
-
-
-        4: {
-
-            title: "O DEALER VENCE",
-
-            text:
-                "Ele conseguiu colocar os dois exatamente onde queria."
-
-        },
-
-
-        5: {
-
-            title: "ÚLTIMA CHANCE",
-
-            text:
-                "Pela primeira vez, existe uma possibilidade de escapar."
-
-        },
-
-
-        6: {
-
-            title: "ADEUS",
-
-            text:
-                "O Dealer finalmente deixa a mesa."
-
-        }
-
-    };
-
-
-    const result =
-        endings[ending];
-
-
-    document.dispatchEvent(
-
-        new CustomEvent(
-            "lastChanceEnding",
-            {
-
-                detail: {
-
-                    ending,
-
-                    title:
-                        result.title,
-
-                    text:
-                        result.text
-
-                }
-
-            }
-
-        )
-
-    );
-
-
-    console.log(
-        `FINAL ${ending}: ${result.title}`
-    );
-
-}
-
-
-// =============================================================
-// RELÓGIO
-// =============================================================
-
-function advanceTime(seconds) {
-
-    if (
-        !Game.clock.running
-    ) {
 
         return;
 
     }
 
 
-    Game.clock.second += seconds;
+    if (playerWin) {
 
+        say(
+            "DEALER",
+            "Leo... você percebeu que acabou de receber uma mão praticamente decisiva?"
+        );
 
-    while (
-        Game.clock.second >= 60
-    ) {
-
-        Game.clock.second -= 60;
-
-        Game.clock.minute++;
+        return;
 
     }
 
 
-    while (
-        Game.clock.minute >= 60
-    ) {
+    if (aliceWin) {
 
-        Game.clock.minute -= 60;
-
-        Game.clock.hour++;
-
-    }
-
-
-    while (
-        Game.clock.hour >= 24
-    ) {
-
-        Game.clock.hour -= 24;
+        say(
+            "DEALER",
+            "Alice, não olha agora. Ou olha. Tanto faz."
+        );
 
     }
-
-
-    checkClockEvents();
 
 }
 
 
-function getTime() {
+function hasWinningHand(hand) {
 
-    return (
+    if (!hand || hand.length < 3) {
+        return false;
+    }
 
-        String(
-            Game.clock.hour
-        ).padStart(2, "0") +
+    /*
+       Aqui usamos uma condição abstrata
+       de mão muito forte para o protótipo.
+    */
 
-        ":" +
+    const values =
+        hand.map(
+            card => CARD_VALUES[card]
+        );
 
-        String(
-            Game.clock.minute
-        ).padStart(2, "0") +
-
-        ":" +
-
-        String(
-            Game.clock.second
-        ).padStart(2, "0")
-
+    values.sort(
+        (a, b) => b - a
     );
-
-}
-
-
-// =============================================================
-// EVENTOS DO RELÓGIO
-// =============================================================
-
-function checkClockEvents() {
-
-    const hour =
-        Game.clock.hour;
-
-    const minute =
-        Game.clock.minute;
 
 
     /*
-       Eventos especiais podem ser
-       adicionados aqui posteriormente.
+       Três cartas consecutivas
+       são consideradas mão decisiva.
     */
 
-
     if (
-        hour === 0 &&
-        minute === 0
+        values[0] === values[1] + 1 &&
+        values[1] === values[2] + 1
     ) {
 
-        Dealer.increaseInfluence(5);
+        return true;
+
+    }
+
+
+    /*
+       Três cartas com mesmo valor
+       também são mão decisiva.
+    */
+
+    if (
+        values[0] === values[1] &&
+        values[1] === values[2]
+    ) {
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+/* =====================================================
+   UI
+===================================================== */
+
+function updateUI() {
+
+    /*
+       Alice
+    */
+
+    aliceTrustValue.textContent =
+        GAME.trust;
+
+    aliceTrustBar.style.width =
+        `${GAME.trust}%`;
+
+
+    aliceFearValue.textContent =
+        GAME.aliceFear;
+
+    aliceFearBar.style.width =
+        `${GAME.aliceFear}%`;
+
+
+    aliceSuspicionValue.textContent =
+        GAME.suspicion;
+
+    aliceSuspicionBar.style.width =
+        `${GAME.suspicion}%`;
+
+
+    aliceHopeValue.textContent =
+        GAME.hope;
+
+    aliceHopeBar.style.width =
+        `${GAME.hope}%`;
+
+
+    /*
+       Leo
+    */
+
+    playerHealthValue.textContent =
+        GAME.health;
+
+    playerHealthBar.style.width =
+        `${GAME.health}%`;
+
+
+    playerFearValue.textContent =
+        GAME.fear;
+
+
+    playerStabilityValue.textContent =
+        GAME.stability;
+
+    playerStabilityBar.style.width =
+        `${GAME.stability}%`;
+
+
+    /*
+       Pontuação
+    */
+
+    playerScore.textContent =
+        GAME.playerScore;
+
+    aliceScore.textContent =
+        GAME.aliceScore;
+
+    aliceScoreFooter.textContent =
+        GAME.aliceScore;
+
+
+    playerChips.textContent =
+        GAME.playerChips;
+
+
+    /*
+       Humor da Alice
+    */
+
+    if (GAME.trust >= 70) {
+
+        aliceMood.textContent =
+            "TRUSTING";
+
+    }
+
+    else if (
+        GAME.suspicion >= 70
+    ) {
+
+        aliceMood.textContent =
+            "SUSPICIOUS";
+
+    }
+
+    else if (
+        GAME.aliceFear >= 70
+    ) {
+
+        aliceMood.textContent =
+            "PANICKED";
+
+    }
+
+    else {
+
+        aliceMood.textContent =
+            "NERVOUS";
 
     }
 
 }
 
 
-// =============================================================
-// DIÁLOGO
-// =============================================================
+/* =====================================================
+   FINAIS
+===================================================== */
 
-function dialogue(
-    speaker,
-    text
-) {
+function determineEnding() {
 
-    document.dispatchEvent(
+    if (!GAME.running) {
+        return;
+    }
 
-        new CustomEvent(
-            "lastChanceDialogue",
-            {
 
-                detail: {
-
-                    speaker,
-
-                    text
-
-                }
-
-            }
-
-        )
-
-    );
-
-
-    console.log(
-        `[${speaker}] ${text}`
-    );
-
-}
-
-
-// =============================================================
-// LIMITADORES
-// =============================================================
-
-function clamp(
-    value,
-    min = 0,
-    max = 100
-) {
-
-    return Math.max(
-        min,
-        Math.min(
-            max,
-            value
-        )
-    );
-
-}
-
-
-function clampPlayer() {
-
-    Player.health =
-        clamp(
-            Player.health
-        );
-
-    Player.fear =
-        clamp(
-            Player.fear
-        );
-
-    Player.confidence =
-        clamp(
-            Player.confidence
-        );
-
-    Player.mentalStability =
-        clamp(
-            Player.mentalStability
-        );
-
-    Player.dealerResistance =
-        clamp(
-            Player.dealerResistance
-        );
-
-}
-
-
-function clampAlice() {
-
-    Alice.trust =
-        clamp(
-            Alice.trust
-        );
-
-    Alice.fear =
-        clamp(
-            Alice.fear
-        );
-
-    Alice.suspicion =
-        clamp(
-            Alice.suspicion
-        );
-
-    Alice.anger =
-        clamp(
-            Alice.anger
-        );
-
-    Alice.hope =
-        clamp(
-            Alice.hope
-        );
-
-}
-
-
-function clampDealer() {
-
-    Dealer.influence =
-        clamp(
-            Dealer.influence
-        );
-
-    Dealer.redemption =
-        clamp(
-            Dealer.redemption
-        );
-
-    Dealer.patience =
-        clamp(
-            Dealer.patience
-        );
-
-    Dealer.irritation =
-        clamp(
-            Dealer.irritation
-        );
-
-}
-
-
-function clampEverything() {
-
-    clampPlayer();
-
-    clampAlice();
-
-    clampDealer();
-
-}
-
-
-// =============================================================
-// RENDER
-// =============================================================
-
-function render() {
-
-    renderClock();
-
-    renderPlayer();
-
-    renderAlice();
-
-    renderDealer();
-
-}
-
-
-function renderClock() {
-
-    document.dispatchEvent(
-
-        new CustomEvent(
-            "lastChanceClock",
-            {
-
-                detail: {
-
-                    time:
-                        getTime()
-
-                }
-
-            }
-
-        )
-
-    );
-
-}
-
-
-function renderPlayer() {
-
-    document.dispatchEvent(
-
-        new CustomEvent(
-            "lastChancePlayer",
-            {
-
-                detail: {
-
-                    health:
-                        Player.health,
-
-                    fear:
-                        Player.fear,
-
-                    confidence:
-                        Player.confidence,
-
-                    stability:
-                        Player.mentalStability,
-
-                    resistance:
-                        Player.dealerResistance,
-
-                    chips:
-                        Player.chips,
-
-                    hand:
-                        [...Player.hand]
-
-                }
-
-            }
-
-        )
-
-    );
-
-}
-
-
-function renderAlice() {
-
-    document.dispatchEvent(
-
-        new CustomEvent(
-            "lastChanceAlice",
-            {
-
-                detail: {
-
-                    trust:
-                        Alice.trust,
-
-                    fear:
-                        Alice.fear,
-
-                    suspicion:
-                        Alice.suspicion,
-
-                    hope:
-                        Alice.hope,
-
-                    mood:
-                        Alice.getMood(),
-
-                    cards:
-                        Alice.hand.length
-
-                }
-
-            }
-
-        )
-
-    );
-
-}
-
-
-function renderDealer() {
-
-    document.dispatchEvent(
-
-        new CustomEvent(
-            "lastChanceDealer",
-            {
-
-                detail: {
-
-                    influence:
-                        Dealer.influence,
-
-                    redemption:
-                        Dealer.redemption,
-
-                    irritation:
-                        Dealer.irritation,
-
-                    revealed:
-                        Dealer.identityRevealed
-
-                }
-
-            }
-
-        )
-
-    );
-
-}
-
-
-// =============================================================
-// LOOP
-// =============================================================
-
-function gameLoop() {
+    /*
+       FINAL 1
+       Ruim
+    */
 
     if (
-        !Game.running ||
-        Game.gameFinished
+        GAME.stability < 20
     ) {
+
+        finishGame(
+            "SISTEMA INSTÁVEL",
+            "O terminal encerrou a partida. Nenhuma resposta veio com o silêncio."
+        );
 
         return;
 
     }
 
 
+    /*
+       FINAL 2
+       Ruim
+    */
+
     if (
-        Game.state === "FINAL"
+        GAME.suspicion >= 85
     ) {
 
-        calculateEnding();
+        finishGame(
+            "CONFIANÇA PERDIDA",
+            "Alice deixou de acreditar em você antes que vocês descobrissem a verdade."
+        );
 
         return;
 
     }
 
 
-    render();
+    /*
+       FINAL 3
+       Ruim
+    */
+
+    if (
+        GAME.aliceScore >
+        GAME.playerScore
+    ) {
+
+        finishGame(
+            "ALICE VENCEU",
+            "A partida acabou. O Dealer sorriu como se já soubesse o resultado."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       FINAL 4
+       Ruim
+    */
+
+    if (
+        GAME.trust < 20
+    ) {
+
+        finishGame(
+            "DOIS ESTRANHOS",
+            "Vocês chegaram ao fim sem conseguir reconstruir a confiança."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       FINAL 5
+       Bom
+    */
+
+    if (
+        GAME.trust >= 70 &&
+        GAME.suspicion >= 50
+    ) {
+
+        finishGame(
+            "A VERDADE",
+            "Leo e Alice finalmente percebem que o Dealer estava manipulando a partida."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       FINAL 6
+       Bom
+    */
+
+    finishGame(
+        "ÚLTIMA CHANCE",
+        "Vocês não venceram exatamente a partida. Venceram a oportunidade de escolher o próprio caminho."
+    );
 
 }
 
 
-// =============================================================
-// API PÚBLICA
-// =============================================================
+/* =====================================================
+   ENCERRAR
+===================================================== */
 
-window.LastChance = {
+function finishGame(title, text) {
 
-    Game,
+    GAME.running = false;
 
-    Player,
+    clearInterval(clockInterval);
 
-    Alice,
+    GAME.ending = title;
 
-    Dealer,
+    $("ending-title").textContent =
+        title;
 
-    Inventory,
+    $("ending-text").textContent =
+        text;
 
-    Deck,
+    gameScreen.classList.remove(
+        "active"
+    );
 
-    startGame,
+    endingScreen.classList.add(
+        "active"
+    );
 
-    startRound,
-
-    playerPlayCard,
-
-    callTruco,
-
-    chooseCompassion,
-
-    chooseSuspicion,
-
-    chooseCruelty,
-
-    chooseSilence,
-
-    calculateEnding,
-
-    advanceTime,
-
-    getTime,
-
-    dialogue
-
-};
+}
 
 
-// =============================================================
-// CARREGAMENTO
-// =============================================================
+/* =====================================================
+   INICIAR
+===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+function startGame() {
 
-        console.log(
-            "LAST CHANCE: game.js carregado."
-        );
+    GAME.running = true;
 
-    }
+    GAME.round = 1;
+
+    GAME.clockSeconds = 0;
+
+    GAME.bet = 1;
+
+    GAME.playerScore = 0;
+
+    GAME.aliceScore = 0;
+
+    GAME.playerChips = 100;
+
+    GAME.health = 100;
+
+    GAME.fear = 20;
+
+    GAME.stability = 100;
+
+    GAME.resistance = 0;
+
+    GAME.trust = 20;
+
+    GAME.aliceFear = 35;
+
+    GAME.suspicion = 10;
+
+    GAME.hope = 40;
+
+    GAME.turn = "player";
+
+    titleScreen.classList.remove(
+        "active"
+    );
+
+    endingScreen.classList.remove(
+        "active"
+    );
+
+    gameScreen.classList.add(
+        "active"
+    );
+
+    roundElement.textContent =
+        "1";
+
+    currentBet.textContent =
+        "1";
+
+    statusBet.textContent =
+        "1";
+
+    dealHands();
+
+    updateUI();
+
+    updateClock();
+
+    startClock();
+
+    say(
+        "DEALER",
+        "Finalmente. Vocês chegaram."
+    );
+
+}
+
+
+/* =====================================================
+   REINICIAR
+===================================================== */
+
+function restartGame() {
+
+    endingScreen.classList.remove(
+        "active"
+    );
+
+    titleScreen.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =====================================================
+   EVENTOS
+===================================================== */
+
+startButton.addEventListener(
+    "click",
+    startGame
 );
-```
+
+
+restartButton.addEventListener(
+    "click",
+    restartGame
+);
+
+
+actionTruco.addEventListener(
+    "click",
+    callTruco
+);
+
+
+actionCompassion.addEventListener(
+    "click",
+    talkToAlice
+);
+
+
+actionSuspicion.addEventListener(
+    "click",
+    questionDealer
+);
+
+
+actionSilence.addEventListener(
+    "click",
+    remainSilent
+);
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+updateClock();
+updateUI();
+
+console.log(
+    "LAST CHANCE :: SYSTEM READY"
+);
