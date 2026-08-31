@@ -13,12 +13,23 @@
 
     <meta
         name="description"
-        content="Last Chance — uma partida que você não deveria ter aceitado."
+        content="LAST CHANCE - Terminal Prototype"
     >
 
     <title>LAST CHANCE</title>
 
-    <!-- CSS -->
+    <!--
+        IMPORTANTE:
+
+        Como este index.html está na raiz:
+
+        /index.html
+        /css/style.css
+        /js/game.js
+
+        os caminhos abaixo estão corretos.
+    -->
+
     <link
         rel="stylesheet"
         href="css/style.css"
@@ -31,10 +42,10 @@
 
 
 <!-- =========================================================
-                         TELA INICIAL
+                         TITLE SCREEN
 ========================================================= -->
 
-<div
+<section
     id="title-screen"
     class="screen active"
 >
@@ -42,35 +53,41 @@
     <div class="title-container">
 
         <p class="title-small">
-            VOCÊ NÃO DEVERIA ESTAR AQUI
+            LAST CHANCE TERMINAL SYSTEM
         </p>
+
 
         <h1>
             LAST CHANCE
         </h1>
 
+
         <p class="title-subtitle">
             Uma última partida.
         </p>
 
+
         <button
             id="start-button"
             class="main-button"
+            type="button"
         >
             COMEÇAR
         </button>
 
+
         <p class="title-warning">
-            Este jogo contém temas de terror psicológico.
+            SYSTEM READY
         </p>
 
     </div>
 
-</div>
+</section>
+
 
 
 <!-- =========================================================
-                         JOGO
+                         GAME SCREEN
 ========================================================= -->
 
 <main
@@ -80,20 +97,13 @@
 
 
     <!-- =====================================================
-                         TOPO
+                         HEADER
     ====================================================== -->
 
-    <header
-        id="game-header"
-        class="game-header"
-    >
+    <header class="game-header">
 
         <div class="game-title">
-
-            <span>
-                LAST CHANCE
-            </span>
-
+            LAST CHANCE
         </div>
 
 
@@ -101,15 +111,13 @@
             id="digital-clock"
             class="digital-clock"
         >
-
             23:47:00
-
         </div>
 
 
         <div class="round-display">
 
-            RODADA
+            ROUND:
 
             <span id="round-number">
                 1
@@ -122,17 +130,14 @@
 
 
     <!-- =====================================================
-                         ÁREA PRINCIPAL
+                         GAME AREA
     ====================================================== -->
 
-    <section
-        id="game-area"
-        class="game-area"
-    >
+    <section class="game-area">
 
 
         <!-- =================================================
-                         ALICE
+                            ALICE
         ================================================== -->
 
         <aside
@@ -142,22 +147,15 @@
 
             <div class="character-image">
 
-                <div
-                    id="alice-placeholder"
-                    class="character-placeholder"
-                >
-
+                <div class="character-placeholder">
                     ALICE
-
                 </div>
 
             </div>
 
 
             <div class="character-name">
-
                 ALICE
-
             </div>
 
 
@@ -165,17 +163,20 @@
                 id="alice-mood"
                 class="character-mood"
             >
-
                 TENSIONADA
-
             </div>
 
 
             <div class="stat-container">
 
+
+                <!-- CONFIANÇA -->
+
                 <div class="stat-label">
 
-                    CONFIANÇA
+                    <span>
+                        CONFIANÇA
+                    </span>
 
                     <span id="alice-trust-value">
                         20
@@ -183,19 +184,26 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="alice-trust-bar"
                         class="stat-fill"
+                        style="width: 20%"
                     ></div>
 
                 </div>
 
 
+
+                <!-- MEDO -->
+
                 <div class="stat-label">
 
-                    MEDO
+                    <span>
+                        MEDO
+                    </span>
 
                     <span id="alice-fear-value">
                         35
@@ -203,19 +211,26 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="alice-fear-bar"
                         class="stat-fill"
+                        style="width: 35%"
                     ></div>
 
                 </div>
 
 
+
+                <!-- SUSPEITA -->
+
                 <div class="stat-label">
 
-                    SUSPEITA
+                    <span>
+                        SUSPEITA
+                    </span>
 
                     <span id="alice-suspicion-value">
                         10
@@ -223,19 +238,26 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="alice-suspicion-bar"
                         class="stat-fill"
+                        style="width: 10%"
                     ></div>
 
                 </div>
 
 
+
+                <!-- ESPERANÇA -->
+
                 <div class="stat-label">
 
-                    ESPERANÇA
+                    <span>
+                        ESPERANÇA
+                    </span>
 
                     <span id="alice-hope-value">
                         40
@@ -243,11 +265,13 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="alice-hope-bar"
                         class="stat-fill"
+                        style="width: 40%"
                     ></div>
 
                 </div>
@@ -259,7 +283,7 @@
 
 
         <!-- =================================================
-                         MESA
+                            TABLE
         ================================================== -->
 
         <section
@@ -268,7 +292,7 @@
         >
 
 
-            <!-- Dealer -->
+            <!-- DEALER -->
 
             <div
                 id="dealer-area"
@@ -279,25 +303,22 @@
                     id="dealer-name"
                     class="dealer-name"
                 >
-
                     DEALER
-
                 </div>
+
 
                 <div
                     id="dealer-dialogue-indicator"
                     class="dealer-indicator"
                 >
-
-                    ...
-
+                    ONLINE
                 </div>
 
             </div>
 
 
 
-            <!-- Cartas da Alice -->
+            <!-- CARTAS DA ALICE -->
 
             <div
                 id="alice-cards"
@@ -320,7 +341,7 @@
 
 
 
-            <!-- Valor da mesa -->
+            <!-- VALOR -->
 
             <div
                 id="table-value"
@@ -328,8 +349,9 @@
             >
 
                 <span>
-                    VALOR
+                    VALOR DA MÃO
                 </span>
+
 
                 <strong id="current-bet">
                     1
@@ -339,7 +361,7 @@
 
 
 
-            <!-- Cartas jogadas -->
+            <!-- CARTAS JOGADAS -->
 
             <div
                 id="played-cards"
@@ -351,6 +373,7 @@
                     class="played-card"
                 ></div>
 
+
                 <div
                     id="alice-played-card"
                     class="played-card"
@@ -360,14 +383,35 @@
 
 
 
-            <!-- Cartas do jogador -->
+            <!-- CARTAS DO PLAYER -->
 
             <div
                 id="player-cards"
                 class="cards-area player-cards"
             >
 
-                <!-- JS preencherá -->
+                <button
+                    class="card player-card"
+                    type="button"
+                >
+                    A
+                </button>
+
+
+                <button
+                    class="card player-card"
+                    type="button"
+                >
+                    K
+                </button>
+
+
+                <button
+                    class="card player-card"
+                    type="button"
+                >
+                    Q
+                </button>
 
             </div>
 
@@ -377,7 +421,7 @@
 
 
         <!-- =================================================
-                         LEO
+                             LEO
         ================================================== -->
 
         <aside
@@ -387,31 +431,28 @@
 
             <div class="character-image">
 
-                <div
-                    id="player-placeholder"
-                    class="character-placeholder"
-                >
-
+                <div class="character-placeholder">
                     LEO
-
                 </div>
 
             </div>
 
 
             <div class="character-name">
-
                 LEO
-
             </div>
 
 
             <div class="stat-container">
 
 
+                <!-- SAÚDE -->
+
                 <div class="stat-label">
 
-                    SAÚDE
+                    <span>
+                        SAÚDE
+                    </span>
 
                     <span id="player-health-value">
                         100
@@ -419,20 +460,26 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="player-health-bar"
                         class="stat-fill"
+                        style="width: 100%"
                     ></div>
 
                 </div>
 
 
 
+                <!-- MEDO -->
+
                 <div class="stat-label">
 
-                    MEDO
+                    <span>
+                        MEDO
+                    </span>
 
                     <span id="player-fear-value">
                         20
@@ -440,20 +487,26 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="player-fear-bar"
                         class="stat-fill"
+                        style="width: 20%"
                     ></div>
 
                 </div>
 
 
 
+                <!-- ESTABILIDADE -->
+
                 <div class="stat-label">
 
-                    ESTABILIDADE
+                    <span>
+                        ESTABILIDADE
+                    </span>
 
                     <span id="player-stability-value">
                         100
@@ -461,20 +514,26 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="player-stability-bar"
                         class="stat-fill"
+                        style="width: 100%"
                     ></div>
 
                 </div>
 
 
 
+                <!-- RESISTÊNCIA -->
+
                 <div class="stat-label">
 
-                    RESISTÊNCIA
+                    <span>
+                        RESISTÊNCIA
+                    </span>
 
                     <span id="player-resistance-value">
                         0
@@ -482,15 +541,16 @@
 
                 </div>
 
+
                 <div class="stat-bar">
 
                     <div
                         id="player-resistance-bar"
                         class="stat-fill"
+                        style="width: 0%"
                     ></div>
 
                 </div>
-
 
             </div>
 
@@ -507,12 +567,13 @@
 
         </aside>
 
+
     </section>
 
 
 
     <!-- =====================================================
-                     CAIXA DE DIÁLOGO
+                         DIALOGUE
     ====================================================== -->
 
     <section
@@ -524,9 +585,7 @@
             id="dialogue-speaker"
             class="dialogue-speaker"
         >
-
             DEALER
-
         </div>
 
 
@@ -534,9 +593,7 @@
             id="dialogue-text"
             class="dialogue-text"
         >
-
-            Boa noite, Leo.
-
+            SYSTEM ONLINE...
         </div>
 
 
@@ -544,9 +601,7 @@
             id="dialogue-next"
             class="dialogue-next"
         >
-
             ▼
-
         </div>
 
     </section>
@@ -554,7 +609,7 @@
 
 
     <!-- =====================================================
-                         AÇÕES
+                         ACTIONS
     ====================================================== -->
 
     <nav
@@ -565,50 +620,45 @@
         <button
             id="action-play"
             class="action-button"
+            type="button"
         >
-
             JOGAR CARTA
-
         </button>
 
 
         <button
             id="action-truco"
             class="action-button"
+            type="button"
         >
-
             TRUCO
-
         </button>
 
 
         <button
             id="action-compassion"
-            class="action-button choice-button"
+            class="action-button"
+            type="button"
         >
-
             CONVERSAR
-
         </button>
 
 
         <button
             id="action-suspicion"
-            class="action-button choice-button"
+            class="action-button"
+            type="button"
         >
-
             QUESTIONAR
-
         </button>
 
 
         <button
             id="action-silence"
-            class="action-button choice-button"
+            class="action-button"
+            type="button"
         >
-
-            FICAR EM SILÊNCIO
-
+            SILÊNCIO
         </button>
 
     </nav>
@@ -616,7 +666,7 @@
 
 
     <!-- =====================================================
-                         INDICADORES
+                         STATUS
     ====================================================== -->
 
     <section
@@ -626,7 +676,7 @@
 
         <div>
 
-            VALOR DA MESA:
+            BET:
 
             <strong id="status-bet">
                 1
@@ -664,7 +714,7 @@
 
 
 <!-- =========================================================
-                         TELA DE FINAL
+                         ENDING SCREEN
 ========================================================= -->
 
 <section
@@ -675,7 +725,7 @@
     <div class="ending-container">
 
         <p class="ending-label">
-            FIM DA PARTIDA
+            CONNECTION TERMINATED
         </p>
 
 
@@ -683,9 +733,7 @@
             id="ending-title"
             class="ending-title"
         >
-
-            A ÚLTIMA MÃO
-
+            FIM
         </h2>
 
 
@@ -693,19 +741,16 @@
             id="ending-text"
             class="ending-text"
         >
-
             A partida terminou.
-
         </p>
 
 
         <button
             id="restart-button"
             class="main-button"
+            type="button"
         >
-
             JOGAR NOVAMENTE
-
         </button>
 
     </div>
@@ -715,96 +760,144 @@
 
 
 <!-- =========================================================
-                     JAVASCRIPT
-========================================================== -->
+                         JAVASCRIPT
+========================================================= -->
 
 <script src="js/game.js"></script>
 
 
+<!-- =========================================================
+                   INTERFACE BRIDGE
+========================================================= -->
+
 <script>
 
+"use strict";
 
-// =========================================================
-// ELEMENTOS
-// =========================================================
 
-const titleScreen =
-    document.getElementById(
-        "title-screen"
+/*
+    ============================================================
+    LAST CHANCE - INTERFACE BRIDGE
+
+    Este código conecta o HTML ao game.js.
+
+    Se o game.js ainda estiver incompleto, a interface continua
+    abrindo normalmente.
+    ============================================================
+*/
+
+
+/* ============================================================
+   ELEMENTOS
+   ============================================================ */
+
+const UI = {
+
+    title:
+        document.getElementById(
+            "title-screen"
+        ),
+
+    game:
+        document.getElementById(
+            "game-screen"
+        ),
+
+    ending:
+        document.getElementById(
+            "ending-screen"
+        ),
+
+    start:
+        document.getElementById(
+            "start-button"
+        ),
+
+    restart:
+        document.getElementById(
+            "restart-button"
+        ),
+
+    dialogueSpeaker:
+        document.getElementById(
+            "dialogue-speaker"
+        ),
+
+    dialogueText:
+        document.getElementById(
+            "dialogue-text"
+        ),
+
+    clock:
+        document.getElementById(
+            "digital-clock"
+        )
+
+};
+
+
+/* ============================================================
+   FUNÇÃO SEGURA PARA CHAMAR O GAME.JS
+   ============================================================ */
+
+function callGameFunction(
+    functionName,
+    ...args
+) {
+
+    if (
+        typeof window.LastChance !== "undefined" &&
+        typeof window.LastChance[
+            functionName
+        ] === "function"
+    ) {
+
+        return window.LastChance[
+            functionName
+        ](...args);
+
+    }
+
+    console.warn(
+        "LastChance." +
+        functionName +
+        "() ainda não está disponível."
     );
 
-
-const gameScreen =
-    document.getElementById(
-        "game-screen"
-    );
+}
 
 
-const endingScreen =
-    document.getElementById(
-        "ending-screen"
-    );
+/* ============================================================
+   INICIAR JOGO
+   ============================================================ */
 
-
-const startButton =
-    document.getElementById(
-        "start-button"
-    );
-
-
-const restartButton =
-    document.getElementById(
-        "restart-button"
-    );
-
-
-const dialogueSpeaker =
-    document.getElementById(
-        "dialogue-speaker"
-    );
-
-
-const dialogueText =
-    document.getElementById(
-        "dialogue-text"
-    );
-
-
-const digitalClock =
-    document.getElementById(
-        "digital-clock"
-    );
-
-
-// =========================================================
-// INICIAR
-// =========================================================
-
-startButton.addEventListener(
+UI.start.addEventListener(
     "click",
-    () => {
+    function () {
 
-        titleScreen.classList.remove(
+        UI.title.classList.remove(
             "active"
         );
 
-        gameScreen.classList.add(
+        UI.game.classList.add(
             "active"
         );
 
-        LastChance.startGame();
+        callGameFunction(
+            "startGame"
+        );
 
     }
 );
 
 
-// =========================================================
-// REINICIAR
-// =========================================================
+/* ============================================================
+   REINICIAR
+   ============================================================ */
 
-restartButton.addEventListener(
+UI.restart.addEventListener(
     "click",
-    () => {
+    function () {
 
         window.location.reload();
 
@@ -812,418 +905,231 @@ restartButton.addEventListener(
 );
 
 
-// =========================================================
-// DIÁLOGOS
-// =========================================================
+/* ============================================================
+   EVENTO DE DIÁLOGO
+   ============================================================ */
 
 document.addEventListener(
     "lastChanceDialogue",
-    event => {
+    function (event) {
 
         const data =
-            event.detail;
+            event.detail || {};
 
 
-        dialogueSpeaker.textContent =
-            data.speaker;
+        if (
+            data.speaker
+        ) {
+
+            UI.dialogueSpeaker.textContent =
+                data.speaker;
+
+        }
 
 
-        dialogueText.textContent =
-            data.text;
+        if (
+            data.text
+        ) {
 
+            UI.dialogueText.textContent =
+                data.text;
 
-        dialogueSpeaker.dataset.speaker =
-            data.speaker.toLowerCase();
+        }
 
     }
 );
 
 
-// =========================================================
-// RELÓGIO
-// =========================================================
+/* ============================================================
+   EVENTO DO RELÓGIO
+   ============================================================ */
 
 document.addEventListener(
     "lastChanceClock",
-    event => {
-
-        digitalClock.textContent =
-            event.detail.time;
-
-    }
-);
-
-
-// =========================================================
-// ALICE
-// =========================================================
-
-document.addEventListener(
-    "lastChanceAlice",
-    event => {
+    function (event) {
 
         const data =
-            event.detail;
+            event.detail || {};
 
 
-        document.getElementById(
-            "alice-trust-value"
-        ).textContent =
-            data.trust;
+        if (
+            data.time
+        ) {
 
-
-        document.getElementById(
-            "alice-fear-value"
-        ).textContent =
-            data.fear;
-
-
-        document.getElementById(
-            "alice-suspicion-value"
-        ).textContent =
-            data.suspicion;
-
-
-        document.getElementById(
-            "alice-hope-value"
-        ).textContent =
-            data.hope;
-
-
-        document.getElementById(
-            "alice-mood"
-        ).textContent =
-            data.mood;
-
-
-        document.getElementById(
-            "alice-trust-bar"
-        ).style.width =
-            data.trust + "%";
-
-
-        document.getElementById(
-            "alice-fear-bar"
-        ).style.width =
-            data.fear + "%";
-
-
-        document.getElementById(
-            "alice-suspicion-bar"
-        ).style.width =
-            data.suspicion + "%";
-
-
-        document.getElementById(
-            "alice-hope-bar"
-        ).style.width =
-            data.hope + "%";
-
-    }
-);
-
-
-// =========================================================
-// LEO
-// =========================================================
-
-document.addEventListener(
-    "lastChancePlayer",
-    event => {
-
-        const data =
-            event.detail;
-
-
-        document.getElementById(
-            "player-health-value"
-        ).textContent =
-            data.health;
-
-
-        document.getElementById(
-            "player-fear-value"
-        ).textContent =
-            data.fear;
-
-
-        document.getElementById(
-            "player-stability-value"
-        ).textContent =
-            data.stability;
-
-
-        document.getElementById(
-            "player-resistance-value"
-        ).textContent =
-            data.resistance;
-
-
-        document.getElementById(
-            "player-chips"
-        ).textContent =
-            data.chips;
-
-
-        document.getElementById(
-            "player-health-bar"
-        ).style.width =
-            data.health + "%";
-
-
-        document.getElementById(
-            "player-fear-bar"
-        ).style.width =
-            data.fear + "%";
-
-
-        document.getElementById(
-            "player-stability-bar"
-        ).style.width =
-            data.stability + "%";
-
-
-        document.getElementById(
-            "player-resistance-bar"
-        ).style.width =
-            data.resistance + "%";
-
-
-        renderPlayerCards(
-            data.hand
-        );
-
-    }
-);
-
-
-// =========================================================
-// CARTAS DO JOGADOR
-// =========================================================
-
-function renderPlayerCards(
-    cards
-) {
-
-    const container =
-        document.getElementById(
-            "player-cards"
-        );
-
-
-    container.innerHTML = "";
-
-
-    cards.forEach(
-        (card, index) => {
-
-            const element =
-                document.createElement(
-                    "button"
-                );
-
-
-            element.className =
-                "card player-card";
-
-
-            element.textContent =
-                card;
-
-
-            element.dataset.index =
-                index;
-
-
-            element.addEventListener(
-                "click",
-                () => {
-
-                    LastChance.playerPlayCard(
-                        index
-                    );
-
-                }
-            );
-
-
-            container.appendChild(
-                element
-            );
+            UI.clock.textContent =
+                data.time;
 
         }
-    );
-
-}
-
-
-// =========================================================
-// DEALER
-// =========================================================
-
-document.addEventListener(
-    "lastChanceDealer",
-    event => {
-
-        const data =
-            event.detail;
-
-
-        document.getElementById(
-            "dealer-dialogue-indicator"
-        ).textContent =
-            data.revealed
-                ? "..."
-                : "DEALER";
 
     }
 );
 
 
-// =========================================================
-// FINAL
-// =========================================================
+/* ============================================================
+   EVENTO DE FINAL
+   ============================================================ */
 
 document.addEventListener(
     "lastChanceEnding",
-    event => {
+    function (event) {
 
         const data =
-            event.detail;
+            event.detail || {};
 
 
-        gameScreen.classList.remove(
+        UI.game.classList.remove(
             "active"
         );
 
 
-        endingScreen.classList.add(
+        UI.ending.classList.add(
             "active"
         );
 
 
-        document.getElementById(
-            "ending-title"
-        ).textContent =
-            data.title;
+        if (
+            data.title
+        ) {
+
+            document.getElementById(
+                "ending-title"
+            ).textContent =
+                data.title;
+
+        }
 
 
-        document.getElementById(
-            "ending-text"
-        ).textContent =
-            data.text;
+        if (
+            data.text
+        ) {
+
+            document.getElementById(
+                "ending-text"
+            ).textContent =
+                data.text;
+
+        }
 
     }
 );
 
 
-// =========================================================
-// BOTÃO TRUCO
-// =========================================================
+/* ============================================================
+   TRUCO
+   ============================================================ */
 
 document.getElementById(
     "action-truco"
 ).addEventListener(
     "click",
-    () => {
+    function () {
 
-        LastChance.callTruco();
+        callGameFunction(
+            "callTruco"
+        );
 
     }
 );
 
 
-// =========================================================
-// BOTÃO CONVERSAR
-// =========================================================
+/* ============================================================
+   CONVERSAR
+   ============================================================ */
 
 document.getElementById(
     "action-compassion"
 ).addEventListener(
     "click",
-    () => {
+    function () {
 
-        LastChance.chooseCompassion();
+        callGameFunction(
+            "chooseCompassion"
+        );
 
     }
 );
 
 
-// =========================================================
-// BOTÃO QUESTIONAR
-// =========================================================
+/* ============================================================
+   QUESTIONAR
+   ============================================================ */
 
 document.getElementById(
     "action-suspicion"
 ).addEventListener(
     "click",
-    () => {
+    function () {
 
-        LastChance.chooseSuspicion();
+        callGameFunction(
+            "chooseSuspicion"
+        );
 
     }
 );
 
 
-// =========================================================
-// BOTÃO SILÊNCIO
-// =========================================================
+/* ============================================================
+   SILÊNCIO
+   ============================================================ */
 
 document.getElementById(
     "action-silence"
 ).addEventListener(
     "click",
-    () => {
+    function () {
 
-        LastChance.chooseSilence();
+        callGameFunction(
+            "chooseSilence"
+        );
 
     }
 );
 
 
-// =========================================================
-// BOTÃO JOGAR
-// =========================================================
+/* ============================================================
+   JOGAR
+   ============================================================ */
 
 document.getElementById(
     "action-play"
 ).addEventListener(
     "click",
-    () => {
+    function () {
 
-        if (
-            LastChance.Game.state ===
-            "WAITING"
-        ) {
-
-            LastChance.startRound();
-
-        }
+        callGameFunction(
+            "startRound"
+        );
 
     }
 );
 
 
-// =========================================================
-// TECLA ENTER
-// =========================================================
+/* ============================================================
+   TECLADO
+   ============================================================ */
 
 document.addEventListener(
     "keydown",
-    event => {
+    function (event) {
 
         if (
             event.key === "Enter"
         ) {
 
             if (
-                LastChance.Game.state ===
-                "WAITING"
+                !UI.game.classList.contains(
+                    "active"
+                )
             ) {
 
-                LastChance.startRound();
+                return;
 
             }
+
+
+            callGameFunction(
+                "startRound"
+            );
 
         }
 
@@ -1231,13 +1137,42 @@ document.addEventListener(
 );
 
 
-// =========================================================
-// INICIALIZAÇÃO
-// =========================================================
+/* ============================================================
+   TESTE DE CARREGAMENTO
+   ============================================================ */
 
 console.log(
-    "LAST CHANCE — interface carregada."
+    "======================================"
 );
+
+console.log(
+    " LAST CHANCE"
+);
+
+console.log(
+    " TERMINAL INTERFACE ONLINE"
+);
+
+console.log(
+    "======================================"
+);
+
+
+if (
+    typeof window.LastChance !== "undefined"
+) {
+
+    console.log(
+        "GAME.JS: OK"
+    );
+
+} else {
+
+    console.warn(
+        "GAME.JS: LastChance ainda não foi encontrado."
+    );
+
+}
 
 </script>
 
