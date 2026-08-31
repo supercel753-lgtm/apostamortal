@@ -1,0 +1,1642 @@
+```css
+/* ============================================================
+   LAST CHANCE
+   TERMINAL / CMD PROTOTYPE
+   ============================================================
+
+   Versão de teste.
+
+   Objetivo:
+   - aparência de CMD
+   - fonte monoespaçada
+   - verde terminal
+   - preto absoluto
+   - bordas ASCII
+   - aparência de programa antigo
+   - sem imagens
+   - sem efeitos pesados
+
+   ============================================================ */
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    background: #000000;
+
+    color: #00ff66;
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    font-size: 14px;
+
+    overflow-x: hidden;
+
+    text-shadow:
+        0 0 3px rgba(0, 255, 100, 0.35);
+}
+
+
+/* ============================================================
+   SELEÇÃO DE TEXTO
+   ============================================================ */
+
+::selection {
+    background: #00ff66;
+    color: #000000;
+}
+
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #003d1b;
+
+    border: 1px solid #00ff66;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #006b2f;
+}
+
+
+/* ============================================================
+   TELAS
+   ============================================================ */
+
+.screen {
+    display: none;
+
+    width: 100vw;
+    min-height: 100vh;
+}
+
+
+.screen.active {
+    display: flex;
+}
+
+
+/* ============================================================
+   TERMINAL GLOBAL
+   ============================================================ */
+
+#title-screen,
+#game-screen,
+#ending-screen {
+
+    background: #000000;
+
+    color: #00ff66;
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+}
+
+
+/* ============================================================
+   EFEITO DE CURSOR
+   ============================================================ */
+
+@keyframes cursorBlink {
+
+    0% {
+        opacity: 1;
+    }
+
+    49% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+.cursor::after {
+
+    content: "█";
+
+    animation:
+        cursorBlink 1s infinite;
+
+    margin-left: 4px;
+}
+
+
+/* ============================================================
+   TELA INICIAL
+   ============================================================ */
+
+#title-screen {
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    padding: 30px;
+}
+
+
+.title-container {
+
+    width: min(900px, 95vw);
+
+    border:
+        1px solid #00ff66;
+
+    padding: 40px;
+
+    position: relative;
+}
+
+
+.title-container::before {
+
+    content:
+        "+----------------------------------------------------------+";
+
+    position: absolute;
+
+    top: -10px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    background: #000000;
+
+    padding: 0 10px;
+
+    color: #00ff66;
+
+    white-space: nowrap;
+
+}
+
+
+.title-small {
+
+    color: #00aa44;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 25px;
+}
+
+
+.title-container h1 {
+
+    color: #00ff66;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        clamp(35px, 7vw, 80px);
+
+    font-weight: bold;
+
+    letter-spacing: 8px;
+
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 0 8px rgba(0, 255, 100, 0.5);
+}
+
+
+.title-container h1::before {
+
+    content: "> ";
+
+    color: #008833;
+}
+
+
+.title-container h1::after {
+
+    content: "_";
+
+    animation:
+        cursorBlink 1s infinite;
+}
+
+
+.title-subtitle {
+
+    color: #00cc55;
+
+    margin-bottom: 40px;
+}
+
+
+.title-subtitle::before {
+
+    content: "SYSTEM MESSAGE: ";
+
+    color: #006622;
+}
+
+
+.title-warning {
+
+    margin-top: 30px;
+
+    color: #006622;
+
+    font-size: 11px;
+
+    border-top:
+        1px solid #003311;
+
+    padding-top: 15px;
+}
+
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+
+button {
+
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+    border-radius: 0;
+}
+
+
+.main-button {
+
+    background: #000000;
+
+    color: #00ff66;
+
+    border:
+        1px solid #00ff66;
+
+    padding:
+        12px 30px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    letter-spacing: 2px;
+
+    transition:
+        background 0.1s,
+        color 0.1s;
+}
+
+
+.main-button::before {
+
+    content: "[ ";
+
+    color: #008833;
+}
+
+
+.main-button::after {
+
+    content: " ]";
+
+    color: #008833;
+}
+
+
+.main-button:hover {
+
+    background: #00ff66;
+
+    color: #000000;
+
+    text-shadow: none;
+}
+
+
+.main-button:active {
+
+    background: #00aa44;
+
+    color: #000000;
+}
+
+
+/* ============================================================
+   GAME SCREEN
+   ============================================================ */
+
+#game-screen {
+
+    flex-direction: column;
+
+    min-height: 100vh;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.game-header {
+
+    height: 55px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+    align-items: center;
+
+    padding:
+        0 20px;
+
+    border-bottom:
+        1px solid #00ff66;
+
+    background: #000000;
+}
+
+
+.game-title {
+
+    color: #00ff66;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+
+.game-title::before {
+
+    content: "C:\\LAST_CHANCE> ";
+
+    color: #007733;
+}
+
+
+.digital-clock {
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 18px;
+
+    color: #00ff66;
+
+    border:
+        1px solid #006622;
+
+    padding:
+        5px 12px;
+
+    background: #000000;
+
+    min-width: 115px;
+
+    text-align: center;
+}
+
+
+.digital-clock::before {
+
+    content: "TIME ";
+
+    color: #006622;
+
+    font-size: 10px;
+
+    margin-right: 6px;
+}
+
+
+.round-display {
+
+    text-align: right;
+
+    color: #007733;
+
+    font-size: 12px;
+}
+
+
+.round-display span {
+
+    color: #00ff66;
+
+    margin-left: 5px;
+}
+
+
+/* ============================================================
+   GAME AREA
+   ============================================================ */
+
+.game-area {
+
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns:
+        240px
+        minmax(400px, 1fr)
+        240px;
+
+    gap: 10px;
+
+    padding: 10px;
+
+    background: #000000;
+}
+
+
+/* ============================================================
+   PAINÉIS DOS PERSONAGENS
+   ============================================================ */
+
+.character-panel {
+
+    border:
+        1px solid #006622;
+
+    background: #000000;
+
+    padding: 15px;
+
+    min-width: 0;
+}
+
+
+.character-panel::before {
+
+    display: block;
+
+    color: #007733;
+
+    margin-bottom: 10px;
+}
+
+
+.alice-panel::before {
+
+    content:
+        "[ SUBJECT_A / ALICE ]";
+}
+
+
+.player-panel::before {
+
+    content:
+        "[ SUBJECT_B / LEO ]";
+}
+
+
+.character-image {
+
+    height: 230px;
+
+    border:
+        1px dashed #006622;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #000000 0px,
+            #000000 3px,
+            #001a0b 4px
+        );
+
+    margin-bottom: 15px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+.character-image::before {
+
+    content:
+        "NO IMAGE";
+
+    position: absolute;
+
+    top: 10px;
+
+    left: 10px;
+
+    color: #004d20;
+
+    font-size: 10px;
+}
+
+
+.character-image::after {
+
+    content:
+        "[ IMAGE BUFFER EMPTY ]";
+
+    color: #005522;
+
+    font-size: 11px;
+}
+
+
+.character-placeholder {
+
+    display: none;
+}
+
+
+.character-name {
+
+    color: #00ff66;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    border-bottom:
+        1px solid #003d19;
+
+    padding-bottom: 8px;
+
+    margin-bottom: 8px;
+}
+
+
+.character-name::before {
+
+    content: "> ";
+
+    color: #007733;
+}
+
+
+.character-mood {
+
+    color: #00aa44;
+
+    font-size: 11px;
+
+    margin-bottom: 15px;
+}
+
+
+.character-mood::before {
+
+    content: "STATE: ";
+
+    color: #005522;
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+.stat-container {
+
+    margin-top: 10px;
+}
+
+
+.stat-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #007733;
+
+    font-size: 10px;
+
+    margin-top: 12px;
+
+    margin-bottom: 3px;
+}
+
+
+.stat-label span {
+
+    color: #00cc55;
+}
+
+
+.stat-bar {
+
+    width: 100%;
+
+    height: 10px;
+
+    border:
+        1px solid #004d20;
+
+    background: #000000;
+
+    overflow: hidden;
+}
+
+
+.stat-fill {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #00aa44;
+
+    transition:
+        width 0.3s linear;
+}
+
+
+.stat-fill::after {
+
+    content:
+        "................................";
+
+    color: #00ff66;
+
+    font-size: 7px;
+
+    opacity: 0.4;
+}
+
+
+/* ============================================================
+   FICHAS
+   ============================================================ */
+
+.chips-display {
+
+    margin-top: 20px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid #003d19;
+
+    color: #007733;
+
+    font-size: 11px;
+}
+
+
+.chips-display span {
+
+    color: #00ff66;
+}
+
+
+/* ============================================================
+   MESA
+   ============================================================ */
+
+.table {
+
+    position: relative;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 20px;
+
+    background: #000000;
+
+    border:
+        1px solid #006622;
+}
+
+
+.table::before {
+
+    content:
+        "+----------------------- TABLE -----------------------+";
+
+    position: absolute;
+
+    top: -9px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    background: #000000;
+
+    padding: 0 8px;
+
+    color: #007733;
+
+    white-space: nowrap;
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   DEALER
+   ============================================================ */
+
+.dealer-area {
+
+    width: 100%;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    padding:
+        10px;
+
+    border-bottom:
+        1px dashed #004d20;
+}
+
+
+.dealer-name {
+
+    color: #00ff66;
+
+    font-size: 13px;
+
+    letter-spacing: 4px;
+}
+
+
+.dealer-name::before {
+
+    content:
+        "[ ";
+
+    color: #007733;
+}
+
+
+.dealer-name::after {
+
+    content:
+        " ]";
+
+    color: #007733;
+}
+
+
+.dealer-indicator {
+
+    margin-top: 8px;
+
+    color: #007733;
+
+    font-size: 11px;
+}
+
+
+.dealer-indicator::before {
+
+    content:
+        "STATUS: ";
+
+    color: #004d20;
+}
+
+
+/* ============================================================
+   ÁREA DE CARTAS
+   ============================================================ */
+
+.cards-area {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 110px;
+}
+
+
+/* ============================================================
+   CARTAS
+   ============================================================ */
+
+.card {
+
+    width: 70px;
+
+    height: 100px;
+
+    background: #000000;
+
+    border:
+        1px solid #00aa44;
+
+    color: #00ff66;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 0 5px rgba(0, 255, 100, 0.1);
+
+    position: relative;
+}
+
+
+.card::before {
+
+    content:
+        "+-------+";
+
+    position: absolute;
+
+    top: 3px;
+
+    font-size: 7px;
+
+    color: #005522;
+}
+
+
+.card::after {
+
+    content:
+        "+-------+";
+
+    position: absolute;
+
+    bottom: 3px;
+
+    font-size: 7px;
+
+    color: #005522;
+}
+
+
+.hidden-card {
+
+    color: #005522;
+
+    border-color: #004d20;
+}
+
+
+.hidden-card::before {
+
+    content:
+        "[???????]";
+}
+
+
+.hidden-card::after {
+
+    content:
+        "[???????]";
+}
+
+
+/* ============================================================
+   CARTAS ALICE
+   ============================================================ */
+
+.alice-cards {
+
+    margin-bottom: 10px;
+}
+
+
+/* ============================================================
+   VALOR DA MESA
+   ============================================================ */
+
+.table-value {
+
+    margin: 15px;
+
+    padding:
+        8px 25px;
+
+    border:
+        1px solid #004d20;
+
+    text-align: center;
+
+    color: #006622;
+
+    font-size: 10px;
+}
+
+
+.table-value span {
+
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+
+.table-value strong {
+
+    display: block;
+
+    color: #00ff66;
+
+    font-size: 30px;
+
+    font-weight: normal;
+}
+
+
+.table-value strong::before {
+
+    content: "$";
+    
+    color: #006622;
+
+    font-size: 15px;
+}
+
+
+/* ============================================================
+   CARTAS JOGADAS
+   ============================================================ */
+
+.played-cards {
+
+    width: 100%;
+
+    min-height: 120px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+    border-top:
+        1px dashed #003d19;
+
+    border-bottom:
+        1px dashed #003d19;
+
+    position: relative;
+}
+
+
+.played-cards::before {
+
+    content:
+        "PLAYED CARDS";
+
+    position: absolute;
+
+    top: 4px;
+
+    left: 10px;
+
+    color: #004d20;
+
+    font-size: 8px;
+}
+
+
+.played-card {
+
+    width: 70px;
+
+    height: 100px;
+
+    border:
+        1px dashed #004d20;
+
+    background: #000000;
+}
+
+
+/* ============================================================
+   CARTAS DO PLAYER
+   ============================================================ */
+
+.player-cards {
+
+    margin-top: 15px;
+}
+
+
+.player-card {
+
+    cursor: pointer;
+
+    transition:
+        transform 0.1s,
+        border-color 0.1s,
+        background 0.1s;
+}
+
+
+.player-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    background: #001a0b;
+
+    border-color: #00ff66;
+
+    box-shadow:
+        0 0 10px rgba(0, 255, 100, 0.2);
+}
+
+
+.player-card:active {
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* ============================================================
+   DIÁLOGO
+   ============================================================ */
+
+.dialogue-box {
+
+    min-height: 105px;
+
+    background: #000000;
+
+    border-top:
+        1px solid #00ff66;
+
+    border-bottom:
+        1px solid #003d19;
+
+    padding:
+        15px 25px;
+
+    position: relative;
+}
+
+
+.dialogue-box::before {
+
+    content:
+        "DIALOGUE_BUFFER";
+
+    position: absolute;
+
+    top: -8px;
+
+    left: 20px;
+
+    background: #000000;
+
+    padding:
+        0 6px;
+
+    color: #006622;
+
+    font-size: 9px;
+}
+
+
+.dialogue-speaker {
+
+    color: #00ff66;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 8px;
+}
+
+
+.dialogue-speaker::before {
+
+    content:
+        "[ ";
+
+    color: #007733;
+}
+
+
+.dialogue-speaker::after {
+
+    content:
+        " ]";
+
+    color: #007733;
+}
+
+
+.dialogue-text {
+
+    color: #00cc55;
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+    min-height: 45px;
+}
+
+
+.dialogue-text::before {
+
+    content:
+        "> ";
+
+    color: #007733;
+}
+
+
+.dialogue-next {
+
+    position: absolute;
+
+    right: 20px;
+
+    bottom: 12px;
+
+    color: #00ff66;
+
+    font-size: 12px;
+
+    animation:
+        cursorBlink 1s infinite;
+}
+
+
+/* ============================================================
+   AÇÕES
+   ============================================================ */
+
+.action-panel {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    padding:
+        8px;
+
+    background: #000000;
+
+    border-bottom:
+        1px solid #003d19;
+}
+
+
+.action-button {
+
+    background: #000000;
+
+    color: #00aa44;
+
+    border:
+        1px solid #004d20;
+
+    padding:
+        9px 12px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+
+    transition:
+        color 0.1s,
+        border-color 0.1s,
+        background 0.1s;
+}
+
+
+.action-button::before {
+
+    content: "[";
+    
+    color: #005522;
+
+    margin-right: 4px;
+}
+
+
+.action-button::after {
+
+    content: "]";
+
+    color: #005522;
+
+    margin-left: 4px;
+}
+
+
+.action-button:hover {
+
+    color: #00ff66;
+
+    border-color: #00ff66;
+
+    background: #001a0b;
+}
+
+
+.action-button:active {
+
+    background: #00ff66;
+
+    color: #000000;
+
+    text-shadow: none;
+}
+
+
+/* ============================================================
+   STATUS INFERIOR
+   ============================================================ */
+
+.status-panel {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 30px;
+
+    padding:
+        7px;
+
+    background: #000000;
+
+    border-top:
+        1px solid #003d19;
+
+    color: #005522;
+
+    font-size: 9px;
+}
+
+
+.status-panel strong {
+
+    color: #00cc55;
+}
+
+
+/* ============================================================
+   TELA DE FINAL
+   ============================================================ */
+
+.ending-screen {
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background: #000000;
+}
+
+
+.ending-container {
+
+    width:
+        min(800px, 90vw);
+
+    border:
+        1px solid #00ff66;
+
+    padding:
+        40px;
+
+    position: relative;
+}
+
+
+.ending-container::before {
+
+    content:
+        "CONNECTION TERMINATED";
+
+    position: absolute;
+
+    top: -8px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    background: #000000;
+
+    padding:
+        0 10px;
+
+    color: #006622;
+
+    font-size: 9px;
+
+    white-space: nowrap;
+}
+
+
+.ending-label {
+
+    color: #006622;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 20px;
+}
+
+
+.ending-title {
+
+    color: #00ff66;
+
+    font-size:
+        clamp(25px, 5vw, 50px);
+
+    letter-spacing: 4px;
+
+    margin-bottom: 25px;
+}
+
+
+.ending-title::before {
+
+    content:
+        "> ";
+
+    color: #007733;
+}
+
+
+.ending-text {
+
+    color: #00aa44;
+
+    line-height: 1.7;
+
+    margin-bottom: 35px;
+}
+
+
+.ending-text::before {
+
+    content:
+        "SYSTEM: ";
+
+    color: #005522;
+}
+
+
+/* ============================================================
+   TERMINAL SCANLINES
+   ============================================================ */
+
+#game-screen::after,
+#title-screen::after,
+#ending-screen::after {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 255, 100, 0.015) 4px
+        );
+
+    z-index: 9999;
+}
+
+
+/* ============================================================
+   TERMINAL FLICKER
+   ============================================================ */
+
+@keyframes terminalFlicker {
+
+    0% {
+        opacity: 1;
+    }
+
+    2% {
+        opacity: 0.96;
+    }
+
+    3% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.98;
+    }
+
+    51% {
+        opacity: 1;
+    }
+
+    97% {
+        opacity: 0.97;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+#game-screen {
+
+    animation:
+        terminalFlicker 5s infinite;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .game-area {
+
+        grid-template-columns:
+            170px
+            minmax(300px, 1fr)
+            170px;
+    }
+
+    .character-image {
+
+        height: 180px;
+    }
+
+    .card {
+
+        width: 55px;
+
+        height: 80px;
+
+        font-size: 15px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    body {
+
+        font-size: 12px;
+    }
+
+    .game-area {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .character-panel {
+
+        display: none;
+    }
+
+    .game-header {
+
+        grid-template-columns:
+            1fr
+            auto;
+    }
+
+    .round-display {
+
+        display: none;
+    }
+
+    .title-container {
+
+        padding: 25px;
+    }
+
+    .title-container h1 {
+
+        font-size: 35px;
+
+        letter-spacing: 4px;
+    }
+
+    .action-panel {
+
+        padding: 5px;
+    }
+
+    .action-button {
+
+        flex: 1;
+
+        min-width: 120px;
+    }
+
+}
+
+
+/* ============================================================
+   FIM
+   ============================================================ */
+```
