@@ -11,16 +11,14 @@
 
     <title>LAST CHANCE</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-
 <body>
 
-    <!-- ==================================================
-         MENU INICIAL
-    =================================================== -->
+    <!-- =========================================
+         MENU
+    ========================================== -->
 
     <section id="title-screen" class="screen active">
 
@@ -45,23 +43,23 @@
                 </div>
 
                 <p>
-                    SYSTEM STATUS:
+                    SYSTEM:
                     <span class="green">ONLINE</span>
                 </p>
 
                 <p>
-                    CONNECTION:
-                    <span class="green">STABLE</span>
-                </p>
-
-                <p>
-                    PARTICIPANTS:
-                    <span class="green">2</span>
+                    OPPONENT:
+                    <span class="green">ALICE</span>
                 </p>
 
                 <p>
                     DEALER:
                     <span class="green">CONNECTED</span>
+                </p>
+
+                <p>
+                    GAME:
+                    <span class="green">TRUCO</span>
                 </p>
 
                 <br>
@@ -87,15 +85,11 @@
     </section>
 
 
-
-    <!-- ==================================================
-         TELA DO JOGO
-    =================================================== -->
+    <!-- =========================================
+         JOGO
+    ========================================== -->
 
     <section id="game-screen" class="screen">
-
-
-        <!-- HEADER -->
 
         <header class="game-header">
 
@@ -115,32 +109,28 @@
         </header>
 
 
-
-        <!-- ==================================================
-             ÁREA PRINCIPAL
-        =================================================== -->
-
         <main class="game-area">
 
-
-            <!-- ==================================================
+            <!-- =================================
                  ALICE
-            =================================================== -->
+            ================================== -->
 
             <aside class="character-panel">
 
                 <div class="panel-title">
-                    [ SUBJECT_A ]
+                    [ OPPONENT ]
                 </div>
 
+                <div class="character-image alice-image">
 
-                <div class="character-image">
-                    <span>NO IMAGE</span>
+                    <img
+                        src="assets/alice.png"
+                        alt="Alice"
+                    >
+
                 </div>
-
 
                 <h2>ALICE</h2>
-
 
                 <p class="state">
                     STATE:
@@ -149,8 +139,6 @@
                     </span>
                 </p>
 
-
-                <!-- CONFIANÇA -->
 
                 <div class="stat">
 
@@ -163,19 +151,15 @@
                     </div>
 
                     <div class="bar">
-
                         <div
                             id="alice-trust-bar"
                             class="fill"
                             style="width:20%"
                         ></div>
-
                     </div>
 
                 </div>
 
-
-                <!-- MEDO -->
 
                 <div class="stat">
 
@@ -188,19 +172,15 @@
                     </div>
 
                     <div class="bar">
-
                         <div
                             id="alice-fear-bar"
                             class="fill"
                             style="width:35%"
                         ></div>
-
                     </div>
 
                 </div>
 
-
-                <!-- SUSPEITA -->
 
                 <div class="stat">
 
@@ -213,19 +193,15 @@
                     </div>
 
                     <div class="bar">
-
                         <div
                             id="alice-suspicion-bar"
                             class="fill"
                             style="width:10%"
                         ></div>
-
                     </div>
 
                 </div>
 
-
-                <!-- ESPERANÇA -->
 
                 <div class="stat">
 
@@ -238,40 +214,31 @@
                     </div>
 
                     <div class="bar">
-
                         <div
                             id="alice-hope-bar"
                             class="fill"
                             style="width:40%"
                         ></div>
-
                     </div>
 
                 </div>
 
 
                 <div class="score">
-
-                    ALICE SCORE:
-
+                    ALICE:
                     <span id="alice-score">
                         0
                     </span>
-
                 </div>
 
             </aside>
 
 
-
-            <!-- ==================================================
+            <!-- =================================
                  MESA
-            =================================================== -->
+            ================================== -->
 
             <section class="table">
-
-
-                <!-- DEALER -->
 
                 <div class="dealer">
 
@@ -286,31 +253,22 @@
                 </div>
 
 
+                <div class="opponent-label">
+                    ALICE'S HAND
+                </div>
 
-                <!-- CARTAS DA ALICE -->
 
                 <div
                     id="alice-cards"
                     class="cards-area"
                 >
 
-                    <div class="card hidden">
-                        ?
-                    </div>
-
-                    <div class="card hidden">
-                        ?
-                    </div>
-
-                    <div class="card hidden">
-                        ?
-                    </div>
+                    <div class="card hidden">?</div>
+                    <div class="card hidden">?</div>
+                    <div class="card hidden">?</div>
 
                 </div>
 
-
-
-                <!-- VALOR DA RODADA -->
 
                 <div class="bet">
 
@@ -324,9 +282,6 @@
 
                 </div>
 
-
-
-                <!-- CARTAS JOGADAS -->
 
                 <div class="played-area">
 
@@ -343,62 +298,35 @@
                 </div>
 
 
+                <div class="opponent-label">
+                    YOUR HAND
+                </div>
 
-                <!-- CARTAS DO LEO -->
 
                 <div
                     id="player-cards"
                     class="cards-area player-cards"
-                >
-
-                    <button
-                        class="card player-card"
-                        data-card="A"
-                    >
-                        A
-                    </button>
-
-                    <button
-                        class="card player-card"
-                        data-card="K"
-                    >
-                        K
-                    </button>
-
-                    <button
-                        class="card player-card"
-                        data-card="Q"
-                    >
-                        Q
-                    </button>
-
-                </div>
-
+                ></div>
 
             </section>
 
 
-
-            <!-- ==================================================
+            <!-- =================================
                  LEO
-            =================================================== -->
+            ================================== -->
 
             <aside class="character-panel">
 
                 <div class="panel-title">
-                    [ SUBJECT_B ]
+                    [ PLAYER ]
                 </div>
 
-
-                <div class="character-image">
-                    <span>NO IMAGE</span>
+                <div class="character-image player-image">
+                    <span>LEO</span>
                 </div>
-
 
                 <h2>LEO</h2>
 
-
-                <!-- SAÚDE -->
 
                 <div class="stat">
 
@@ -423,8 +351,6 @@
                 </div>
 
 
-                <!-- MEDO -->
-
                 <div class="stat">
 
                     <div>
@@ -447,8 +373,6 @@
 
                 </div>
 
-
-                <!-- ESTABILIDADE -->
 
                 <div class="stat">
 
@@ -473,31 +397,6 @@
                 </div>
 
 
-                <!-- RESISTÊNCIA -->
-
-                <div class="stat">
-
-                    <div>
-                        <span>RESISTÊNCIA</span>
-
-                        <span id="player-resistance-value">
-                            0
-                        </span>
-                    </div>
-
-                    <div class="bar">
-
-                        <div
-                            id="player-resistance-bar"
-                            class="fill"
-                            style="width:0%"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-
                 <div class="score">
 
                     FICHAS:
@@ -513,10 +412,9 @@
         </main>
 
 
-
-        <!-- ==================================================
-             CAIXA DE DIÁLOGO
-        =================================================== -->
+        <!-- =================================
+             DIÁLOGO
+        ================================== -->
 
         <section class="dialogue">
 
@@ -527,14 +425,12 @@
                 DEALER
             </div>
 
-
             <div
                 id="dialogue-text"
                 class="dialogue-text"
             >
                 Finalmente. Vocês chegaram.
             </div>
-
 
             <div class="cursor">
                 ▼
@@ -543,20 +439,11 @@
         </section>
 
 
-
-        <!-- ==================================================
+        <!-- =================================
              AÇÕES
-        =================================================== -->
+        ================================== -->
 
         <nav class="actions">
-
-            <button
-                id="action-play"
-                class="action-button"
-            >
-                JOGAR CARTA
-            </button>
-
 
             <button
                 id="action-truco"
@@ -565,7 +452,6 @@
                 TRUCO
             </button>
 
-
             <button
                 id="action-compassion"
                 class="action-button"
@@ -573,14 +459,12 @@
                 CONVERSAR
             </button>
 
-
             <button
                 id="action-suspicion"
                 class="action-button"
             >
                 QUESTIONAR
             </button>
-
 
             <button
                 id="action-silence"
@@ -592,34 +476,21 @@
         </nav>
 
 
-
-        <!-- ==================================================
-             STATUS
-        =================================================== -->
-
         <footer class="status">
 
             <span>
                 LEO:
-                <b id="player-score">
-                    0
-                </b>
+                <b id="player-score">0</b>
             </span>
-
 
             <span>
                 ALICE:
-                <b id="alice-score">
-                    0
-                </b>
+                <b id="alice-score-footer">0</b>
             </span>
-
 
             <span>
                 APOSTA:
-                <b id="status-bet">
-                    1
-                </b>
+                <b id="status-bet">1</b>
             </span>
 
         </footer>
@@ -627,10 +498,9 @@
     </section>
 
 
-
-    <!-- ==================================================
-         TELA DE FINAL
-    =================================================== -->
+    <!-- =========================================
+         FINAL
+    ========================================== -->
 
     <section
         id="ending-screen"
@@ -643,16 +513,13 @@
                 CONNECTION TERMINATED
             </div>
 
-
             <h1 id="ending-title">
                 GAME OVER
             </h1>
 
-
             <p id="ending-text">
                 A partida terminou.
             </p>
-
 
             <button id="restart-button">
                 [ REINICIAR ]
@@ -662,11 +529,6 @@
 
     </section>
 
-
-
-    <!-- ==================================================
-         JAVASCRIPT
-    =================================================== -->
 
     <script src="js/game.js"></script>
 
