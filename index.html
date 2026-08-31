@@ -1,9 +1,7 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -11,1173 +9,667 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="description"
-        content="LAST CHANCE - Terminal Prototype"
-    >
-
     <title>LAST CHANCE</title>
 
-    <!--
-        IMPORTANTE:
-
-        Como este index.html está na raiz:
-
-        /index.html
-        /css/style.css
-        /js/game.js
-
-        os caminhos abaixo estão corretos.
-    -->
-
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 
 <body>
 
+    <!-- ==================================================
+         MENU INICIAL
+    =================================================== -->
 
-<!-- =========================================================
-                         TITLE SCREEN
-========================================================= -->
+    <section id="title-screen" class="screen active">
 
-<section
-    id="title-screen"
-    class="screen active"
->
+        <div class="terminal-box">
 
-    <div class="title-container">
+            <div class="terminal-header">
+                LAST CHANCE TERMINAL SYSTEM
+            </div>
 
-        <p class="title-small">
-            LAST CHANCE TERMINAL SYSTEM
-        </p>
+            <div class="terminal-content">
 
+                <pre class="ascii-title">
+ _       ___    ____ _____    ____ _   _    _    _   _  ____ _____
+| |     / _ \  / ___| ____|  / ___| | | |  / \  | \ | |/ ___| ____|
+| |    | | | | \___ \  _|   | |   | |_| | / _ \ |  \| | |   |  _|
+| |___ | |_| |  ___) | |___ | |___|  _  |/ ___ \| |\  | |___| |___
+|_____(_)___/  |____/|_____|  \____|_| |_/_/   \_\_| \_|\____|_____|
+                </pre>
 
-        <h1>
-            LAST CHANCE
-        </h1>
-
-
-        <p class="title-subtitle">
-            Uma última partida.
-        </p>
-
-
-        <button
-            id="start-button"
-            class="main-button"
-            type="button"
-        >
-            COMEÇAR
-        </button>
-
-
-        <p class="title-warning">
-            SYSTEM READY
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-                         GAME SCREEN
-========================================================= -->
-
-<main
-    id="game-screen"
-    class="screen"
->
-
-
-    <!-- =====================================================
-                         HEADER
-    ====================================================== -->
-
-    <header class="game-header">
-
-        <div class="game-title">
-            LAST CHANCE
-        </div>
-
-
-        <div
-            id="digital-clock"
-            class="digital-clock"
-        >
-            23:47:00
-        </div>
-
-
-        <div class="round-display">
-
-            ROUND:
-
-            <span id="round-number">
-                1
-            </span>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================================
-                         GAME AREA
-    ====================================================== -->
-
-    <section class="game-area">
-
-
-        <!-- =================================================
-                            ALICE
-        ================================================== -->
-
-        <aside
-            id="alice-panel"
-            class="character-panel alice-panel"
-        >
-
-            <div class="character-image">
-
-                <div class="character-placeholder">
-                    ALICE
+                <div class="line">
+                    ------------------------------------------------
                 </div>
 
+                <p>
+                    SYSTEM STATUS:
+                    <span class="green">ONLINE</span>
+                </p>
+
+                <p>
+                    CONNECTION:
+                    <span class="green">STABLE</span>
+                </p>
+
+                <p>
+                    PARTICIPANTS:
+                    <span class="green">2</span>
+                </p>
+
+                <p>
+                    DEALER:
+                    <span class="green">CONNECTED</span>
+                </p>
+
+                <br>
+
+                <p class="warning">
+                    WARNING: THIS SESSION CANNOT BE CANCELLED.
+                </p>
+
+                <br>
+
+                <button id="start-button">
+                    [ INICIAR PARTIDA ]
+                </button>
+
+                <p class="cursor">
+                    C:\LAST_CHANCE&gt;_
+                </p>
+
             </div>
 
+        </div>
 
-            <div class="character-name">
-                ALICE
+    </section>
+
+
+
+    <!-- ==================================================
+         TELA DO JOGO
+    =================================================== -->
+
+    <section id="game-screen" class="screen">
+
+
+        <!-- HEADER -->
+
+        <header class="game-header">
+
+            <div>
+                C:\LAST_CHANCE&gt; GAME.EXE
             </div>
 
-
-            <div
-                id="alice-mood"
-                class="character-mood"
-            >
-                TENSIONADA
+            <div id="digital-clock">
+                23:47:00
             </div>
 
+            <div>
+                ROUND:
+                <span id="round-number">1</span>
+            </div>
 
-            <div class="stat-container">
+        </header>
+
+
+
+        <!-- ==================================================
+             ÁREA PRINCIPAL
+        =================================================== -->
+
+        <main class="game-area">
+
+
+            <!-- ==================================================
+                 ALICE
+            =================================================== -->
+
+            <aside class="character-panel">
+
+                <div class="panel-title">
+                    [ SUBJECT_A ]
+                </div>
+
+
+                <div class="character-image">
+                    <span>NO IMAGE</span>
+                </div>
+
+
+                <h2>ALICE</h2>
+
+
+                <p class="state">
+                    STATE:
+                    <span id="alice-mood">
+                        NERVOUS
+                    </span>
+                </p>
 
 
                 <!-- CONFIANÇA -->
 
-                <div class="stat-label">
+                <div class="stat">
 
-                    <span>
-                        CONFIANÇA
-                    </span>
+                    <div>
+                        <span>CONFIANÇA</span>
 
-                    <span id="alice-trust-value">
-                        20
-                    </span>
+                        <span id="alice-trust-value">
+                            20
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="alice-trust-bar"
+                            class="fill"
+                            style="width:20%"
+                        ></div>
+
+                    </div>
 
                 </div>
-
-
-                <div class="stat-bar">
-
-                    <div
-                        id="alice-trust-bar"
-                        class="stat-fill"
-                        style="width: 20%"
-                    ></div>
-
-                </div>
-
 
 
                 <!-- MEDO -->
 
-                <div class="stat-label">
+                <div class="stat">
 
-                    <span>
-                        MEDO
-                    </span>
+                    <div>
+                        <span>MEDO</span>
 
-                    <span id="alice-fear-value">
-                        35
-                    </span>
+                        <span id="alice-fear-value">
+                            35
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="alice-fear-bar"
+                            class="fill"
+                            style="width:35%"
+                        ></div>
+
+                    </div>
 
                 </div>
-
-
-                <div class="stat-bar">
-
-                    <div
-                        id="alice-fear-bar"
-                        class="stat-fill"
-                        style="width: 35%"
-                    ></div>
-
-                </div>
-
 
 
                 <!-- SUSPEITA -->
 
-                <div class="stat-label">
+                <div class="stat">
 
-                    <span>
-                        SUSPEITA
-                    </span>
+                    <div>
+                        <span>SUSPEITA</span>
 
-                    <span id="alice-suspicion-value">
-                        10
-                    </span>
+                        <span id="alice-suspicion-value">
+                            10
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="alice-suspicion-bar"
+                            class="fill"
+                            style="width:10%"
+                        ></div>
+
+                    </div>
 
                 </div>
-
-
-                <div class="stat-bar">
-
-                    <div
-                        id="alice-suspicion-bar"
-                        class="stat-fill"
-                        style="width: 10%"
-                    ></div>
-
-                </div>
-
 
 
                 <!-- ESPERANÇA -->
 
-                <div class="stat-label">
+                <div class="stat">
 
-                    <span>
-                        ESPERANÇA
-                    </span>
+                    <div>
+                        <span>ESPERANÇA</span>
 
-                    <span id="alice-hope-value">
-                        40
-                    </span>
+                        <span id="alice-hope-value">
+                            40
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="alice-hope-bar"
+                            class="fill"
+                            style="width:40%"
+                        ></div>
+
+                    </div>
 
                 </div>
 
 
-                <div class="stat-bar">
+                <div class="score">
 
-                    <div
-                        id="alice-hope-bar"
-                        class="stat-fill"
-                        style="width: 40%"
-                    ></div>
+                    ALICE SCORE:
 
-                </div>
-
-            </div>
-
-        </aside>
-
-
-
-        <!-- =================================================
-                            TABLE
-        ================================================== -->
-
-        <section
-            id="table"
-            class="table"
-        >
-
-
-            <!-- DEALER -->
-
-            <div
-                id="dealer-area"
-                class="dealer-area"
-            >
-
-                <div
-                    id="dealer-name"
-                    class="dealer-name"
-                >
-                    DEALER
-                </div>
-
-
-                <div
-                    id="dealer-dialogue-indicator"
-                    class="dealer-indicator"
-                >
-                    ONLINE
-                </div>
-
-            </div>
-
-
-
-            <!-- CARTAS DA ALICE -->
-
-            <div
-                id="alice-cards"
-                class="cards-area alice-cards"
-            >
-
-                <div class="card hidden-card">
-                    ?
-                </div>
-
-                <div class="card hidden-card">
-                    ?
-                </div>
-
-                <div class="card hidden-card">
-                    ?
-                </div>
-
-            </div>
-
-
-
-            <!-- VALOR -->
-
-            <div
-                id="table-value"
-                class="table-value"
-            >
-
-                <span>
-                    VALOR DA MÃO
-                </span>
-
-
-                <strong id="current-bet">
-                    1
-                </strong>
-
-            </div>
-
-
-
-            <!-- CARTAS JOGADAS -->
-
-            <div
-                id="played-cards"
-                class="played-cards"
-            >
-
-                <div
-                    id="player-played-card"
-                    class="played-card"
-                ></div>
-
-
-                <div
-                    id="alice-played-card"
-                    class="played-card"
-                ></div>
-
-            </div>
-
-
-
-            <!-- CARTAS DO PLAYER -->
-
-            <div
-                id="player-cards"
-                class="cards-area player-cards"
-            >
-
-                <button
-                    class="card player-card"
-                    type="button"
-                >
-                    A
-                </button>
-
-
-                <button
-                    class="card player-card"
-                    type="button"
-                >
-                    K
-                </button>
-
-
-                <button
-                    class="card player-card"
-                    type="button"
-                >
-                    Q
-                </button>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-                             LEO
-        ================================================== -->
-
-        <aside
-            id="player-panel"
-            class="character-panel player-panel"
-        >
-
-            <div class="character-image">
-
-                <div class="character-placeholder">
-                    LEO
-                </div>
-
-            </div>
-
-
-            <div class="character-name">
-                LEO
-            </div>
-
-
-            <div class="stat-container">
-
-
-                <!-- SAÚDE -->
-
-                <div class="stat-label">
-
-                    <span>
-                        SAÚDE
-                    </span>
-
-                    <span id="player-health-value">
-                        100
-                    </span>
-
-                </div>
-
-
-                <div class="stat-bar">
-
-                    <div
-                        id="player-health-bar"
-                        class="stat-fill"
-                        style="width: 100%"
-                    ></div>
-
-                </div>
-
-
-
-                <!-- MEDO -->
-
-                <div class="stat-label">
-
-                    <span>
-                        MEDO
-                    </span>
-
-                    <span id="player-fear-value">
-                        20
-                    </span>
-
-                </div>
-
-
-                <div class="stat-bar">
-
-                    <div
-                        id="player-fear-bar"
-                        class="stat-fill"
-                        style="width: 20%"
-                    ></div>
-
-                </div>
-
-
-
-                <!-- ESTABILIDADE -->
-
-                <div class="stat-label">
-
-                    <span>
-                        ESTABILIDADE
-                    </span>
-
-                    <span id="player-stability-value">
-                        100
-                    </span>
-
-                </div>
-
-
-                <div class="stat-bar">
-
-                    <div
-                        id="player-stability-bar"
-                        class="stat-fill"
-                        style="width: 100%"
-                    ></div>
-
-                </div>
-
-
-
-                <!-- RESISTÊNCIA -->
-
-                <div class="stat-label">
-
-                    <span>
-                        RESISTÊNCIA
-                    </span>
-
-                    <span id="player-resistance-value">
+                    <span id="alice-score">
                         0
                     </span>
 
                 </div>
 
+            </aside>
 
-                <div class="stat-bar">
+
+
+            <!-- ==================================================
+                 MESA
+            =================================================== -->
+
+            <section class="table">
+
+
+                <!-- DEALER -->
+
+                <div class="dealer">
+
+                    <div class="dealer-name">
+                        [ DEALER ]
+                    </div>
+
+                    <div id="dealer-indicator">
+                        ONLINE
+                    </div>
+
+                </div>
+
+
+
+                <!-- CARTAS DA ALICE -->
+
+                <div
+                    id="alice-cards"
+                    class="cards-area"
+                >
+
+                    <div class="card hidden">
+                        ?
+                    </div>
+
+                    <div class="card hidden">
+                        ?
+                    </div>
+
+                    <div class="card hidden">
+                        ?
+                    </div>
+
+                </div>
+
+
+
+                <!-- VALOR DA RODADA -->
+
+                <div class="bet">
+
+                    <small>
+                        VALOR DA MÃO
+                    </small>
+
+                    <strong id="current-bet">
+                        1
+                    </strong>
+
+                </div>
+
+
+
+                <!-- CARTAS JOGADAS -->
+
+                <div class="played-area">
 
                     <div
-                        id="player-resistance-bar"
-                        class="stat-fill"
-                        style="width: 0%"
+                        id="player-played-card"
+                        class="played-card"
+                    ></div>
+
+                    <div
+                        id="alice-played-card"
+                        class="played-card"
                     ></div>
 
                 </div>
 
+
+
+                <!-- CARTAS DO LEO -->
+
+                <div
+                    id="player-cards"
+                    class="cards-area player-cards"
+                >
+
+                    <button
+                        class="card player-card"
+                        data-card="A"
+                    >
+                        A
+                    </button>
+
+                    <button
+                        class="card player-card"
+                        data-card="K"
+                    >
+                        K
+                    </button>
+
+                    <button
+                        class="card player-card"
+                        data-card="Q"
+                    >
+                        Q
+                    </button>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 LEO
+            =================================================== -->
+
+            <aside class="character-panel">
+
+                <div class="panel-title">
+                    [ SUBJECT_B ]
+                </div>
+
+
+                <div class="character-image">
+                    <span>NO IMAGE</span>
+                </div>
+
+
+                <h2>LEO</h2>
+
+
+                <!-- SAÚDE -->
+
+                <div class="stat">
+
+                    <div>
+                        <span>SAÚDE</span>
+
+                        <span id="player-health-value">
+                            100
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="player-health-bar"
+                            class="fill"
+                            style="width:100%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MEDO -->
+
+                <div class="stat">
+
+                    <div>
+                        <span>MEDO</span>
+
+                        <span id="player-fear-value">
+                            20
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="player-fear-bar"
+                            class="fill"
+                            style="width:20%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ESTABILIDADE -->
+
+                <div class="stat">
+
+                    <div>
+                        <span>ESTABILIDADE</span>
+
+                        <span id="player-stability-value">
+                            100
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="player-stability-bar"
+                            class="fill"
+                            style="width:100%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RESISTÊNCIA -->
+
+                <div class="stat">
+
+                    <div>
+                        <span>RESISTÊNCIA</span>
+
+                        <span id="player-resistance-value">
+                            0
+                        </span>
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            id="player-resistance-bar"
+                            class="fill"
+                            style="width:0%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="score">
+
+                    FICHAS:
+
+                    <span id="player-chips">
+                        100
+                    </span>
+
+                </div>
+
+            </aside>
+
+        </main>
+
+
+
+        <!-- ==================================================
+             CAIXA DE DIÁLOGO
+        =================================================== -->
+
+        <section class="dialogue">
+
+            <div
+                id="dialogue-speaker"
+                class="speaker"
+            >
+                DEALER
             </div>
 
 
-            <div class="chips-display">
-
-                FICHAS:
-
-                <span id="player-chips">
-                    100
-                </span>
-
+            <div
+                id="dialogue-text"
+                class="dialogue-text"
+            >
+                Finalmente. Vocês chegaram.
             </div>
 
-        </aside>
 
+            <div class="cursor">
+                ▼
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             AÇÕES
+        =================================================== -->
+
+        <nav class="actions">
+
+            <button
+                id="action-play"
+                class="action-button"
+            >
+                JOGAR CARTA
+            </button>
+
+
+            <button
+                id="action-truco"
+                class="action-button"
+            >
+                TRUCO
+            </button>
+
+
+            <button
+                id="action-compassion"
+                class="action-button"
+            >
+                CONVERSAR
+            </button>
+
+
+            <button
+                id="action-suspicion"
+                class="action-button"
+            >
+                QUESTIONAR
+            </button>
+
+
+            <button
+                id="action-silence"
+                class="action-button"
+            >
+                SILÊNCIO
+            </button>
+
+        </nav>
+
+
+
+        <!-- ==================================================
+             STATUS
+        =================================================== -->
+
+        <footer class="status">
+
+            <span>
+                LEO:
+                <b id="player-score">
+                    0
+                </b>
+            </span>
+
+
+            <span>
+                ALICE:
+                <b id="alice-score">
+                    0
+                </b>
+            </span>
+
+
+            <span>
+                APOSTA:
+                <b id="status-bet">
+                    1
+                </b>
+            </span>
+
+        </footer>
 
     </section>
 
 
 
-    <!-- =====================================================
-                         DIALOGUE
-    ====================================================== -->
+    <!-- ==================================================
+         TELA DE FINAL
+    =================================================== -->
 
     <section
-        id="dialogue-box"
-        class="dialogue-box"
+        id="ending-screen"
+        class="screen"
     >
 
-        <div
-            id="dialogue-speaker"
-            class="dialogue-speaker"
-        >
-            DEALER
-        </div>
+        <div class="ending-box">
+
+            <div>
+                CONNECTION TERMINATED
+            </div>
 
 
-        <div
-            id="dialogue-text"
-            class="dialogue-text"
-        >
-            SYSTEM ONLINE...
-        </div>
+            <h1 id="ending-title">
+                GAME OVER
+            </h1>
 
 
-        <div
-            id="dialogue-next"
-            class="dialogue-next"
-        >
-            ▼
+            <p id="ending-text">
+                A partida terminou.
+            </p>
+
+
+            <button id="restart-button">
+                [ REINICIAR ]
+            </button>
+
         </div>
 
     </section>
 
 
 
-    <!-- =====================================================
-                         ACTIONS
-    ====================================================== -->
-
-    <nav
-        id="action-panel"
-        class="action-panel"
-    >
-
-        <button
-            id="action-play"
-            class="action-button"
-            type="button"
-        >
-            JOGAR CARTA
-        </button>
-
-
-        <button
-            id="action-truco"
-            class="action-button"
-            type="button"
-        >
-            TRUCO
-        </button>
-
-
-        <button
-            id="action-compassion"
-            class="action-button"
-            type="button"
-        >
-            CONVERSAR
-        </button>
-
-
-        <button
-            id="action-suspicion"
-            class="action-button"
-            type="button"
-        >
-            QUESTIONAR
-        </button>
-
-
-        <button
-            id="action-silence"
-            class="action-button"
-            type="button"
-        >
-            SILÊNCIO
-        </button>
-
-    </nav>
-
-
-
-    <!-- =====================================================
-                         STATUS
-    ====================================================== -->
-
-    <section
-        id="status-panel"
-        class="status-panel"
-    >
-
-        <div>
-
-            BET:
-
-            <strong id="status-bet">
-                1
-            </strong>
-
-        </div>
-
-
-        <div>
-
-            LEO:
-
-            <strong id="player-score">
-                0
-            </strong>
-
-        </div>
-
-
-        <div>
-
-            ALICE:
-
-            <strong id="alice-score">
-                0
-            </strong>
-
-        </div>
-
-    </section>
-
-
-</main>
-
-
-
-<!-- =========================================================
-                         ENDING SCREEN
-========================================================= -->
-
-<section
-    id="ending-screen"
-    class="screen ending-screen"
->
-
-    <div class="ending-container">
-
-        <p class="ending-label">
-            CONNECTION TERMINATED
-        </p>
-
-
-        <h2
-            id="ending-title"
-            class="ending-title"
-        >
-            FIM
-        </h2>
-
-
-        <p
-            id="ending-text"
-            class="ending-text"
-        >
-            A partida terminou.
-        </p>
-
-
-        <button
-            id="restart-button"
-            class="main-button"
-            type="button"
-        >
-            JOGAR NOVAMENTE
-        </button>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-                         JAVASCRIPT
-========================================================= -->
-
-<script src="js/game.js"></script>
-
-
-<!-- =========================================================
-                   INTERFACE BRIDGE
-========================================================= -->
-
-<script>
-
-"use strict";
-
-
-/*
-    ============================================================
-    LAST CHANCE - INTERFACE BRIDGE
-
-    Este código conecta o HTML ao game.js.
-
-    Se o game.js ainda estiver incompleto, a interface continua
-    abrindo normalmente.
-    ============================================================
-*/
-
-
-/* ============================================================
-   ELEMENTOS
-   ============================================================ */
-
-const UI = {
-
-    title:
-        document.getElementById(
-            "title-screen"
-        ),
-
-    game:
-        document.getElementById(
-            "game-screen"
-        ),
-
-    ending:
-        document.getElementById(
-            "ending-screen"
-        ),
-
-    start:
-        document.getElementById(
-            "start-button"
-        ),
-
-    restart:
-        document.getElementById(
-            "restart-button"
-        ),
-
-    dialogueSpeaker:
-        document.getElementById(
-            "dialogue-speaker"
-        ),
-
-    dialogueText:
-        document.getElementById(
-            "dialogue-text"
-        ),
-
-    clock:
-        document.getElementById(
-            "digital-clock"
-        )
-
-};
-
-
-/* ============================================================
-   FUNÇÃO SEGURA PARA CHAMAR O GAME.JS
-   ============================================================ */
-
-function callGameFunction(
-    functionName,
-    ...args
-) {
-
-    if (
-        typeof window.LastChance !== "undefined" &&
-        typeof window.LastChance[
-            functionName
-        ] === "function"
-    ) {
-
-        return window.LastChance[
-            functionName
-        ](...args);
-
-    }
-
-    console.warn(
-        "LastChance." +
-        functionName +
-        "() ainda não está disponível."
-    );
-
-}
-
-
-/* ============================================================
-   INICIAR JOGO
-   ============================================================ */
-
-UI.start.addEventListener(
-    "click",
-    function () {
-
-        UI.title.classList.remove(
-            "active"
-        );
-
-        UI.game.classList.add(
-            "active"
-        );
-
-        callGameFunction(
-            "startGame"
-        );
-
-    }
-);
-
-
-/* ============================================================
-   REINICIAR
-   ============================================================ */
-
-UI.restart.addEventListener(
-    "click",
-    function () {
-
-        window.location.reload();
-
-    }
-);
-
-
-/* ============================================================
-   EVENTO DE DIÁLOGO
-   ============================================================ */
-
-document.addEventListener(
-    "lastChanceDialogue",
-    function (event) {
-
-        const data =
-            event.detail || {};
-
-
-        if (
-            data.speaker
-        ) {
-
-            UI.dialogueSpeaker.textContent =
-                data.speaker;
-
-        }
-
-
-        if (
-            data.text
-        ) {
-
-            UI.dialogueText.textContent =
-                data.text;
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   EVENTO DO RELÓGIO
-   ============================================================ */
-
-document.addEventListener(
-    "lastChanceClock",
-    function (event) {
-
-        const data =
-            event.detail || {};
-
-
-        if (
-            data.time
-        ) {
-
-            UI.clock.textContent =
-                data.time;
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   EVENTO DE FINAL
-   ============================================================ */
-
-document.addEventListener(
-    "lastChanceEnding",
-    function (event) {
-
-        const data =
-            event.detail || {};
-
-
-        UI.game.classList.remove(
-            "active"
-        );
-
-
-        UI.ending.classList.add(
-            "active"
-        );
-
-
-        if (
-            data.title
-        ) {
-
-            document.getElementById(
-                "ending-title"
-            ).textContent =
-                data.title;
-
-        }
-
-
-        if (
-            data.text
-        ) {
-
-            document.getElementById(
-                "ending-text"
-            ).textContent =
-                data.text;
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   TRUCO
-   ============================================================ */
-
-document.getElementById(
-    "action-truco"
-).addEventListener(
-    "click",
-    function () {
-
-        callGameFunction(
-            "callTruco"
-        );
-
-    }
-);
-
-
-/* ============================================================
-   CONVERSAR
-   ============================================================ */
-
-document.getElementById(
-    "action-compassion"
-).addEventListener(
-    "click",
-    function () {
-
-        callGameFunction(
-            "chooseCompassion"
-        );
-
-    }
-);
-
-
-/* ============================================================
-   QUESTIONAR
-   ============================================================ */
-
-document.getElementById(
-    "action-suspicion"
-).addEventListener(
-    "click",
-    function () {
-
-        callGameFunction(
-            "chooseSuspicion"
-        );
-
-    }
-);
-
-
-/* ============================================================
-   SILÊNCIO
-   ============================================================ */
-
-document.getElementById(
-    "action-silence"
-).addEventListener(
-    "click",
-    function () {
-
-        callGameFunction(
-            "chooseSilence"
-        );
-
-    }
-);
-
-
-/* ============================================================
-   JOGAR
-   ============================================================ */
-
-document.getElementById(
-    "action-play"
-).addEventListener(
-    "click",
-    function () {
-
-        callGameFunction(
-            "startRound"
-        );
-
-    }
-);
-
-
-/* ============================================================
-   TECLADO
-   ============================================================ */
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.key === "Enter"
-        ) {
-
-            if (
-                !UI.game.classList.contains(
-                    "active"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            callGameFunction(
-                "startRound"
-            );
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   TESTE DE CARREGAMENTO
-   ============================================================ */
-
-console.log(
-    "======================================"
-);
-
-console.log(
-    " LAST CHANCE"
-);
-
-console.log(
-    " TERMINAL INTERFACE ONLINE"
-);
-
-console.log(
-    "======================================"
-);
-
-
-if (
-    typeof window.LastChance !== "undefined"
-) {
-
-    console.log(
-        "GAME.JS: OK"
-    );
-
-} else {
-
-    console.warn(
-        "GAME.JS: LastChance ainda não foi encontrado."
-    );
-
-}
-
-</script>
-
+    <!-- ==================================================
+         JAVASCRIPT
+    =================================================== -->
+
+    <script src="js/game.js"></script>
 
 </body>
 
 </html>
-```
